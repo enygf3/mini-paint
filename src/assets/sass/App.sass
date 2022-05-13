@@ -1,0 +1,137 @@
+@mixin flexColumn
+    display: flex
+    flex-direction: column
+    flex-wrap: nowrap
+    align-items: center
+    justify-content: space-evenly
+
+@mixin flexRow
+    display: flex
+    flex-direction: row
+    flex-wrap: nowrap
+    align-items: center
+    justify-content: space-evenly
+
+@mixin heading
+    color: #fff
+    font-family: Arial, Helvetica, sans-serif
+    font-size: 22px
+    position: relative
+    margin-top: 200px
+
+@mixin paragraph
+    color: #fff
+    font-family: Arial, Helvetica, sans-serif
+    font-size: 18px
+    position: relative
+    margin-top: 10px
+    text-align: center
+    
+*
+    box-sizing: border-box
+    padding: 0
+    margin: 0 auto
+    user-select: none
+    outline: none
+
+a:link
+    text-decoration: none
+    color: inherit
+
+a:visited
+    text-decoration: none
+    color: inherit
+
+html, body
+    width: 100%
+    background: #000
+
+main
+    width: 100%
+    height: 100%
+    @include flexColumn
+    position: relative
+    h3
+        @include heading
+
+#root, .app
+    width: 100%
+    height: 100%
+
+button
+    border: none
+    box-shadow: none
+    background: transparent
+
+.page-forms
+    @include flexColumn
+    width: 100%
+    height: auto
+    margin-top: 50px
+    span
+        position: relative
+
+.page-form
+    width: 250px
+    height: 50px
+    margin: 5px 0px 5px 0px
+    cursor: pointer
+    @include paragraph
+    padding-top: 5px
+    border: none
+
+.email
+    background: #cd1e1e
+
+.google
+    background: #4285f4
+
+.form-img
+    position: absolute
+    top: 50%
+    right: 15px
+    transform: translate(0%, -50%)
+    padding-top: 5px
+
+nav
+    @include flexRow
+    width: 100%
+    height: 50px
+    background: #272727
+    position: fixed
+    bottom: 0
+    left: 0
+
+.nav-btn
+    width: 50px
+    height: 50px
+    margin: 0 auto
+    cursor: pointer
+    color: #fff
+    border-radius: 10px
+
+.zoom
+    @include flexColumn
+    @include paragraph
+    font-size: 14px
+    width: 50px
+    height: 100px
+    margin: 0 auto
+    background: #272727
+    border-radius: 10px
+    position: fixed
+    right: 15px
+    bottom: 70px
+    button
+      color: #fff
+      width: 20px
+      height: 20px
+      cursor: pointer
+
+canvas
+  background: #fff
+  position: absolute
+  top: 0
+  left: 50%
+  transform: translate(-50%, 0%)
+  margin-top: 5px
