@@ -6,6 +6,7 @@ import { TextFormat } from "@mui/icons-material";
 import { faHouseUser } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faMinus } from "@fortawesome/free-solid-svg-icons";
+import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 
 import { Link } from "react-router-dom";
 
@@ -13,8 +14,8 @@ import Canvas from "../Canvas/Canvas";
 
 const MainPage = () => {
   const size = {
-    width: "340",
-    height: "650",
+    width: "300",
+    height: "700",
   };
   return (
     <main>
@@ -41,11 +42,14 @@ const MainPage = () => {
         <button className="nav-btn">
           <TextFormat />
         </button>
-        <Link to="/">
+        <Link to="/home">
           <button className="nav-btn">
             <FontAwesomeIcon icon={faHouseUser} />
           </button>
         </Link>
+        <button className="nav-btn">
+          <FontAwesomeIcon icon={faFloppyDisk} />
+        </button>
       </nav>
     </main>
   );

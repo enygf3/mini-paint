@@ -9,6 +9,7 @@ import {
 
 import SignPage from "./SignPage/SignPage";
 import NewPage from "./NewPage/NewPage";
+import HomePage from "./HomePage/HomePage";
 
 import "../assets/sass/App.sass";
 
@@ -35,6 +36,7 @@ const App = () => (
       <Routes>
         <Route path="/new" element={<NewPage />} />
         <Route path="/login" element={<SignPage />} />
+        <Route path="/home" element={<HomePage />} />
       </Routes>
     </div>
   </Router>

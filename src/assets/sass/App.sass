@@ -17,7 +17,6 @@
     font-family: Arial, Helvetica, sans-serif
     font-size: 22px
     position: relative
-    margin-top: 200px
 
 @mixin paragraph
     color: #fff
@@ -26,6 +25,12 @@
     position: relative
     margin-top: 10px
     text-align: center
+
+@mixin absoluteAlign
+    poisiton: absolute
+    left: 50%
+    top: 0
+    transform: translate(-50%, 0%)
     
 *
     box-sizing: border-box
@@ -44,6 +49,7 @@ a:visited
 
 html, body
     width: 100%
+    height: 100%
     background: #000
 
 main
@@ -53,12 +59,13 @@ main
     position: relative
     h3
         @include heading
+        margin-top: 200px
 
 #root, .app
     width: 100%
     height: 100%
 
-button
+button, input
     border: none
     box-shadow: none
     background: transparent
@@ -94,12 +101,12 @@ button
     padding-top: 5px
 
 nav
-    @include flexRow
-    width: 100%
-    height: 50px
+    @include flexColumn
+    width: 50px
+    height: 100%
     background: #272727
     position: fixed
-    bottom: 0
+    top: 0
     left: 0
 
 .nav-btn
@@ -121,7 +128,7 @@ nav
     border-radius: 10px
     position: fixed
     right: 15px
-    bottom: 70px
+    top: 15px
     button
       color: #fff
       width: 20px
@@ -132,6 +139,60 @@ canvas
   background: #fff
   position: absolute
   top: 0
-  left: 50%
-  transform: translate(-50%, 0%)
+  left: 55px
   margin-top: 5px
+
+.home-heading
+  @include flexColumn
+  width: 240px
+  height: 100px
+  margin-top: 100px
+
+.main-btn
+  width: 50px
+  height: 50px
+  border-radius: 50%
+  background: #272727
+  color: #fff
+  position: fixed
+  bottom: 20px
+  right: 20px
+  cursor: pointer
+
+input
+  background: #272727
+  line-height: 32px
+  @include paragraph
+  border-radius: 15px
+  width: 240px
+  position: relative
+  text-align: left
+  margin: 0 auto
+  padding: 0 0 0 10px
+
+.title
+  @include heading
+  margin: 0px
+
+.items
+  @include flexColumn
+  width: 90%
+  height: 2000px
+  background: #fff
+  margin-top: 50px
+  top: 0
+
+.home
+  justify-content: space-evenly
+  height: auto
+
+.home-recent
+  margin-top: 25px
+  margin-left: 15px
+  width: calc(100% - 15px)
+
+.recent-items
+  @include flexRow
+  width: 100%
+  height: 150px
+  margin-top: 15px
