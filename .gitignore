@@ -5,5 +5,8 @@ src/**/*.jsx
 tests/__coverage__/
 tests/**/*.jsx
 .env
-.rules
+firestore.rules
+firebase.json
+firestore.indexes.json
 .firebaserc
+storage.rules
