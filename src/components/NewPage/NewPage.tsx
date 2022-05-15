@@ -7,17 +7,33 @@ import { faHouseUser } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faMinus } from "@fortawesome/free-solid-svg-icons";
 import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
-import { Link } from "react-router-dom";
+import { auth } from "../../App";
+
+import { Link, Navigate } from "react-router-dom";
 
 import Canvas from "../Canvas/Canvas";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useSelector, useDispatch } from "react-redux";
 
-const MainPage = () => {
+const NewPage = () => {
+  const isAuthenticated = useAuthState(auth as any)[0];
+
+  const [user] = useAuthState(auth as any);
+  const dispatch = useDispatch();
+
+  dispatch({ type: "SIGN_IN", payload: user });
+
+  const signOut = () => {
+    auth.signOut();
+  };
+
   const size = {
     width: "300",
     height: "700",
   };
-  return (
+  return isAuthenticated ? (
     <main>
       <Canvas props={size} />
       <div className="main-zoom zoom">
@@ -42,7 +58,7 @@ const MainPage = () => {
         <button className="nav-btn">
           <TextFormat />
         </button>
-        <Link to="/home">
+        <Link to="/">
           <button className="nav-btn">
             <FontAwesomeIcon icon={faHouseUser} />
           </button>
@@ -50,9 +66,14 @@ const MainPage = () => {
         <button className="nav-btn">
           <FontAwesomeIcon icon={faFloppyDisk} />
         </button>
+        <button className="nav-btn" onClick={signOut}>
+          <FontAwesomeIcon icon={faRightFromBracket} />
+        </button>
       </nav>
     </main>
+  ) : (
+    <Navigate to="/login" />
   );
 };
 
-export default MainPage;
+export default NewPage;

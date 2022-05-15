@@ -1,38 +1,48 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { useContext } from "react";
 
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
-import { Context } from "../../App";
+import { useDispatch, useSelector } from "react-redux";
+import { auth } from "../../App";
+
+import { Navigate } from "react-router-dom";
+
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const SignPage = () => {
-  const { auth } = useContext(Context);
+  const dispatch = useDispatch();
 
-  const login = async () => {
+  const [user] = useAuthState(auth as any);
+
+  const signUpGoogle = async () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     const { user } = await auth.signInWithPopup(provider);
-    console.log(user);
+    return user;
   };
 
-  return (
+  const getAuth = () => {
+    const user = signUpGoogle();
+    dispatch({ type: "SIGN_IN", payload: user });
+  };
+
+  dispatch({ type: "SIGN_IN", payload: user });
+
+  return !user ? (
     <main>
       <h3 className="page-title">Please, sign in</h3>
       <div className="page-forms">
         <span>
-          <button className="page-form email">Continue with Email</button>
-          <FontAwesomeIcon className="form-img" icon={faEnvelope} />
-        </span>
-        <span>
-          <button onClick={login} className="page-form google">
+          <button onClick={getAuth} className="page-form google">
             Continue with Google
           </button>
           <FontAwesomeIcon className="form-img" icon={faGoogle} />
         </span>
       </div>
     </main>
+  ) : (
+    <Navigate to="/" />
   );
 };
 

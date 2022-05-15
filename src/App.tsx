@@ -9,17 +9,16 @@ import {
   Outlet,
 } from "react-router-dom";
 
-import { createContext } from "react";
-
 import SignPage from "./components/SignPage/SignPage";
 import NewPage from "./components/NewPage/NewPage";
 import HomePage from "./components/HomePage/HomePage";
 
-import "./assets/sass/App.sass";
-
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
+
+import "./assets/sass/App.sass";
+import { useDispatch, useSelector } from "react-redux";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -31,40 +30,22 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
-console.log(firebaseConfig);
+export const app = firebase.initializeApp(firebaseConfig);
+export const auth = firebase.auth();
+export const firestore = firebase.firestore();
 
-const app = firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const firestore = firebase.firestore();
-
-export const Context = createContext(null);
-
-const PrivateRoute = ({ isAuthenticated }) => {
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
-};
-
-const App = () => (
-  <Context.Provider
-    value={{
-      firebase,
-      auth,
-      firestore,
-    }}
-  >
+const App = () => {
+  return (
     <Router>
       <div className="app">
         <Routes>
-          <Route path="/new" element={<PrivateRoute isAuthenticated={0} />}>
-            <Route element={<NewPage />} />
-          </Route>
+          <Route path="/new" element={<NewPage />} />
           <Route path="/login" element={<SignPage />} />
-          <Route path="/" element={<PrivateRoute isAuthenticated={0} />}>
-            <Route element={<HomePage />} />
-          </Route>
+          <Route path="/" element={<HomePage />} />
         </Routes>
       </div>
     </Router>
-  </Context.Provider>
-);
+  );
+};
 
 export default App;
