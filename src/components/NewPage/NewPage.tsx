@@ -11,29 +11,16 @@ import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 import { auth } from "../../App";
 
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Canvas from "../Canvas/Canvas";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useSelector, useDispatch } from "react-redux";
 
 const NewPage = () => {
-  const isAuthenticated = useAuthState(auth as any)[0];
-
-  const [user] = useAuthState(auth as any);
-  const dispatch = useDispatch();
-
-  dispatch({ type: "SIGN_IN", payload: user });
-
-  const signOut = () => {
-    auth.signOut();
-  };
-
   const size = {
     width: "300",
     height: "700",
   };
-  return isAuthenticated ? (
+  return (
     <main>
       <Canvas props={size} />
       <div className="main-zoom zoom">
@@ -66,13 +53,11 @@ const NewPage = () => {
         <button className="nav-btn">
           <FontAwesomeIcon icon={faFloppyDisk} />
         </button>
-        <button className="nav-btn" onClick={signOut}>
+        <button className="nav-btn">
           <FontAwesomeIcon icon={faRightFromBracket} />
         </button>
       </nav>
     </main>
-  ) : (
-    <Navigate to="/login" />
   );
 };
 

@@ -1,6 +1,9 @@
-import { createStore } from "redux";
-import authReducer from "../reducers/authReducer/authReducer";
+import { createStore, applyMiddleware } from "redux";
+import createSagaMiddleware from "redux-saga";
+import authReducer from "../reducers/authReducer";
 
-const store: any = createStore(authReducer);
+const sagaMiddleware = createSagaMiddleware();
 
-export default store;
+const store = createStore(authReducer, applyMiddleware(sagaMiddleware));
+
+export default store

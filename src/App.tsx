@@ -9,6 +9,7 @@ import {
   Outlet,
 } from "react-router-dom";
 
+
 import SignPage from "./components/SignPage/SignPage";
 import NewPage from "./components/NewPage/NewPage";
 import HomePage from "./components/HomePage/HomePage";
@@ -18,7 +19,7 @@ import "firebase/compat/auth";
 import "firebase/compat/firestore";
 
 import "./assets/sass/App.sass";
-import { useDispatch, useSelector } from "react-redux";
+import {useAuthState} from "react-firebase-hooks/auth";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -34,17 +35,25 @@ export const app = firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
+const PrivateWrapper = () => {
+  const isLoggedIn = useAuthState(auth as any)
+  return isLoggedIn ? <Outlet /> : <Navigate to="/login" />;
+};
+
 const App = () => {
+
   return (
-    <Router>
       <div className="app">
         <Routes>
-          <Route path="/new" element={<NewPage />} />
+          <Route element={<PrivateWrapper />} >
+            <Route path="/new" element={<NewPage />} />
+          </Route>
           <Route path="/login" element={<SignPage />} />
-          <Route path="/" element={<HomePage />} />
+          <Route element={<PrivateWrapper />} >
+            <Route path="/" element={<HomePage />} />
+          </Route>
         </Routes>
       </div>
-    </Router>
   );
 };
 

@@ -1,22 +1,13 @@
 import * as React from "react";
 import { faPenRuler } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Switch } from "@mui/material";
-import { FormControlLabel } from "@mui/material";
-import { Link, Navigate } from "react-router-dom";
-
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../App";
-import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import {useSelector} from "react-redux";
 
 const HomePage = () => {
-  const isAuthenticated = useAuthState(auth as any)[0];
-  const dispatch = useDispatch();
-  const [user] = useAuthState(auth as any);
-
-  dispatch({ type: "SIGN_IN", payload: user });
-
-  return isAuthenticated ? (
+    const store = useSelector(state => state);
+    console.log(store)
+  return (
     <main className="home">
       <div className="home-recent heading">
         <h3 className="recent-title title">Recent images</h3>
@@ -33,8 +24,6 @@ const HomePage = () => {
         </button>
       </Link>
     </main>
-  ) : (
-    <Navigate to="/login" />
   );
 };
 
