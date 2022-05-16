@@ -9,8 +9,6 @@ import { faMinus } from "@fortawesome/free-solid-svg-icons";
 import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
-import { auth } from "../../App";
-
 import { Link } from "react-router-dom";
 
 import Canvas from "../Canvas/Canvas";

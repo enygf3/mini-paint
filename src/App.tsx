@@ -14,12 +14,9 @@ import SignPage from "./components/SignPage/SignPage";
 import NewPage from "./components/NewPage/NewPage";
 import HomePage from "./components/HomePage/HomePage";
 
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
-import "firebase/compat/firestore";
-
 import "./assets/sass/App.sass";
 import {useAuthState} from "react-firebase-hooks/auth";
+import {useSelector} from "react-redux";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -31,12 +28,8 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
-export const app = firebase.initializeApp(firebaseConfig);
-export const auth = firebase.auth();
-export const firestore = firebase.firestore();
-
 const PrivateWrapper = () => {
-  const isLoggedIn = useAuthState(auth as any)
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
   return isLoggedIn ? <Outlet /> : <Navigate to="/login" />;
 };
 

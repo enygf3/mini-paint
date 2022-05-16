@@ -4,25 +4,26 @@ import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import {useDispatch, useSelector} from "react-redux";
-import {auth} from "../../App";
-import {Navigate} from "react-router-dom";
+
+import {Navigate, useNavigate} from "react-router-dom";
+import {useAuthState} from "react-firebase-hooks/auth";
+
+import {signInUser} from "../service/firebaseAuth/firebaseAuth";
 
 const SignPage = () => {
     const dispatch = useDispatch()
-    const store:any = useSelector((state) => state);
-    const isLoggedIn = !!store.user;
-    console.log(store)
+    const navigate = useNavigate()
 
     const signUpGoogle = async () => {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        const { user } = await auth.signInWithPopup(provider)
+        const { user } = await signInUser()
         dispatch({
             type: "SIGN_IN",
             payload: user,
         });
+        localStorage.setItem("isLoggedIn", `${!!user}`)
+        await navigate("/")
     };
-
-  return isLoggedIn ? <Navigate to={"/"}></Navigate> : (
+  return !localStorage.getItem("isLoggedIn") ? (
     <main>
       <h3 className="page-title">Please, sign in</h3>
       <div className="page-forms">
@@ -32,7 +33,7 @@ const SignPage = () => {
         </span>
       </div>
     </main>
-  );
+  ) : <Navigate to={`/`} />;
 };
 
 export default SignPage;

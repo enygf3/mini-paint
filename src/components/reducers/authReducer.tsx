@@ -1,9 +1,18 @@
-import { SIGN_IN } from "../actions/actions";
+import {SIGN_IN, SIGN_IN_FAILED} from "../actions/actions";
 
-const authReducer = (state = {}, action: any) => {
+const initialState = {
+    isLoggedIn: false,
+    user: null
+};
+
+const authReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case SIGN_IN:
-            return {...state, user: action.payload};
+            console.trace()
+            return {...state, user: action.payload, isLoggedIn: true};
+        case SIGN_IN_FAILED:
+            console.log("failed to login");
+            return 0;
         default:
             return state;
     }

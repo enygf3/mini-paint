@@ -1,6 +1,8 @@
 export const SIGN_IN: string = "SIGN_IN";
 export const SIGN_OUT: string = "SIGN_OUT";
 
+export const SIGN_IN_FAILED: string = "SIGN_IN_FAILED";
+
 export const SAVE_IMG: string = "SAVE_IMG";
 export const DELETE_IMG: string = "DELETE_IMG";
 
