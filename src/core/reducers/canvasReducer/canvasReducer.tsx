@@ -1,7 +1,12 @@
-import { GET_IMAGE_DATA, DELETE_IMAGE_DATA } from "../../actions/actions";
+import {
+  GET_IMAGE_DATA,
+  DELETE_IMAGE_DATA,
+  SET_CANVAS,
+} from "../../actions/actions";
 
 const initialState = {
   img: null,
+  canvas: null,
 };
 
 const authReducer = (state = initialState, action: any) => {
@@ -15,6 +20,11 @@ const authReducer = (state = initialState, action: any) => {
       return {
         ...state,
         img: null,
+      };
+    case SET_CANVAS:
+      return {
+        ...state,
+        canvas: action.payload,
       };
     default:
       return state;
