@@ -9,14 +9,13 @@ import {
   Outlet,
 } from "react-router-dom";
 
-
-import SignPage from "./components/SignPage/SignPage";
-import NewPage from "./components/NewPage/NewPage";
-import HomePage from "./components/HomePage/HomePage";
+import SignPage from "./pages/SignPage/SignPage";
+import NewPage from "./pages/NewPage/NewPage";
+import HomePage from "./pages/HomePage/HomePage";
 
 import "./assets/sass/App.sass";
-import {useAuthState} from "react-firebase-hooks/auth";
-import {useSelector} from "react-redux";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useSelector } from "react-redux";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -34,19 +33,18 @@ const PrivateWrapper = () => {
 };
 
 const App = () => {
-
   return (
-      <div className="app">
-        <Routes>
-          <Route element={<PrivateWrapper />} >
-            <Route path="/new" element={<NewPage />} />
-          </Route>
-          <Route path="/login" element={<SignPage />} />
-          <Route element={<PrivateWrapper />} >
-            <Route path="/" element={<HomePage />} />
-          </Route>
-        </Routes>
-      </div>
+    <div className="app">
+      <Routes>
+        <Route element={<PrivateWrapper />}>
+          <Route path="/new" element={<NewPage />} />
+        </Route>
+        <Route path="/login" element={<SignPage />} />
+        <Route element={<PrivateWrapper />}>
+          <Route path="/" element={<HomePage />} />
+        </Route>
+      </Routes>
+    </div>
   );
 };
 

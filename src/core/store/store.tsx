@@ -6,4 +6,4 @@ const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(authReducer as any, applyMiddleware(sagaMiddleware));
 
-export default store
+export default store;

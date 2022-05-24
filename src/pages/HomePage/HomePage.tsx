@@ -2,11 +2,11 @@ import * as React from "react";
 import { faPenRuler } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
 const HomePage = () => {
-    const store = useSelector(state => state);
-    console.log(store)
+  const store = useSelector((state) => state);
+  console.log(store);
   return (
     <main className="home">
       <div className="home-recent heading">

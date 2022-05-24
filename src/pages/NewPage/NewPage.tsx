@@ -11,7 +11,7 @@ import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 import { Link } from "react-router-dom";
 
-import Canvas from "../Canvas/Canvas";
+import Canvas from "../../core/components/Canvas/Canvas";
 
 const NewPage = () => {
   const size = {
