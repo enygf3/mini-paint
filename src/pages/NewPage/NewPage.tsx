@@ -15,8 +15,8 @@ import Canvas from "../../core/components/Canvas/Canvas";
 
 const NewPage = () => {
   const size = {
-    width: "300",
-    height: "700",
+    width: window.innerWidth - 60,
+    height: window.innerHeight - 10,
   };
   return (
     <main>

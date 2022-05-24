@@ -14,18 +14,14 @@ import NewPage from "./pages/NewPage/NewPage";
 import HomePage from "./pages/HomePage/HomePage";
 
 import "./assets/sass/App.sass";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useSelector } from "react-redux";
+import { setPersistence, browserSessionPersistence } from "firebase/auth";
 
-const firebaseConfig = {
-  apiKey: process.env.REACT_APP_API_KEY,
-  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_APP_ID,
-  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
-};
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+
+import { SET_STATE_SIGNED_IN } from "./core/actions/actions";
+
+import { auth } from "./core/components/firebase/firebase";
 
 const PrivateWrapper = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
@@ -33,6 +29,24 @@ const PrivateWrapper = () => {
 };
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  const isLoggedIn = useSelector((state: any) => state.isLoggedIn);
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user && !isLoggedIn) {
+        dispatch({
+          type: SET_STATE_SIGNED_IN,
+          payload: {
+            user: user,
+            isLoggedIn: true,
+          },
+        });
+        localStorage.setItem("isLoggedIn", "true");
+      }
+    });
+  }, [dispatch]);
+
   return (
     <div className="app">
       <Routes>
