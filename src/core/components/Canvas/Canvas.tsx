@@ -1,15 +1,15 @@
 import * as React from "react";
-import { useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 
 const Canvas = (props: any) => {
-  const canvasRef: any = useRef(null);
+  const canvasRef: RefObject<any> = useRef(null);
 
   const [drawing, setDrawing] = useState<boolean>(false);
   const [canvas, setCanvas] = useState<any>(null);
-  const [rect, setRect] = useState<any>(null);
+  const [rect, setRect] = useState<DOMRect | any>(null);
 
   useEffect(() => {
-    const HandleMouseDown = (e: any) => {
+    const HandleMouseDown = (e: Event | any) => {
       setDrawing(true);
       setCanvas(e.target.getContext("2d"));
       setRect(e.target.getBoundingClientRect());
@@ -27,9 +27,9 @@ const Canvas = (props: any) => {
       );
     };
 
-    const HandleMouseMove = (e: any) => {
+    const HandleMouseMove = (e: Event | any) => {
       if (drawing) {
-        canvas.lineTo(e.clientX - rect.x, e.clientY - rect.y);
+        canvas.lineTo(e.clientX - rect.x, e.clientY - rect.y!);
         canvas.stroke();
       }
     };
