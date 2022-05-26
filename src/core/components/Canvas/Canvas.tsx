@@ -29,7 +29,7 @@ const Canvas = (props: any) => {
 
     const HandleMouseMove = (e: Event | any) => {
       if (drawing) {
-        canvas.lineTo(e.clientX - rect.x, e.clientY - rect.y!);
+        canvas.lineTo(e.clientX - rect.x, e.clientY - rect.y);
         canvas.stroke();
       }
     };
