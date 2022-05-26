@@ -1,34 +1,43 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen } from "@fortawesome/free-solid-svg-icons";
-import { faShapes } from "@fortawesome/free-solid-svg-icons";
-import { faEraser } from "@fortawesome/free-solid-svg-icons";
 import { TextFormat } from "@mui/icons-material";
 import { Slider, Button } from "@mui/material";
-import { faHouseUser } from "@fortawesome/free-solid-svg-icons";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { faMinus } from "@fortawesome/free-solid-svg-icons";
-import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
-import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import {
+  faRightFromBracket,
+  faFloppyDisk,
+  faMinus,
+  faPlus,
+  faHouseUser,
+  faShapes,
+  faEraser,
+  faPen,
+  faPalette,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { Link, useNavigate } from "react-router-dom";
 
 import { getAuth } from "firebase/auth";
 
 import Canvas from "../../core/components/Canvas/Canvas";
-import { useDispatch, useSelector } from "react-redux";
-import { GET_IMAGE_DATA, SET_PEN_WIDTH } from "../../core/actions/actions";
+import { useDispatch } from "react-redux";
+import {
+  GET_IMAGE_DATA,
+  SET_PEN_WIDTH,
+  SET_PEN_COLOR,
+} from "../../core/actions/actions";
 
-import { useState, useEffect, useRef, RefObject } from "react";
+import { useState, useRef, RefObject } from "react";
+
+import { CirclePicker } from "react-color";
 
 const NewPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [img, setImg] = useState<string>("");
-  const width: number = useSelector((state: any) => state.canvas.width);
-
+  const [color, setColor] = useState<string>("#000");
   const [penWidth, setPenWidth] = useState<number>(1);
 
-  const settings: RefObject<any> = useRef(null);
+  const penSettings: RefObject<any> = useRef(null);
+  const colorSettings: RefObject<any> = useRef(null);
 
   const canvas = {
     width: window.innerWidth - 60,
@@ -57,7 +66,11 @@ const NewPage = () => {
   };
 
   const openPenSettings = () => {
-    settings.current.style.display = "flex";
+    penSettings.current.style.display = "flex";
+  };
+
+  const openColorSettings = () => {
+    colorSettings.current.style.display = "flex";
   };
 
   const dispatchPenWidth = () => {
@@ -68,12 +81,27 @@ const NewPage = () => {
       },
     });
 
-    settings.current.style.display = "none";
+    penSettings.current.style.display = "none";
+  };
+
+  const dispatchColor = () => {
+    dispatch({
+      type: SET_PEN_COLOR,
+      payload: {
+        color: color,
+      },
+    });
+
+    colorSettings.current.style.display = "none";
+  };
+
+  const handle = (clr: any) => {
+    setColor(clr.hex);
   };
 
   return (
     <main>
-      <div className="settings" ref={settings}>
+      <div className="settings" ref={penSettings}>
         <p>Set width</p>
         <Slider
           aria-label="Width"
@@ -97,6 +125,17 @@ const NewPage = () => {
           Submit
         </Button>
       </div>
+      <div className="settings color-settings" ref={colorSettings}>
+        <CirclePicker onChange={handle} />
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ width: 100, height: 40 }}
+          onClick={dispatchColor}
+        >
+          Submit
+        </Button>
+      </div>
       <Canvas props={canvas} />
       <div className="main-zoom zoom">
         <button>
@@ -110,6 +149,9 @@ const NewPage = () => {
       <nav>
         <button className="nav-btn" onClick={openPenSettings}>
           <FontAwesomeIcon icon={faPen} />
+        </button>
+        <button className="nav-btn" onClick={openColorSettings}>
+          <FontAwesomeIcon icon={faPalette} />
         </button>
         <button className="nav-btn">
           <FontAwesomeIcon icon={faShapes} />

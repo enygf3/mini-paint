@@ -2,6 +2,7 @@ import {
   GET_IMAGE_DATA,
   DELETE_IMAGE_DATA,
   SET_PEN_WIDTH,
+  SET_PEN_COLOR,
 } from "../../actions/actions";
 
 export interface editorState {
@@ -34,6 +35,11 @@ const authReducer = (state = initialState, action: any) => {
       return {
         ...state,
         width: action.payload.width,
+      };
+    case SET_PEN_COLOR:
+      return {
+        ...state,
+        color: action.payload.color,
       };
     default:
       return state;

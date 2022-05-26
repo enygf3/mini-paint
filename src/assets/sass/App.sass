@@ -32,6 +32,10 @@
   top: 0
   transform: translate(-50%, -50%)
 
+$settingWidth: 300px
+$settingHeight: 150px
+$settingBg: #000
+
 *
   box-sizing: border-box
   padding: 0
@@ -201,10 +205,10 @@ input
   margin-top: 15px
 
 .settings
-  width: 300px
-  height: 150px
+  width: $settingWidth
+  height: $settingHeight
   border-radius: 15px
-  background: #000
+  background: $settingBg
   @include absoluteAlign
   z-index: 5
   top: 50%
@@ -216,3 +220,10 @@ input
 
   button
     margin-bottom: 5px
+
+.color-settings
+  height: 200px
+
+.circle-picker
+  margin: 0
+  padding: 0

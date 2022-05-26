@@ -6,27 +6,31 @@ const Canvas = (props: any) => {
   const canvasRef: RefObject<any> = useRef(null);
 
   const statePenWidth = useSelector((state: any) => state.canvas.width);
+  const statePenColor = useSelector((state: any) => state.canvas.color);
 
   const [drawing, setDrawing] = useState<boolean>(false);
   const [canvas, setCanvas] = useState<any>(null);
   const [rect, setRect] = useState<DOMRect | any>(null);
   const [penWidth, setPenWidth] = useState<number>(statePenWidth);
+  const [penColor, setPenColor] = useState<string>(statePenColor);
 
   useEffect(() => {
     setPenWidth(statePenWidth);
+    setPenColor(statePenColor);
     const HandleMouseDown = (e: Event | any) => {
-      console.log(statePenWidth);
       setDrawing(true);
       setCanvas(e.target.getContext("2d"));
       setRect(e.target.getBoundingClientRect());
       if (canvas) {
         canvas.lineWidth = penWidth;
+        canvas.strokeStyle = penColor;
         canvas.beginPath();
       }
     };
 
     const HandleMouseUp = () => {
       setDrawing(false);
+      canvas.strokeStyle = penColor;
       canvas.lineWidth = penWidth;
       props.props.func(
         canvasRef.current
@@ -38,6 +42,7 @@ const Canvas = (props: any) => {
     const HandleMouseMove = (e: Event | any) => {
       if (drawing) {
         canvas.lineWidth = penWidth;
+        canvas.strokeStyle = penColor;
         canvas.lineTo(e.clientX - rect.x, e.clientY - rect.y);
         canvas.stroke();
       }
@@ -46,6 +51,7 @@ const Canvas = (props: any) => {
     const HandleTouchMove = (e: Event | any) => {
       if (drawing) {
         canvas.lineWidth = penWidth;
+        canvas.strokeStyle = penColor;
         canvas.lineTo(
           e.touches[0].clientX - rect.x,
           e.touches[0].clientY - rect.y
