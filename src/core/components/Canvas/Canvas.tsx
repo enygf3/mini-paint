@@ -34,9 +34,32 @@ const Canvas = (props: any) => {
       }
     };
 
+    const HandleTouchMove = (e: Event | any) => {
+      if (drawing) {
+        canvas.lineTo(
+          e.touches[0].clientX - rect.x,
+          e.touches[0].clientY - rect.y
+        );
+        canvas.stroke();
+      }
+    };
+
     canvasRef.current.onmousedown = HandleMouseDown;
     canvasRef.current.onmouseup = HandleMouseUp;
     canvasRef.current.onmousemove = HandleMouseMove;
+
+    canvasRef.current.ontouchstart = (e: any) => {
+      e.preventDefault();
+      HandleMouseDown(e);
+    };
+    canvasRef.current.ontouchmove = (e: any) => {
+      e.preventDefault();
+      HandleTouchMove(e);
+    };
+    canvasRef.current.ontouchend = (e: any) => {
+      e.preventDefault();
+      HandleMouseUp();
+    };
   }, [drawing]);
 
   return (
