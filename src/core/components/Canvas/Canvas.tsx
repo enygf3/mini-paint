@@ -1,25 +1,33 @@
 import * as React from "react";
 import { RefObject, useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 
 const Canvas = (props: any) => {
   const canvasRef: RefObject<any> = useRef(null);
 
+  const statePenWidth = useSelector((state: any) => state.canvas.width);
+
   const [drawing, setDrawing] = useState<boolean>(false);
   const [canvas, setCanvas] = useState<any>(null);
   const [rect, setRect] = useState<DOMRect | any>(null);
+  const [penWidth, setPenWidth] = useState<number>(statePenWidth);
 
   useEffect(() => {
+    setPenWidth(statePenWidth);
     const HandleMouseDown = (e: Event | any) => {
+      console.log(statePenWidth);
       setDrawing(true);
       setCanvas(e.target.getContext("2d"));
       setRect(e.target.getBoundingClientRect());
       if (canvas) {
+        canvas.lineWidth = penWidth;
         canvas.beginPath();
       }
     };
 
     const HandleMouseUp = () => {
       setDrawing(false);
+      canvas.lineWidth = penWidth;
       props.props.func(
         canvasRef.current
           .getContext("2d")
@@ -29,6 +37,7 @@ const Canvas = (props: any) => {
 
     const HandleMouseMove = (e: Event | any) => {
       if (drawing) {
+        canvas.lineWidth = penWidth;
         canvas.lineTo(e.clientX - rect.x, e.clientY - rect.y);
         canvas.stroke();
       }
@@ -36,6 +45,7 @@ const Canvas = (props: any) => {
 
     const HandleTouchMove = (e: Event | any) => {
       if (drawing) {
+        canvas.lineWidth = penWidth;
         canvas.lineTo(
           e.touches[0].clientX - rect.x,
           e.touches[0].clientY - rect.y
@@ -60,7 +70,7 @@ const Canvas = (props: any) => {
       e.preventDefault();
       HandleMouseUp();
     };
-  }, [drawing]);
+  }, [drawing, statePenWidth]);
 
   return (
     <canvas

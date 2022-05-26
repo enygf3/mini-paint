@@ -11,3 +11,5 @@ export const SET_STATE_SIGNED_OUT = "SET_STATE_SIGNED_OUT";
 
 export const GET_IMAGE_DATA = "GET_IMAGE_DATA";
 export const DELETE_IMAGE_DATA = "DELETE_IMAGE_DATA";
+
+export const SET_PEN_WIDTH = "SET_PEN_WIDTH";

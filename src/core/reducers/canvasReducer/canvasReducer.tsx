@@ -1,4 +1,8 @@
-import { GET_IMAGE_DATA, DELETE_IMAGE_DATA } from "../../actions/actions";
+import {
+  GET_IMAGE_DATA,
+  DELETE_IMAGE_DATA,
+  SET_PEN_WIDTH,
+} from "../../actions/actions";
 
 export interface editorState {
   color: string;
@@ -25,6 +29,11 @@ const authReducer = (state = initialState, action: any) => {
       return {
         ...state,
         canvas: null,
+      };
+    case SET_PEN_WIDTH:
+      return {
+        ...state,
+        width: action.payload.width,
       };
     default:
       return state;
