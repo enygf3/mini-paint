@@ -1,11 +1,16 @@
-import {
-  GET_IMAGE_DATA,
-  DELETE_IMAGE_DATA,
-  SET_CANVAS,
-} from "../../actions/actions";
+import { GET_IMAGE_DATA, DELETE_IMAGE_DATA } from "../../actions/actions";
 
-const initialState = {
-  img: null,
+export interface editorState {
+  color: string;
+  width: number;
+  background: string;
+  canvas: any;
+}
+
+const initialState: editorState = {
+  color: "#000000",
+  width: 1,
+  background: "#ffffff",
   canvas: null,
 };
 
@@ -14,17 +19,12 @@ const authReducer = (state = initialState, action: any) => {
     case GET_IMAGE_DATA:
       return {
         ...state,
-        img: action.payload,
+        canvas: action.payload.canvas,
       };
     case DELETE_IMAGE_DATA:
       return {
         ...state,
-        img: null,
-      };
-    case SET_CANVAS:
-      return {
-        ...state,
-        canvas: action.payload,
+        canvas: null,
       };
     default:
       return state;

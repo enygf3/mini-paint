@@ -12,32 +12,33 @@ import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
 import Canvas from "../../core/components/Canvas/Canvas";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { GET_IMAGE_DATA } from "../../core/actions/actions";
 
+import { useState } from "react";
+
 const NewPage = () => {
-  const size = {
+  const dispatch = useDispatch();
+  const [img, setImg] = useState<string>("");
+
+  const canvas = {
     width: window.innerWidth - 60,
     height: window.innerHeight - 10,
+    func: setImg,
   };
 
-  // const GetImageData = () => {
-  //   const dispatch = useDispatch();
-  //   const canvas = useSelector((state: any) => state.canvas);
-  //   const ctx = canvas.getContext("2d");
-  //   const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  //   useEffect(() => {
-  //     dispatch({
-  //       type: GET_IMAGE_DATA,
-  //       payload: img,
-  //     });
-  //   }, [dispatch]);
-  // };
+  const getImg = () => {
+    dispatch({
+      type: GET_IMAGE_DATA,
+      payload: {
+        canvas: img,
+      },
+    });
+  };
 
   return (
     <main>
-      <Canvas props={size} />
+      <Canvas props={canvas} />
       <div className="main-zoom zoom">
         <button>
           <FontAwesomeIcon icon={faPlus} />
@@ -65,7 +66,7 @@ const NewPage = () => {
             <FontAwesomeIcon icon={faHouseUser} />
           </button>
         </Link>
-        <button className="nav-btn">
+        <button className="nav-btn" onClick={getImg}>
           <FontAwesomeIcon icon={faFloppyDisk} />
         </button>
         <button className="nav-btn">

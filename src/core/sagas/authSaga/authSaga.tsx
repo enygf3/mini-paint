@@ -8,7 +8,7 @@ import {
 } from "../../actions/actionsAuth/actionsAuth";
 
 export function* signInWorker(data: AnyAction) {
-  let User: { user: string } = {
+  const User: { user: string } = {
     user: "",
   };
 
