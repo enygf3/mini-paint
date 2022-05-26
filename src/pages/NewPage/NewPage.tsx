@@ -9,7 +9,9 @@ import { faMinus } from "@fortawesome/free-solid-svg-icons";
 import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import { getAuth } from "firebase/auth";
 
 import Canvas from "../../core/components/Canvas/Canvas";
 import { useDispatch } from "react-redux";
@@ -19,6 +21,7 @@ import { useState } from "react";
 
 const NewPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [img, setImg] = useState<string>("");
 
   const canvas = {
@@ -34,6 +37,17 @@ const NewPage = () => {
         canvas: img,
       },
     });
+  };
+
+  const SignOut = () => {
+    localStorage.removeItem("isLoggedIn");
+    getAuth()
+      .signOut()
+      .then((res) => {
+        console.log(res);
+      });
+
+    navigate("/login");
   };
 
   return (
@@ -69,7 +83,7 @@ const NewPage = () => {
         <button className="nav-btn" onClick={getImg}>
           <FontAwesomeIcon icon={faFloppyDisk} />
         </button>
-        <button className="nav-btn">
+        <button className="nav-btn" onClick={SignOut}>
           <FontAwesomeIcon icon={faRightFromBracket} />
         </button>
       </nav>
