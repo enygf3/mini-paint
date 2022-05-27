@@ -13,6 +13,7 @@ const Canvas = (props: any) => {
   const [rect, setRect] = useState<DOMRect | any>(null);
   const [penWidth, setPenWidth] = useState<number>(statePenWidth);
   const [penColor, setPenColor] = useState<string>(statePenColor);
+  console.log(penColor);
 
   useEffect(() => {
     setPenWidth(statePenWidth);
@@ -26,6 +27,7 @@ const Canvas = (props: any) => {
         canvas.strokeStyle = penColor;
         canvas.beginPath();
       }
+      console.log(penColor);
     };
 
     const HandleMouseUp = () => {
@@ -64,19 +66,19 @@ const Canvas = (props: any) => {
     canvasRef.current.onmouseup = HandleMouseUp;
     canvasRef.current.onmousemove = HandleMouseMove;
 
-    canvasRef.current.ontouchstart = (e: any) => {
+    canvasRef.current.ontouchstart = (e: Event | any) => {
       e.preventDefault();
       HandleMouseDown(e);
     };
-    canvasRef.current.ontouchmove = (e: any) => {
+    canvasRef.current.ontouchmove = (e: Event | any) => {
       e.preventDefault();
       HandleTouchMove(e);
     };
-    canvasRef.current.ontouchend = (e: any) => {
+    canvasRef.current.ontouchend = (e: Event | any) => {
       e.preventDefault();
       HandleMouseUp();
     };
-  }, [drawing, statePenWidth]);
+  }, [drawing, statePenWidth, statePenColor]);
 
   return (
     <canvas
