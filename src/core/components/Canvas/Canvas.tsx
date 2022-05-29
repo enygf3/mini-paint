@@ -124,7 +124,7 @@ const Canvas = (props: any) => {
     existingShapes.forEach((el: any) => {
       restoreDraw(el, el.shape);
     });
-    canvas.putImageData(backUp, 0, 0);
+    backUp ? canvas.putImageData(backUp, 0, 0) : 0;
     canvas.lineWidth = penWidth;
     canvas.strokeStyle = penColor;
     canvas.beginPath();
@@ -136,7 +136,7 @@ const Canvas = (props: any) => {
     existingShapes.forEach((el: any) => {
       restoreDraw(el, el.shape);
     });
-    canvas.putImageData(backUp, 0, 0);
+    backUp ? canvas.putImageData(backUp, 0, 0) : 0;
     canvas.lineWidth = penWidth;
     canvas.strokeStyle = penColor;
     canvas.beginPath();
