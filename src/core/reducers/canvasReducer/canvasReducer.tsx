@@ -3,6 +3,7 @@ import {
   DELETE_IMAGE_DATA,
   SET_PEN_WIDTH,
   SET_PEN_COLOR,
+  SET_SHAPE,
 } from "../../actions/actions";
 
 export interface editorState {
@@ -10,6 +11,7 @@ export interface editorState {
   width: number;
   background: string;
   canvas: any;
+  shape: string;
 }
 
 const initialState: editorState = {
@@ -17,6 +19,7 @@ const initialState: editorState = {
   width: 1,
   background: "#ffffff",
   canvas: null,
+  shape: "",
 };
 
 const authReducer = (state = initialState, action: any) => {
@@ -40,6 +43,11 @@ const authReducer = (state = initialState, action: any) => {
       return {
         ...state,
         color: action.payload.color,
+      };
+    case SET_SHAPE:
+      return {
+        ...state,
+        shape: action.payload.shape,
       };
     default:
       return state;

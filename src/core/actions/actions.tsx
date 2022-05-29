@@ -14,3 +14,5 @@ export const DELETE_IMAGE_DATA = "DELETE_IMAGE_DATA";
 
 export const SET_PEN_WIDTH = "SET_PEN_WIDTH";
 export const SET_PEN_COLOR = "SET_PEN_COLOR";
+
+export const SET_SHAPE = "SET_SHAPE";

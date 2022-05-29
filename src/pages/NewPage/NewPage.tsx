@@ -11,6 +11,9 @@ import {
   faEraser,
   faPen,
   faPalette,
+  faGripLines,
+  faSquare,
+  faCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -23,9 +26,10 @@ import {
   GET_IMAGE_DATA,
   SET_PEN_WIDTH,
   SET_PEN_COLOR,
+  SET_SHAPE,
 } from "../../core/actions/actions";
 
-import { useState, useRef, RefObject } from "react";
+import { useState, useRef, RefObject, useEffect } from "react";
 
 import { CirclePicker } from "react-color";
 
@@ -35,9 +39,11 @@ const NewPage = () => {
   const [img, setImg] = useState<string>("");
   const [color, setColor] = useState<string>("#000");
   const [penWidth, setPenWidth] = useState<number>(1);
+  const [newShape, setShape] = useState<string>("");
 
   const penSettings: RefObject<any> = useRef(null);
   const colorSettings: RefObject<any> = useRef(null);
+  const shapesSettings: RefObject<any> = useRef(null);
 
   const canvas = {
     width: window.innerWidth - 60,
@@ -66,11 +72,28 @@ const NewPage = () => {
   };
 
   const openPenSettings = () => {
-    penSettings.current.style.display = "flex";
+    penSettings.current.classList.toggle("active");
+    if (newShape.length > 0) {
+      setShape("");
+    }
   };
 
   const openColorSettings = () => {
-    colorSettings.current.style.display = "flex";
+    colorSettings.current.classList.toggle("active");
+  };
+
+  const handleShape = () => {
+    Array.from(shapesSettings.current.children).forEach((el: any) =>
+      el.addEventListener("click", (e: Event | any) => {
+        setShape(el.classList[1]);
+        shapesSettings.current.classList.toggle("active");
+      })
+    );
+  };
+
+  const openShapesSettings = () => {
+    shapesSettings.current.classList.toggle("active");
+    handleShape();
   };
 
   const dispatchPenWidth = () => {
@@ -81,7 +104,7 @@ const NewPage = () => {
       },
     });
 
-    penSettings.current.style.display = "none";
+    penSettings.current.classList.toggle("active");
   };
 
   const dispatchColor = () => {
@@ -92,12 +115,21 @@ const NewPage = () => {
       },
     });
 
-    colorSettings.current.style.display = "none";
+    colorSettings.current.classList.toggle("active");
   };
 
   const handle = (clr: any) => {
     setColor(clr.hex);
   };
+
+  useEffect(() => {
+    dispatch({
+      type: SET_SHAPE,
+      payload: {
+        shape: newShape,
+      },
+    });
+  }, [newShape]);
 
   return (
     <main>
@@ -136,6 +168,11 @@ const NewPage = () => {
           Submit
         </Button>
       </div>
+      <div className="settings shapes" ref={shapesSettings}>
+        <FontAwesomeIcon icon={faSquare} />
+        <FontAwesomeIcon icon={faGripLines} />
+        <FontAwesomeIcon icon={faCircle} />
+      </div>
       <Canvas props={canvas} />
       <div className="main-zoom zoom">
         <button>
@@ -153,7 +190,7 @@ const NewPage = () => {
         <button className="nav-btn" onClick={openColorSettings}>
           <FontAwesomeIcon icon={faPalette} />
         </button>
-        <button className="nav-btn">
+        <button className="nav-btn" onClick={openShapesSettings}>
           <FontAwesomeIcon icon={faShapes} />
         </button>
         <button className="nav-btn">
