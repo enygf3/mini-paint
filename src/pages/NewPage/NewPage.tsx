@@ -83,11 +83,13 @@ const NewPage = () => {
   };
 
   const handleShape = () => {
-    Array.from(shapesSettings.current.children).forEach((el: any) =>
-      el.addEventListener("click", (e: Event | any) => {
-        setShape(el.classList[1]);
-        shapesSettings.current.classList.toggle("active");
-      })
+    Array.from(shapesSettings.current.children).forEach(
+      (el: any) =>
+        (el.onclick = (e: Event | any) => {
+          setShape(el.classList[1]);
+          shapesSettings.current.classList.toggle("active");
+          console.log("toggle", el.classList[1]);
+        })
     );
   };
 
