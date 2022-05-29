@@ -4,6 +4,7 @@ import {
   SET_PEN_WIDTH,
   SET_PEN_COLOR,
   SET_SHAPE,
+  ERASE,
 } from "../../actions/actions";
 
 export interface editorState {
@@ -12,6 +13,7 @@ export interface editorState {
   background: string;
   canvas: any;
   shape: string;
+  erase: boolean;
 }
 
 const initialState: editorState = {
@@ -20,6 +22,7 @@ const initialState: editorState = {
   background: "#ffffff",
   canvas: null,
   shape: "",
+  erase: false,
 };
 
 const authReducer = (state = initialState, action: any) => {
@@ -48,6 +51,11 @@ const authReducer = (state = initialState, action: any) => {
       return {
         ...state,
         shape: action.payload.shape,
+      };
+    case ERASE:
+      return {
+        ...state,
+        erase: action.payload.erase,
       };
     default:
       return state;

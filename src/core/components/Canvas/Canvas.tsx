@@ -1,13 +1,16 @@
 import * as React from "react";
 import { RefObject, useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { ERASE } from "../../actions/actions";
 
 const Canvas = (props: any) => {
   const canvasRef: RefObject<any> = useRef(null);
+  const dispatch = useDispatch();
 
   const statePenWidth = useSelector((state: any) => state.canvas.width);
   const statePenColor = useSelector((state: any) => state.canvas.color);
   const stateShape = useSelector((state: any) => state.canvas.shape);
+  const stateErase: boolean = useSelector((state: any) => state.canvas.erase);
 
   const [drawing, setDrawing] = useState<boolean>(false);
   const [canvas, setCanvas] = useState<any>(null);
@@ -180,6 +183,12 @@ const Canvas = (props: any) => {
     }
   }
 
+  if (stateErase) {
+    clearCanvas();
+    setExistingShapes([]);
+    dispatch({ type: ERASE, payload: { erase: false } });
+  }
+
   useEffect(() => {
     setPenWidth(statePenWidth);
     setPenColor(statePenColor);
@@ -191,8 +200,8 @@ const Canvas = (props: any) => {
     shape,
     stateShape,
     existingShapes,
+    stateErase,
   ]);
-
   return (
     <canvas
       ref={canvasRef}

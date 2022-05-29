@@ -1,5 +1,4 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { TextFormat } from "@mui/icons-material";
 import { Slider, Button } from "@mui/material";
 import {
   faRightFromBracket,
@@ -27,6 +26,7 @@ import {
   SET_PEN_WIDTH,
   SET_PEN_COLOR,
   SET_SHAPE,
+  ERASE,
 } from "../../core/actions/actions";
 
 import { useState, useRef, RefObject, useEffect } from "react";
@@ -124,6 +124,15 @@ const NewPage = () => {
     setColor(clr.hex);
   };
 
+  const dispatchErase = () => {
+    dispatch({
+      type: ERASE,
+      payload: {
+        erase: true,
+      },
+    });
+  };
+
   useEffect(() => {
     dispatch({
       type: SET_SHAPE,
@@ -195,11 +204,8 @@ const NewPage = () => {
         <button className="nav-btn" onClick={openShapesSettings}>
           <FontAwesomeIcon icon={faShapes} />
         </button>
-        <button className="nav-btn">
+        <button className="nav-btn" onClick={dispatchErase}>
           <FontAwesomeIcon icon={faEraser} />
-        </button>
-        <button className="nav-btn">
-          <TextFormat />
         </button>
         <Link to="/">
           <button className="nav-btn">
