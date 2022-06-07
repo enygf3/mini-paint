@@ -8,3 +8,7 @@ export const save = async (data: string) => {
     data: data,
   });
 };
+
+export const getDB = (images: Array<string>) => {
+  return images;
+};

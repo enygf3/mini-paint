@@ -7,6 +7,9 @@ import {
   ERASE,
   SAVE_IMG,
   SAVE_IMG_FAILED,
+  GET_DB_IMAGES_SUCCEED,
+  GET_DB_IMAGES_FAILED,
+  GET_DB_IMAGES,
 } from "../../actions/actions";
 
 export interface editorState {
@@ -16,6 +19,7 @@ export interface editorState {
   canvas: any;
   shape: string;
   erase: boolean;
+  images: Array<string>;
 }
 
 const initialState: editorState = {
@@ -25,6 +29,7 @@ const initialState: editorState = {
   canvas: null,
   shape: "",
   erase: false,
+  images: [],
 };
 
 const authReducer = (state = initialState, action: any) => {
@@ -68,6 +73,21 @@ const authReducer = (state = initialState, action: any) => {
       return {
         ...state,
         canvas: null,
+      };
+    case GET_DB_IMAGES_SUCCEED:
+      return {
+        ...state,
+        images: action.payload,
+      };
+    case GET_DB_IMAGES_FAILED:
+      return {
+        ...state,
+        images: [],
+      };
+    case GET_DB_IMAGES:
+      return {
+        ...state,
+        images: [],
       };
     default:
       return state;
