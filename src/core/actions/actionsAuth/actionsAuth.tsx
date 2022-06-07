@@ -1,9 +1,10 @@
-import { SIGN_IN, SIGN_IN_FAILED } from "../actions";
+import { SET_STATE_SIGNED_IN, SIGN_IN_FAILED } from "../actions";
 
 export const signInUserSucceed = (user: any) => {
   return {
-    type: SIGN_IN,
+    type: SET_STATE_SIGNED_IN,
     payload: user,
+    isLoggedIn: true,
   };
 };
 

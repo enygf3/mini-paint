@@ -29,7 +29,7 @@ import {
   ERASE,
 } from "../../core/actions/actions";
 
-import { useState, useRef, RefObject, useEffect } from "react";
+import { useState, useRef, RefObject, useEffect, useMemo } from "react";
 
 import { CirclePicker } from "react-color";
 
@@ -61,7 +61,6 @@ const NewPage = () => {
   };
 
   const SignOut = () => {
-    localStorage.removeItem("isLoggedIn");
     getAuth()
       .signOut()
       .then((res) => {
@@ -85,10 +84,9 @@ const NewPage = () => {
   const handleShape = () => {
     Array.from(shapesSettings.current.children).forEach(
       (el: any) =>
-        (el.onclick = (e: Event | any) => {
+        (el.onclick = () => {
           setShape(el.classList[1]);
           shapesSettings.current.classList.toggle("active");
-          console.log("toggle", el.classList[1]);
         })
     );
   };

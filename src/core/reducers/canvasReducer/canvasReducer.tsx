@@ -5,6 +5,8 @@ import {
   SET_PEN_COLOR,
   SET_SHAPE,
   ERASE,
+  SAVE_IMG,
+  SAVE_IMG_FAILED,
 } from "../../actions/actions";
 
 export interface editorState {
@@ -56,6 +58,16 @@ const authReducer = (state = initialState, action: any) => {
       return {
         ...state,
         erase: action.payload.erase,
+      };
+    case SAVE_IMG:
+      return {
+        ...state,
+        canvas: action.payload.canvas,
+      };
+    case SAVE_IMG_FAILED:
+      return {
+        ...state,
+        canvas: null,
       };
     default:
       return state;

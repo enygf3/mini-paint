@@ -1,29 +1,28 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
-import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Navigate, useNavigate } from "react-router-dom";
-import { useAuthState } from "react-firebase-hooks/auth";
 
-import { signInUser } from "../../core/service/firebaseAuth/firebaseAuth";
+import { SIGN_IN } from "../../core/actions/actions";
 
 const SignPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const isLoggedIn: boolean = useSelector(
+    (state: any) => state.auth.isLoggedIn
+  );
+
   const signUpGoogle = async () => {
-    const { user } = await signInUser();
     dispatch({
-      type: "SIGN_IN",
-      payload: user,
+      type: SIGN_IN,
     });
-    localStorage.setItem("isLoggedIn", `${!!user}`);
     await navigate("/");
   };
-  return !localStorage.getItem("isLoggedIn") ? (
+  return !isLoggedIn ? (
     <main>
       <h3 className="page-title">Please, sign in</h3>
       <div className="page-forms">

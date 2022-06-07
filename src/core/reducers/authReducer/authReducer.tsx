@@ -12,7 +12,7 @@ const initialState = {
 const authReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case SIGN_IN:
-      return { ...state, user: action.payload.user, isLoggedIn: true };
+      return { ...state };
     case SIGN_IN_FAILED:
       console.log("failed to login");
       return 0;

@@ -26,14 +26,14 @@ const Canvas = (props: any) => {
     setDrawing(false);
     canvas.strokeStyle = penColor;
     canvas.lineWidth = penWidth;
-    props.props.func(
-      canvasRef.current
-        .getContext("2d")
-        .getImageData(0, 0, canvasRef.current.width, canvasRef.current.height)
-    );
+    const data = canvasRef.current.toDataURL();
+    props.props.func(data);
+    console.log(data);
     if (shape.length > 0) {
       setExistingShapes([...existingShapes, { shape, pos }]);
     }
+
+    console.log(pos);
   };
 
   const HandleMouseMove = (e: Event | any) => {
@@ -44,7 +44,7 @@ const Canvas = (props: any) => {
       canvas.stroke();
     }
 
-    if (shape.length > 0) {
+    if (shape.length > 0 && !e.touches) {
       setPos({
         x1: pos.x1,
         y1: pos.y1,
@@ -63,6 +63,14 @@ const Canvas = (props: any) => {
         e.touches[0].clientY - rect.y
       );
       canvas.stroke();
+    }
+    if (shape.length > 0) {
+      setPos({
+        x1: pos.x1,
+        y1: pos.y1,
+        x2: e.touches[0].clientX - e.target.getBoundingClientRect().x,
+        y2: e.touches[0].clientY - e.target.getBoundingClientRect().y,
+      });
     }
   };
 
@@ -84,6 +92,28 @@ const Canvas = (props: any) => {
       canvas.strokeStyle = penColor;
       canvas.beginPath();
     }
+  };
+
+  const HandleTouchStart = (e: Event | any) => {
+    setDrawing(true);
+    setCanvas(e.target.getContext("2d"));
+    setRect(e.target.getBoundingClientRect());
+    if (shape.length > 0) {
+      setPos({
+        x1: e.touches[0].clientX - e.target.getBoundingClientRect().x,
+        y1: e.touches[0].clientY - e.target.getBoundingClientRect().y,
+        x2: pos.x2,
+        y2: pos.y2,
+      });
+    }
+    if (canvas) {
+      setBackUp(canvas.getImageData(0, 0, e.target.width, e.target.height));
+      canvas.lineWidth = penWidth;
+      canvas.strokeStyle = penColor;
+      canvas.beginPath();
+    }
+
+    console.log(pos);
   };
 
   const restoreDraw = (item: any, type: string) => {
@@ -193,15 +223,7 @@ const Canvas = (props: any) => {
     setPenWidth(statePenWidth);
     setPenColor(statePenColor);
     setShape(stateShape);
-  }, [
-    drawing,
-    statePenWidth,
-    statePenColor,
-    shape,
-    stateShape,
-    existingShapes,
-    stateErase,
-  ]);
+  }, [statePenWidth, statePenColor, stateShape]);
   return (
     <canvas
       ref={canvasRef}
@@ -210,11 +232,11 @@ const Canvas = (props: any) => {
       onMouseDown={HandleMouseDown}
       onMouseUp={HandleMouseUp}
       onMouseMove={HandleMouseMove}
-      onTouchStart={HandleMouseDown}
+      onTouchStart={HandleTouchStart}
       onTouchEnd={HandleMouseUp}
       onTouchMove={HandleTouchMove}
     ></canvas>
   );
 };
 
-export default Canvas;
+export default React.memo(Canvas);
