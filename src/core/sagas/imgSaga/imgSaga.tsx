@@ -6,16 +6,10 @@ import {
   saveImgFailed,
 } from "../../actions/actionsImg/actionsImg";
 
-export function* imgWorker() {
-  const Image: { img: string } = {
-    img: "",
-  };
-
+export function* imgWorker(payload: any) {
   try {
-    yield save().then((img) => {
-      Image.img = img;
-    });
-    yield put(saveImgSucceed(Image.img));
+    yield save(payload.payload.canvas);
+    yield put(saveImgSucceed(payload.payload.canvas));
   } catch (error) {
     console.log("imgSaga", error);
     yield put(saveImgFailed());
