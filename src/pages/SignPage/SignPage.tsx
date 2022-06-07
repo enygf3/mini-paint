@@ -2,14 +2,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 import "firebase/compat/auth";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { SIGN_IN } from "../../core/actions/actions";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
-import { useEffect } from "react";
+import { useEffect, memo } from "react";
 
 const SignPage = () => {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const SignPage = () => {
 
   const [user, loading] = useAuthState(getAuth());
 
-  const signUpGoogle = async () => {
+  const signUpGoogle = async (): Promise<void> => {
     dispatch({
       type: SIGN_IN,
     });
@@ -45,4 +45,4 @@ const SignPage = () => {
   );
 };
 
-export default SignPage;
+export default memo(SignPage);

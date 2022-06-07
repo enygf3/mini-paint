@@ -5,7 +5,9 @@ import {
   SIGN_OUT_FAILED,
 } from "../actions";
 
-export const signInUserSucceed = (user: any) => {
+export const signInUserSucceed = (
+  user: object
+): { payload: object; isLoggedIn: boolean; type: string } => {
   return {
     type: SET_STATE_SIGNED_IN,
     payload: user,
@@ -13,13 +15,17 @@ export const signInUserSucceed = (user: any) => {
   };
 };
 
-export const signInUserFailed = () => {
+export const signInUserFailed = (): { type: string } => {
   return {
     type: SIGN_IN_FAILED,
   };
 };
 
-export const signOutUserSucceed = () => {
+export const signOutUserSucceed = (): {
+  type: string;
+  payload: null;
+  isLoggedIn: boolean;
+} => {
   return {
     type: SET_STATE_SIGNED_OUT,
     payload: null,
@@ -27,7 +33,7 @@ export const signOutUserSucceed = () => {
   };
 };
 
-export const signOutUserFailed = () => {
+export const signOutUserFailed = (): { type: string } => {
   return {
     type: SIGN_OUT_FAILED,
   };

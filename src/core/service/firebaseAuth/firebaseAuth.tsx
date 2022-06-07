@@ -1,7 +1,7 @@
 import firebase from "../../components/firebase/firebase";
 
-export const signInUser = async () => {
+export const signInUser = async (): Promise<firebase.auth.UserCredential> => {
   const provider = new firebase.auth.GoogleAuthProvider();
   return await firebase.auth().signInWithPopup(provider);
 };
-export const signOutUser = () => firebase.auth().signOut();
+export const signOutUser = (): Promise<void> => firebase.auth().signOut();

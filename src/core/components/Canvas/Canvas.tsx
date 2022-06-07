@@ -1,5 +1,5 @@
 import * as React from "react";
-import { RefObject, useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState, memo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ERASE } from "../../actions/actions";
 
@@ -22,7 +22,11 @@ const Canvas = (props: any) => {
   const [existingShapes, setExistingShapes] = useState<any>([]);
   const [backUp, setBackUp] = useState<any>(null);
 
-  const HandleMouseUp = () => {
+  interface existShapeTypes {
+    shape: string;
+  }
+
+  const HandleMouseUp = (): void => {
     setDrawing(false);
     canvas.strokeStyle = penColor;
     canvas.lineWidth = penWidth;
@@ -32,11 +36,9 @@ const Canvas = (props: any) => {
     if (shape.length > 0) {
       setExistingShapes([...existingShapes, { shape, pos }]);
     }
-
-    console.log(pos);
   };
 
-  const HandleMouseMove = (e: Event | any) => {
+  const HandleMouseMove = (e: Event | any): void => {
     if (drawing && shape.length === 0) {
       canvas.lineWidth = penWidth;
       canvas.strokeStyle = penColor;
@@ -54,7 +56,7 @@ const Canvas = (props: any) => {
     }
   };
 
-  const HandleTouchMove = (e: Event | any) => {
+  const HandleTouchMove = (e: Event | any): void => {
     if (drawing) {
       canvas.lineWidth = penWidth;
       canvas.strokeStyle = penColor;
@@ -74,7 +76,7 @@ const Canvas = (props: any) => {
     }
   };
 
-  const HandleMouseDown = (e: Event | any) => {
+  const HandleMouseDown = (e: Event | any): void => {
     setDrawing(true);
     setCanvas(e.target.getContext("2d"));
     setRect(e.target.getBoundingClientRect());
@@ -94,7 +96,7 @@ const Canvas = (props: any) => {
     }
   };
 
-  const HandleTouchStart = (e: Event | any) => {
+  const HandleTouchStart = (e: Event | any): void => {
     setDrawing(true);
     setCanvas(e.target.getContext("2d"));
     setRect(e.target.getBoundingClientRect());
@@ -116,7 +118,7 @@ const Canvas = (props: any) => {
     console.log(pos);
   };
 
-  const restoreDraw = (item: any, type: string) => {
+  const restoreDraw = (item: any, type: string): void => {
     canvas.beginPath();
     switch (type) {
       case "fa-square":
@@ -148,13 +150,13 @@ const Canvas = (props: any) => {
     }
   };
 
-  const clearCanvas = () => {
+  const clearCanvas = (): void => {
     canvas.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
   };
 
-  const drawRect = () => {
+  const drawRect = (): void => {
     clearCanvas();
-    existingShapes.forEach((el: any) => {
+    existingShapes.forEach((el: existShapeTypes) => {
       restoreDraw(el, el.shape);
     });
     backUp ? canvas.putImageData(backUp, 0, 0) : 0;
@@ -164,9 +166,9 @@ const Canvas = (props: any) => {
     canvas.strokeRect(pos.x1, pos.y1, pos.x2 - pos.x1, pos.y2 - pos.y1);
   };
 
-  const drawLine = () => {
+  const drawLine = (): void => {
     clearCanvas();
-    existingShapes.forEach((el: any) => {
+    existingShapes.forEach((el: existShapeTypes) => {
       restoreDraw(el, el.shape);
     });
     backUp ? canvas.putImageData(backUp, 0, 0) : 0;
@@ -178,9 +180,9 @@ const Canvas = (props: any) => {
     canvas.stroke();
   };
 
-  const drawCircle = () => {
+  const drawCircle = (): void => {
     clearCanvas();
-    existingShapes.forEach((el: any) => {
+    existingShapes.forEach((el: existShapeTypes) => {
       restoreDraw(el, el.shape);
     });
     backUp ? canvas.putImageData(backUp, 0, 0) : 0;
@@ -239,4 +241,4 @@ const Canvas = (props: any) => {
   );
 };
 
-export default React.memo(Canvas);
+export default memo(Canvas);

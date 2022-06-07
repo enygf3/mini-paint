@@ -17,8 +17,6 @@ import {
 
 import { Link, useNavigate } from "react-router-dom";
 
-import { getAuth } from "firebase/auth";
-
 import Canvas from "../../core/components/Canvas/Canvas";
 import { useDispatch } from "react-redux";
 import {
@@ -30,7 +28,7 @@ import {
   SIGN_OUT,
 } from "../../core/actions/actions";
 
-import { useState, useRef, RefObject, useEffect, useMemo } from "react";
+import { useState, useRef, RefObject, useEffect } from "react";
 
 import { CirclePicker } from "react-color";
 
@@ -61,25 +59,25 @@ const NewPage = () => {
     });
   };
 
-  const SignOut = () => {
+  const SignOut = (): void => {
     dispatch({ type: SIGN_OUT });
     navigate("/login");
   };
 
-  const openPenSettings = () => {
+  const openPenSettings = (): void => {
     penSettings.current.classList.toggle("active");
     if (newShape.length > 0) {
       setShape("");
     }
   };
 
-  const openColorSettings = () => {
+  const openColorSettings = (): void => {
     colorSettings.current.classList.toggle("active");
   };
 
-  const handleShape = () => {
-    Array.from(shapesSettings.current.children).forEach(
-      (el: any) =>
+  const handleShape = (): void => {
+    Array.from<HTMLDivElement>(shapesSettings.current.children).forEach(
+      (el) =>
         (el.onclick = () => {
           setShape(el.classList[1]);
           shapesSettings.current.classList.toggle("active");
@@ -87,12 +85,12 @@ const NewPage = () => {
     );
   };
 
-  const openShapesSettings = () => {
+  const openShapesSettings = (): void => {
     shapesSettings.current.classList.toggle("active");
     handleShape();
   };
 
-  const dispatchPenWidth = () => {
+  const dispatchPenWidth = (): void => {
     dispatch({
       type: SET_PEN_WIDTH,
       payload: {
@@ -103,7 +101,7 @@ const NewPage = () => {
     penSettings.current.classList.toggle("active");
   };
 
-  const dispatchColor = () => {
+  const dispatchColor = (): void => {
     dispatch({
       type: SET_PEN_COLOR,
       payload: {
@@ -114,11 +112,15 @@ const NewPage = () => {
     colorSettings.current.classList.toggle("active");
   };
 
-  const handle = (clr: any) => {
+  interface colorType {
+    hex: string;
+  }
+
+  const handle = (clr: colorType): void => {
     setColor(clr.hex);
   };
 
-  const dispatchErase = () => {
+  const dispatchErase = (): void => {
     dispatch({
       type: ERASE,
       payload: {

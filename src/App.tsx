@@ -10,16 +10,20 @@ import HomePage from "./pages/HomePage/HomePage";
 import "./assets/sass/App.sass";
 
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { ReactElement, useEffect } from "react";
 
 import Loader from "./core/components/Loader/Loader";
 
-import { SET_STATE_SIGNED_IN, SIGN_IN } from "./core/actions/actions";
+import { SET_STATE_SIGNED_IN } from "./core/actions/actions";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 
-const PrivateWrapper = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
+const PrivateWrapper = ({
+  isLoggedIn,
+}: {
+  isLoggedIn: boolean;
+}): ReactElement => {
   return isLoggedIn ? <Outlet /> : <Navigate to="/login" />;
 };
 
