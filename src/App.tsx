@@ -28,12 +28,6 @@ const App = () => {
   const [user, loading] = useAuthState(getAuth());
 
   useEffect(() => {
-    if (!user && !loading) {
-      dispatch({
-        type: SIGN_IN,
-      });
-    }
-
     if (user && !loading) {
       dispatch({
         type: SET_STATE_SIGNED_IN,

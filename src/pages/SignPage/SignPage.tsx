@@ -7,14 +7,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 
 import { SIGN_IN } from "../../core/actions/actions";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { getAuth } from "firebase/auth";
+import { useEffect } from "react";
 
 const SignPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const isLoggedIn: boolean = useSelector(
-    (state: any) => state.auth.isLoggedIn
-  );
+  const [user, loading] = useAuthState(getAuth());
 
   const signUpGoogle = async () => {
     dispatch({
@@ -22,7 +23,14 @@ const SignPage = () => {
     });
     await navigate("/");
   };
-  return !isLoggedIn ? (
+
+  useEffect(() => {
+    if (user && !loading) {
+      navigate("/");
+    }
+  }, [loading, user]);
+
+  return (
     <main>
       <h3 className="page-title">Please, sign in</h3>
       <div className="page-forms">
@@ -34,8 +42,6 @@ const SignPage = () => {
         </span>
       </div>
     </main>
-  ) : (
-    <Navigate to={`/`} />
   );
 };
 

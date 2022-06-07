@@ -27,6 +27,7 @@ import {
   SET_PEN_COLOR,
   SET_SHAPE,
   ERASE,
+  SIGN_OUT,
 } from "../../core/actions/actions";
 
 import { useState, useRef, RefObject, useEffect, useMemo } from "react";
@@ -61,12 +62,7 @@ const NewPage = () => {
   };
 
   const SignOut = () => {
-    getAuth()
-      .signOut()
-      .then((res) => {
-        console.log(res);
-      });
-
+    dispatch({ type: SIGN_OUT });
     navigate("/login");
   };
 
