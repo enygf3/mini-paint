@@ -43,8 +43,8 @@ const NewPage = () => {
   const shapesSettings: RefObject<any> = useRef(null);
 
   const canvas = {
-    width: window.innerWidth - 60,
-    height: window.innerHeight - 10,
+    width: 300,
+    height: 400,
     func: setImg,
   };
 
