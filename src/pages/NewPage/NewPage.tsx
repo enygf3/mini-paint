@@ -3,8 +3,6 @@ import { Slider, Button } from "@mui/material";
 import {
   faRightFromBracket,
   faFloppyDisk,
-  faMinus,
-  faPlus,
   faHouseUser,
   faShapes,
   faEraser,
@@ -181,15 +179,6 @@ const NewPage = () => {
         <FontAwesomeIcon icon={faCircle} />
       </div>
       <Canvas props={canvas} />
-      <div className="main-zoom zoom">
-        <button>
-          <FontAwesomeIcon icon={faPlus} />
-        </button>
-        <p>100%</p>
-        <button>
-          <FontAwesomeIcon icon={faMinus} />
-        </button>
-      </div>
       <nav>
         <button className="nav-btn" onClick={openPenSettings}>
           <FontAwesomeIcon icon={faPen} />
