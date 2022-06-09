@@ -32,7 +32,7 @@ const Canvas = (props: any) => {
     canvas.lineWidth = penWidth;
     const data = canvasRef.current.toDataURL();
     props.props.func(data);
-    console.log(data);
+
     if (shape.length > 0) {
       setExistingShapes([...existingShapes, { shape, pos }]);
     }
@@ -114,8 +114,6 @@ const Canvas = (props: any) => {
       canvas.strokeStyle = penColor;
       canvas.beginPath();
     }
-
-    console.log(pos);
   };
 
   const restoreDraw = (item: any, type: string): void => {

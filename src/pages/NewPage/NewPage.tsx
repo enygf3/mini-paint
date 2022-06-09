@@ -42,9 +42,11 @@ const NewPage = () => {
   const colorSettings: RefObject<any> = useRef(null);
   const shapesSettings: RefObject<any> = useRef(null);
 
+  const isDesktop: boolean = window.innerWidth > 768;
+
   const canvas = {
-    width: 300,
-    height: 400,
+    width: isDesktop ? 500 : 300,
+    height: isDesktop ? 700 : 500,
     func: setImg,
   };
 

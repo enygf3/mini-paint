@@ -22,11 +22,9 @@ export function* getAllImgWorker(payload: any): Generator {
   const Images = {
     images: getDB(payload.payload.images),
   };
-  console.log(payload.payload.images);
   try {
     yield put(getDBImagesSucceed(Images.images));
   } catch (error) {
-    console.log(error);
     yield put(getDBImagesFailed());
   }
 }
