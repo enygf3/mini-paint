@@ -37,6 +37,7 @@ const NewPage = () => {
   const [color, setColor] = useState<string>("#000");
   const [penWidth, setPenWidth] = useState<number>(1);
   const [newShape, setShape] = useState<string>("");
+  const [saved, setSaved] = useState<boolean>(false);
 
   const penSettings: RefObject<any> = useRef(null);
   const colorSettings: RefObject<any> = useRef(null);
@@ -51,6 +52,8 @@ const NewPage = () => {
   };
 
   const getImg = () => {
+    setSaved(true);
+    setTimeout(setSaved, 1500, false);
     dispatch({
       type: GET_IMAGE_DATA,
       payload: {
@@ -206,6 +209,13 @@ const NewPage = () => {
           <FontAwesomeIcon icon={faRightFromBracket} />
         </button>
       </nav>
+      {saved ? (
+        <div className="main-block notification">
+          <p>You've succesfully saved the image!</p>
+        </div>
+      ) : (
+        0
+      )}
     </main>
   );
 };
