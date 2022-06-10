@@ -13,10 +13,18 @@ import {
   limit,
   orderBy,
   startAfter,
+  where,
 } from "firebase/firestore";
+
+import "swiper/css";
+import "swiper/css/free-mode";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode } from "swiper";
 
 const HomePage = () => {
   const dispatch = useDispatch();
+  const time = Math.floor(new Date().getTime() / 1000) - 600;
 
   const [start, setStart] = useState(0);
   const imagesCollection =
@@ -28,6 +36,14 @@ const HomePage = () => {
           limit(5)
         )
       : query(collection(db, "images"), orderBy("createdAt", "desc"), limit(5));
+
+  const recentQuery = query(
+    collection(db, "images"),
+    where("createdAt", ">", time),
+    limit(5)
+  );
+  const [recentImages, recentLoading] = useCollectionData<any>(recentQuery);
+
   const [imagesDB, loading] = useCollectionData<any>(imagesCollection);
   const [fetch, setFetch] = useState(true);
   const [images, setImages] = useState<any>([]);
@@ -68,7 +84,30 @@ const HomePage = () => {
     <main className="home">
       <div className="home-recent heading">
         <h3 className="recent-title title">Recent images</h3>
-        <div className="recent-items items"></div>
+        <div className="recent-items">
+          <Swiper
+            freeMode={true}
+            className="recent-slider"
+            modules={[FreeMode]}
+            slidesPerView={"auto"}
+            spaceBetween={10}
+            centeredSlides={true}
+          >
+            {!recentLoading
+              ? recentImages?.map((item) => {
+                  return (
+                    <SwiperSlide key={recentImages.indexOf(item)}>
+                      <img
+                        className="recent-item item"
+                        src={item.data}
+                        key={recentImages.indexOf(item)}
+                      />
+                    </SwiperSlide>
+                  );
+                })
+              : 0}
+          </Swiper>
+        </div>
       </div>
       <div className="home-heading">
         <h3 className="gallery-title title">Paint Gallery</h3>
