@@ -66,6 +66,10 @@ const HomePage = () => {
 
   return (
     <main className="home">
+      <div className="home-recent heading">
+        <h3 className="recent-title title">Recent images</h3>
+        <div className="recent-items items"></div>
+      </div>
       <div className="home-heading">
         <h3 className="gallery-title title">Paint Gallery</h3>
         <input type="text" placeholder="Type to search..." />
