@@ -39,9 +39,9 @@ const NewPage = () => {
   const [newShape, setShape] = useState<string>("");
   const [saved, setSaved] = useState<boolean>(false);
 
-  const penSettings: RefObject<any> = useRef(null);
-  const colorSettings: RefObject<any> = useRef(null);
-  const shapesSettings: RefObject<any> = useRef(null);
+  const penSettings: RefObject<HTMLDivElement> = useRef(null);
+  const colorSettings: RefObject<HTMLDivElement> = useRef(null);
+  const shapesSettings: RefObject<HTMLDivElement> = useRef(null);
 
   const isDesktop: boolean = window.innerWidth > 768;
 
@@ -68,28 +68,38 @@ const NewPage = () => {
   };
 
   const openPenSettings = (): void => {
-    penSettings.current.classList.toggle("active");
+    penSettings.current ? penSettings.current.classList.toggle("active") : 0;
     if (newShape.length > 0) {
       setShape("");
     }
   };
 
   const openColorSettings = (): void => {
-    colorSettings.current.classList.toggle("active");
+    colorSettings.current
+      ? colorSettings.current.classList.toggle("active")
+      : 0;
   };
 
   const handleShape = (): void => {
-    Array.from<HTMLDivElement>(shapesSettings.current.children).forEach(
-      (el) =>
-        (el.onclick = () => {
-          setShape(el.classList[1]);
-          shapesSettings.current.classList.toggle("active");
-        })
-    );
+    shapesSettings.current
+      ? Array.from<HTMLDivElement>(
+          shapesSettings.current.children as Iterable<HTMLDivElement>
+        ).forEach(
+          (el) =>
+            (el.onclick = () => {
+              setShape(el.classList[1]);
+              shapesSettings.current
+                ? shapesSettings.current.classList.toggle("active")
+                : 0;
+            })
+        )
+      : 0;
   };
 
   const openShapesSettings = (): void => {
-    shapesSettings.current.classList.toggle("active");
+    shapesSettings.current
+      ? shapesSettings.current.classList.toggle("active")
+      : 0;
     handleShape();
   };
 
@@ -101,7 +111,7 @@ const NewPage = () => {
       },
     });
 
-    penSettings.current.classList.toggle("active");
+    penSettings.current ? penSettings.current.classList.toggle("active") : 0;
   };
 
   const dispatchColor = (): void => {
@@ -112,7 +122,9 @@ const NewPage = () => {
       },
     });
 
-    colorSettings.current.classList.toggle("active");
+    colorSettings.current
+      ? colorSettings.current.classList.toggle("active")
+      : 0;
   };
 
   interface colorType {
@@ -140,6 +152,10 @@ const NewPage = () => {
       },
     });
   }, [newShape]);
+
+  useEffect(() => {
+    return window.clearTimeout();
+  }, []);
 
   return (
     <main>
@@ -183,7 +199,7 @@ const NewPage = () => {
         <FontAwesomeIcon icon={faGripLines} />
         <FontAwesomeIcon icon={faCircle} />
       </div>
-      <Canvas props={canvas} />
+      <Canvas {...canvas} />
       <nav>
         <button className="nav-btn" onClick={openPenSettings}>
           <FontAwesomeIcon icon={faPen} />

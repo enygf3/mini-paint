@@ -1,9 +1,18 @@
-import * as React from "react";
-import { RefObject, useEffect, useRef, useState, memo } from "react";
+import {
+  RefObject,
+  useEffect,
+  useRef,
+  useState,
+  memo,
+  Dispatch,
+  FC,
+} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ERASE } from "../../actions/actions";
 
-const Canvas = (props: any) => {
+import { existShapeTypes, props } from "./types/types";
+
+const Canvas: FC<props> = ({ width, height, func }: props) => {
   const canvasRef: RefObject<any> = useRef(null);
   const dispatch = useDispatch();
 
@@ -22,16 +31,12 @@ const Canvas = (props: any) => {
   const [existingShapes, setExistingShapes] = useState<any>([]);
   const [backUp, setBackUp] = useState<any>(null);
 
-  interface existShapeTypes {
-    shape: string;
-  }
-
   const HandleMouseUp = (): void => {
     setDrawing(false);
     canvas.strokeStyle = penColor;
     canvas.lineWidth = penWidth;
     const data = canvasRef.current.toDataURL();
-    props.props.func(data);
+    func(data);
 
     if (shape.length > 0) {
       setExistingShapes([...existingShapes, { shape, pos }]);
@@ -227,8 +232,8 @@ const Canvas = (props: any) => {
   return (
     <canvas
       ref={canvasRef}
-      width={props.props.width}
-      height={props.props.height}
+      width={width}
+      height={height}
       onMouseDown={HandleMouseDown}
       onMouseUp={HandleMouseUp}
       onMouseMove={HandleMouseMove}

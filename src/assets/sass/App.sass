@@ -55,6 +55,7 @@ html, body
   width: 100%
   height: 100%
   background: #000
+  color: #fff
 
 main
   width: 100%
@@ -90,10 +91,10 @@ button, input
 .page-form
   width: 250px
   height: 50px
-  margin: 0px 0px 5px 0px
+  margin: 0 0 5px 0
   cursor: pointer
   @include paragraph
-  padding-top: 0px
+  padding-top: 0
   border: none
 
 .google
@@ -141,6 +142,7 @@ canvas
   top: 15px
   right: 15px
   border-radius: 15px
+
   p
     @include paragraph
 
@@ -173,7 +175,7 @@ input
 
 .title
   @include heading
-  margin: 0px
+  margin: 0
 
 .items
   @include flexColumn
@@ -201,6 +203,9 @@ input
   margin-top: 25px
   margin-left: 15px
   width: calc(100% - 15px)
+
+  p
+    @include paragraph
 
 .recent-items
   @include flexRow

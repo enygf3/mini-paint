@@ -1,4 +1,4 @@
-import firebase from "../../components/firebase/firebase";
+import firebase from "../../configs/firebase/firebase";
 
 export const signInUser = async (): Promise<firebase.auth.UserCredential> => {
   const provider = new firebase.auth.GoogleAuthProvider();

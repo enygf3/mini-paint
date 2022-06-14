@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
-import "firebase/compat/auth";
 import { useDispatch } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
@@ -21,7 +20,7 @@ const SignPage = () => {
     dispatch({
       type: SIGN_IN,
     });
-    await navigate("/");
+    navigate("/");
   };
 
   useEffect(() => {

@@ -2,19 +2,9 @@ import { faPenRuler } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { GET_DB_IMAGES } from "../../core/actions/actions";
-import { firestore as db } from "../../core/components/firebase/firebase";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import {
-  collection,
-  query,
-  limit,
-  orderBy,
-  startAfter,
-  where,
-} from "firebase/firestore";
 
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -24,29 +14,20 @@ import { FreeMode } from "swiper";
 
 const HomePage = () => {
   const dispatch = useDispatch();
-  const time = Math.floor(new Date().getTime() / 1000) - 600;
 
+  const loading = useSelector((state: any) => state.images.loading);
+  const imagesDB = useSelector((state: any) => state.images.images);
+  const recentImages = useSelector((state: any) => state.images.recentImages);
   const [start, setStart] = useState(0);
-  const imagesCollection =
-    start !== 0
-      ? query(
-          collection(db, "images"),
-          orderBy("createdAt", "desc"),
-          startAfter(start),
-          limit(5)
-        )
-      : query(collection(db, "images"), orderBy("createdAt", "desc"), limit(5));
 
-  const recentQuery = query(
-    collection(db, "images"),
-    where("createdAt", ">", time),
-    limit(5)
-  );
-  const [recentImages, recentLoading] = useCollectionData<any>(recentQuery);
-
-  const [imagesDB, loading] = useCollectionData<any>(imagesCollection);
   const [fetch, setFetch] = useState(true);
-  const [images, setImages] = useState<any>([]);
+  const [images, setImages] = useState<any>(imagesDB);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     if (imagesDB) {
@@ -55,15 +36,22 @@ const HomePage = () => {
   }, [imagesDB]);
 
   useEffect(() => {
-    if (!loading && fetch) {
-      images[images.length - 1]?.createdAt
-        ? setStart(images[images.length - 1]?.createdAt)
-        : 0;
-      dispatch({ type: GET_DB_IMAGES, payload: { images: images } });
+    if (fetch) {
+      // images[images.length - 1]?.createdAt
+      //   ? setStart(images[images.length - 1]?.createdAt)
+      //   : 0;
+      dispatch({
+        type: GET_DB_IMAGES,
+        payload: {
+          start: images[images.length - 1]?.createdAt
+            ? images[images.length - 1]?.createdAt
+            : 0,
+        },
+      });
     }
-  }, [fetch, loading]);
+  }, [fetch]);
 
-  const HandleScroll = (e: Event | any) => {
+  function handleScroll(e: any) {
     if (
       window.innerHeight + e.target.documentElement.scrollTop >=
       e.target.documentElement.scrollHeight - 150
@@ -72,13 +60,7 @@ const HomePage = () => {
     } else {
       setFetch(false);
     }
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", HandleScroll);
-
-    return () => window.removeEventListener("scroll", HandleScroll);
-  }, []);
+  }
 
   return (
     <main className="home">
@@ -93,25 +75,27 @@ const HomePage = () => {
             spaceBetween={10}
             centeredSlides={true}
           >
-            {!recentLoading
-              ? recentImages?.map((item) => {
-                  return (
-                    <SwiperSlide key={recentImages.indexOf(item)}>
-                      <img
-                        className="recent-item item"
-                        src={item.data}
-                        key={recentImages.indexOf(item)}
-                      />
-                    </SwiperSlide>
-                  );
-                })
-              : 0}
+            {/*{recentImages?.map((item: any) => {*/}
+            {/*  return (*/}
+            {/*    <SwiperSlide key={recentImages.indexOf(item)}>*/}
+            {/*      <img*/}
+            {/*        className="recent-item item"*/}
+            {/*        src={item.data}*/}
+            {/*        key={recentImages.indexOf(item)}*/}
+            {/*      />*/}
+            {/*    </SwiperSlide>*/}
+            {/*  );*/}
+            {/*})}*/}
           </Swiper>
         </div>
       </div>
       <div className="home-heading">
         <h3 className="gallery-title title">Paint Gallery</h3>
-        <input type="text" placeholder="Type to search..." />
+        <input
+          type="text"
+          placeholder="Type to search..."
+          // onChange={getUserInput}
+        />
       </div>
       <div className="gallery-items items">
         {images
@@ -135,4 +119,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default React.memo(HomePage);
