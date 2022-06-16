@@ -1,0 +1,37 @@
+@mixin flexColumn
+  display: flex
+  flex-direction: column
+  flex-wrap: nowrap
+  align-items: center
+  justify-content: space-evenly
+
+@mixin flexRow
+  display: flex
+  flex-direction: row
+  flex-wrap: nowrap
+  align-items: center
+  justify-content: space-evenly
+
+@mixin heading
+  color: #fff
+  font-family: Arial, Helvetica, sans-serif
+  font-size: 22px
+  position: relative
+
+@mixin paragraph
+  color: #fff
+  font-family: Arial, Helvetica, sans-serif
+  font-size: 18px
+  position: relative
+  margin-top: 10px
+  text-align: center
+
+@mixin absoluteAlign
+  position: absolute
+  left: 50%
+  top: 0
+  transform: translate(-50%, -50%)
+
+$settingWidth: 300px
+$settingHeight: 150px
+$settingBg: #000
