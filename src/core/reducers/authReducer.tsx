@@ -2,7 +2,7 @@ import {
   SET_STATE_SIGNED_IN,
   SIGN_IN,
   SIGN_IN_FAILED,
-} from "../../actions/actions";
+} from "../actions/actions";
 import { AnyAction } from "redux";
 
 const initialState = {

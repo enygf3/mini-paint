@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
 import { getAuth } from "firebase/auth";
 import { ReactElement, useEffect } from "react";
-import { SET_STATE_SIGNED_IN } from "../../actions/actions";
-import Loader from "../Loader/Loader";
+import { SET_STATE_SIGNED_IN } from "../actions/actions";
+import Loader from "./Loader";
 import * as React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Navigate, Outlet } from "react-router-dom";

@@ -16,14 +16,14 @@ import {
   GET_DB_IMAGES,
   GET_RECENT_IMAGES,
   GET_USER_IMGS,
-} from "../../core/actions/actions";
+} from "../core/actions/actions";
 
 import "swiper/css";
 import "swiper/css/free-mode";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper";
-import { State, Images } from "../types/types";
+import { State, Images } from "./types";
 
 const HomePage = () => {
   const dispatch = useDispatch();

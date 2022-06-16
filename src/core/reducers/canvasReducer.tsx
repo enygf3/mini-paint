@@ -7,7 +7,7 @@ import {
   ERASE,
   SAVE_IMG,
   SAVE_IMG_FAILED,
-} from "../../actions/actions";
+} from "../actions/actions";
 import { AnyAction } from "redux";
 
 export interface editorState {

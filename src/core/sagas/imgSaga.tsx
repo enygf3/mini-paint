@@ -4,13 +4,13 @@ import {
   GET_IMAGE_DATA,
   GET_RECENT_IMAGES,
   GET_USER_IMGS,
-} from "../../actions/actions";
+} from "../actions/actions";
 import {
   save,
   getRecentImgs,
   getImages,
   getUserImgs,
-} from "../../service/firebaseImg/firebaseImg";
+} from "../service/firebaseImg";
 import {
   saveImgSucceed,
   saveImgFailed,
@@ -20,7 +20,7 @@ import {
   getRecentImgsFailed,
   getUserImgsSucceed,
   getUserImgsFailed,
-} from "../../actions/actionsImg/actionsImg";
+} from "../actions/actionsImg";
 
 export function* imgWorker(payload: any): Generator {
   try {

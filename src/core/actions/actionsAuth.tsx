@@ -3,7 +3,7 @@ import {
   SIGN_IN_FAILED,
   SET_STATE_SIGNED_OUT,
   SIGN_OUT_FAILED,
-} from "../actions";
+} from "./actions";
 
 export const signInUserSucceed = (
   user: object

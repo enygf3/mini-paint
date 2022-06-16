@@ -1,15 +1,12 @@
 import { takeEvery, put, call, all } from "@redux-saga/core/effects";
-import { SIGN_IN, SIGN_OUT } from "../../actions/actions";
-import {
-  signInUser,
-  signOutUser,
-} from "../../service/firebaseAuth/firebaseAuth";
+import { SIGN_IN, SIGN_OUT } from "../actions/actions";
+import { signInUser, signOutUser } from "../service/firebaseAuth";
 import {
   signInUserSucceed,
   signInUserFailed,
   signOutUserSucceed,
   signOutUserFailed,
-} from "../../actions/actionsAuth/actionsAuth";
+} from "../actions/actionsAuth";
 
 export function* signInWorker(): Generator {
   const User: { user: object } = {

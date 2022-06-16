@@ -5,7 +5,7 @@ import {
   GET_USER_IMGS_FAILED,
   GET_USER_IMGS_SUCCEED,
   CLEAR_STATE,
-} from "../../actions/actions";
+} from "../actions/actions";
 import { AnyAction } from "redux";
 
 const initialState = {

@@ -1,4 +1,4 @@
-import { firestore as db } from "../../configs/firebase/firebase";
+import { firestore as db } from "../configs/firebase";
 import { getAuth } from "firebase/auth";
 import {
   Timestamp,

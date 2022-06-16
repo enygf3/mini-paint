@@ -7,7 +7,7 @@ import {
   GET_RECENT_IMAGES_FAILED,
   GET_USER_IMGS_SUCCEED,
   GET_USER_IMGS_FAILED,
-} from "../actions";
+} from "./actions";
 
 export const saveImgSucceed = (img: string) => {
   return {
