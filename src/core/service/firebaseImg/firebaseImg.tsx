@@ -22,7 +22,7 @@ export const save = async (data: string) => {
 };
 
 export const getImages = async (start: number) => {
-  const result: Array<any> = [];
+  const result: Array<object> = [];
   const imgQuery =
     start !== 0
       ? query(
@@ -40,7 +40,7 @@ export const getImages = async (start: number) => {
 };
 
 export const getUserImgs = async (user: string) => {
-  const result: any[] = [];
+  const result: Array<object> = [];
   const inputQuery = query(collection(db, "images"), where("user", "==", user));
   const images: any = await getDocs<any>(inputQuery);
   images.forEach((doc: any) => {
@@ -51,7 +51,7 @@ export const getUserImgs = async (user: string) => {
 
 export const getRecentImgs = async () => {
   const time = Math.floor(new Date().getTime() / 1000) - 600;
-  const result: any[] = [];
+  const result: Array<object> = [];
   const recentQuery = query(
     collection(db, "images"),
     where("createdAt", ">", time),

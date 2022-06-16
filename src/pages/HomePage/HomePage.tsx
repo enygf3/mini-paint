@@ -23,17 +23,18 @@ import "swiper/css/free-mode";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper";
+import { State, Images } from "../types/types";
 
 const HomePage = () => {
   const dispatch = useDispatch();
-  const imagesDB = useSelector((state: any) => state.images.images);
-  const recentImages = useSelector((state: any) => state.images.recentImages);
-  const userImages = useSelector((state: any) => state.images.userImages);
+  const imagesDB = useSelector((state: State) => state.images.images);
+  const recentImages = useSelector((state: State) => state.images.recentImages);
+  const userImages = useSelector((state: State) => state.images.userImages);
   const galleryRef: RefObject<HTMLDivElement> = useRef(null);
   const userRef: RefObject<HTMLDivElement> = useRef(null);
 
   const [fetch, setFetch] = useState(true);
-  const [images, setImages] = useState<any>(imagesDB);
+  const [images, setImages] = useState(imagesDB);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -64,10 +65,11 @@ const HomePage = () => {
     }
   }, [fetch]);
 
-  function handleScroll(e: any) {
+  function handleScroll(event: any) {
+    const target = event.target as Document;
     if (
-      window.innerHeight + e.target.documentElement.scrollTop >=
-      e.target.documentElement.scrollHeight - 150
+      window.innerHeight + target.documentElement.scrollTop >=
+      target.documentElement.scrollHeight - 150
     ) {
       setFetch(true);
     } else {
@@ -103,13 +105,14 @@ const HomePage = () => {
               spaceBetween={10}
               centeredSlides={true}
             >
-              {recentImages?.map((item: any) => {
+              {recentImages?.map((item: Images) => {
                 return (
                   <SwiperSlide key={recentImages.indexOf(item)}>
                     <img
                       className="recent-item item"
                       src={item.data}
                       key={recentImages.indexOf(item)}
+                      alt=""
                     />
                   </SwiperSlide>
                 );
@@ -133,12 +136,13 @@ const HomePage = () => {
       </div>
       <div className="gallery-items items" ref={galleryRef}>
         {images
-          ? images.map((image: any) => {
+          ? images.map((image: Images) => {
               return (
                 <img
                   className="item"
                   src={image.data}
                   key={images.indexOf(image)}
+                  alt=""
                 />
               );
             })
@@ -150,12 +154,13 @@ const HomePage = () => {
         ) : (
           <h3>Oops! There is no such user's images</h3>
         )}
-        {userImages?.map((image: any) => {
+        {userImages?.map((image: Images) => {
           return (
             <img
               className={"item"}
               src={image.data}
               key={userImages.indexOf(image)}
+              alt=""
             />
           );
         })}

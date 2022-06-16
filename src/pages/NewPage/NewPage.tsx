@@ -15,7 +15,7 @@ import {
 
 import { Link, useNavigate } from "react-router-dom";
 
-import Canvas from "../../core/components/Canvas/Canvas";
+import Canvas from "./components/Canvas/Canvas";
 import { useDispatch } from "react-redux";
 import {
   GET_IMAGE_DATA,
@@ -68,7 +68,7 @@ const NewPage = () => {
   };
 
   const openPenSettings = (): void => {
-    penSettings.current ? penSettings.current.classList.toggle("active") : 0;
+    penSettings.current ? penSettings.current.classList.toggle("active") : null;
     if (newShape.length > 0) {
       setShape("");
     }
@@ -111,7 +111,7 @@ const NewPage = () => {
       },
     });
 
-    penSettings.current ? penSettings.current.classList.toggle("active") : 0;
+    penSettings.current ? penSettings.current.classList.toggle("active") : null;
   };
 
   const dispatchColor = (): void => {
@@ -227,11 +227,9 @@ const NewPage = () => {
       </nav>
       {saved ? (
         <div className="main-block notification">
-          <p>You've succesfully saved the image!</p>
+          <p>You've successfully saved the image!</p>
         </div>
-      ) : (
-        0
-      )}
+      ) : null}
     </main>
   );
 };

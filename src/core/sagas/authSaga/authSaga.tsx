@@ -11,9 +11,9 @@ import {
   signOutUserFailed,
 } from "../../actions/actionsAuth/actionsAuth";
 
-export function* signInWorker() {
-  const User: { user: any } = {
-    user: "",
+export function* signInWorker(): Generator {
+  const User: { user: object } = {
+    user: {},
   };
 
   try {
@@ -27,7 +27,7 @@ export function* signInWorker() {
   }
 }
 
-export function* signOutWorker() {
+export function* signOutWorker(): Generator {
   try {
     yield signOutUser();
     yield put(signOutUserSucceed());
@@ -37,11 +37,11 @@ export function* signOutWorker() {
   }
 }
 
-export function* signOutWatcher() {
+export function* signOutWatcher(): Generator {
   yield takeEvery(SIGN_OUT, signOutWorker);
 }
 
-export function* signInWatcher(): any {
+export function* signInWatcher(): Generator {
   yield takeEvery(SIGN_IN, signInWorker);
 }
 

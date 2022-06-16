@@ -8,12 +8,13 @@ import {
   SAVE_IMG,
   SAVE_IMG_FAILED,
 } from "../../actions/actions";
+import { AnyAction } from "redux";
 
 export interface editorState {
   color: string;
   width: number;
   background: string;
-  canvas: any;
+  canvas: HTMLCanvasElement | null;
   shape: string;
   erase: boolean;
 }
@@ -27,7 +28,7 @@ const initialState: editorState = {
   erase: false,
 };
 
-const authReducer = (state = initialState, action: any) => {
+const authReducer = (state = initialState, action: AnyAction) => {
   switch (action.type) {
     case GET_IMAGE_DATA:
       return {

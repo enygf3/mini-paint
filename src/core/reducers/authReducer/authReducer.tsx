@@ -3,13 +3,14 @@ import {
   SIGN_IN,
   SIGN_IN_FAILED,
 } from "../../actions/actions";
+import { AnyAction } from "redux";
 
 const initialState = {
   isLoggedIn: false,
   user: null,
 };
 
-const authReducer = (state = initialState, action: any) => {
+const authReducer = (state = initialState, action: AnyAction) => {
   switch (action.type) {
     case SIGN_IN:
       return { ...state };

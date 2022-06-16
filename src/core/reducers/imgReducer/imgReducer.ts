@@ -6,6 +6,7 @@ import {
   GET_USER_IMGS_SUCCEED,
   CLEAR_STATE,
 } from "../../actions/actions";
+import { AnyAction } from "redux";
 
 const initialState = {
   images: [],
@@ -16,7 +17,7 @@ const initialState = {
   userImages: [],
 };
 
-const imgReducer = (state = initialState, action: any) => {
+const imgReducer = (state = initialState, action: AnyAction) => {
   switch (action.type) {
     case GET_DB_IMAGES_SUCCEED:
       return {
