@@ -1,6 +1,7 @@
 import { faPenRuler } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import { faFaceSadCry } from "@fortawesome/free-solid-svg-icons";
 
 import { useDispatch, useSelector } from "react-redux";
 import React, {
@@ -41,10 +42,6 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    console.log(recentImages);
-  }, [recentImages]);
-
-  useEffect(() => {
     if (imagesDB) {
       setImages([...images, ...imagesDB]);
     }
@@ -62,10 +59,6 @@ const HomePage = () => {
       });
     }
   }, [fetch]);
-
-  useEffect(() => {
-    console.log(userImages);
-  }, [userImages]);
 
   function handleScroll(e: any) {
     if (
@@ -97,26 +90,33 @@ const HomePage = () => {
       <div className="home-recent heading">
         <h3 className="recent-title title">Recent images</h3>
         <div className="recent-items">
-          <Swiper
-            freeMode={true}
-            className="recent-slider"
-            modules={[FreeMode]}
-            slidesPerView={"auto"}
-            spaceBetween={10}
-            centeredSlides={true}
-          >
-            {recentImages?.map((item: any) => {
-              return (
-                <SwiperSlide key={recentImages.indexOf(item)}>
-                  <img
-                    className="recent-item item"
-                    src={item.data}
-                    key={recentImages.indexOf(item)}
-                  />
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
+          {recentImages.length > 0 ? (
+            <Swiper
+              freeMode={true}
+              className="recent-slider"
+              modules={[FreeMode]}
+              slidesPerView={"auto"}
+              spaceBetween={10}
+              centeredSlides={true}
+            >
+              {recentImages?.map((item: any) => {
+                return (
+                  <SwiperSlide key={recentImages.indexOf(item)}>
+                    <img
+                      className="recent-item item"
+                      src={item.data}
+                      key={recentImages.indexOf(item)}
+                    />
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+          ) : (
+            <div className="no-recent">
+              <FontAwesomeIcon icon={faFaceSadCry} />
+              <p>No recent images</p>
+            </div>
+          )}
         </div>
       </div>
       <div className="home-heading">
@@ -141,7 +141,11 @@ const HomePage = () => {
           : 0}
       </div>
       <div className="user-items items disabled" ref={userRef}>
-        {userImages.length > 0 ? <h3>{userImages[0].user}'s images</h3> : 0}
+        {userImages.length > 0 ? (
+          <h3>{userImages[0].user}'s images</h3>
+        ) : (
+          <h3>Oops! There is no such user's images</h3>
+        )}
         {userImages?.map((image: any) => {
           return (
             <img
