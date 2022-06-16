@@ -1,12 +1,4 @@
-import {
-  RefObject,
-  useEffect,
-  useRef,
-  useState,
-  memo,
-  Dispatch,
-  FC,
-} from "react";
+import { RefObject, useEffect, useRef, useState, memo, FC } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ERASE } from "../../actions/actions";
 

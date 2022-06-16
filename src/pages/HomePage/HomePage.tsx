@@ -141,6 +141,7 @@ const HomePage = () => {
           : 0}
       </div>
       <div className="user-items items disabled" ref={userRef}>
+        {userImages.length > 0 ? <h3>{userImages[0].user}'s images</h3> : 0}
         {userImages?.map((image: any) => {
           return (
             <img
