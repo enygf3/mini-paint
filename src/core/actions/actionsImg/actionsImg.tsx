@@ -7,7 +7,7 @@ import {
   GET_RECENT_IMAGES_FAILED,
 } from "../actions";
 
-export const saveImgSucceed = (img: any) => {
+export const saveImgSucceed = (img: string) => {
   return {
     type: SAVE_IMG,
     payload: img,
@@ -20,7 +20,7 @@ export const saveImgFailed = () => {
   };
 };
 
-export const getDBImagesSucceed = (images: any) => {
+export const getDBImagesSucceed = (images: Array<object>) => {
   return {
     type: GET_DB_IMAGES_SUCCEED,
     payload: images,
@@ -33,7 +33,7 @@ export const getDBImagesFailed = () => {
   };
 };
 
-export const getRecentImgsSucceed = (images: any) => {
+export const getRecentImgsSucceed = (images: Array<object>) => {
   return {
     type: GET_RECENT_IMAGES_SUCCEED,
     payload: images,

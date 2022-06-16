@@ -13,9 +13,8 @@ import { ERASE } from "../../actions/actions";
 import { existShapeTypes, props } from "./types/types";
 
 const Canvas: FC<props> = ({ width, height, func }: props) => {
-  const canvasRef: RefObject<any> = useRef(null);
   const dispatch = useDispatch();
-
+  const canvasRef: RefObject<HTMLCanvasElement> = useRef(null);
   const statePenWidth = useSelector((state: any) => state.canvas.width);
   const statePenColor = useSelector((state: any) => state.canvas.color);
   const stateShape = useSelector((state: any) => state.canvas.shape);
@@ -35,8 +34,10 @@ const Canvas: FC<props> = ({ width, height, func }: props) => {
     setDrawing(false);
     canvas.strokeStyle = penColor;
     canvas.lineWidth = penWidth;
-    const data = canvasRef.current.toDataURL();
-    func(data);
+    const data = canvasRef.current ? canvasRef.current.toDataURL() : 0;
+    if (typeof data === "string") {
+      func(data);
+    }
 
     if (shape.length > 0) {
       setExistingShapes([...existingShapes, { shape, pos }]);
@@ -154,7 +155,12 @@ const Canvas: FC<props> = ({ width, height, func }: props) => {
   };
 
   const clearCanvas = (): void => {
-    canvas.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    canvas.clearRect(
+      0,
+      0,
+      canvasRef.current ? canvasRef.current.width : 0,
+      canvasRef.current ? canvasRef.current.height : 0
+    );
   };
 
   const drawRect = (): void => {
@@ -218,11 +224,13 @@ const Canvas: FC<props> = ({ width, height, func }: props) => {
     }
   }
 
-  if (stateErase) {
-    clearCanvas();
-    setExistingShapes([]);
-    dispatch({ type: ERASE, payload: { erase: false } });
-  }
+  useEffect(() => {
+    if (stateErase) {
+      clearCanvas();
+      setExistingShapes([]);
+      dispatch({ type: ERASE, payload: { erase: false } });
+    }
+  }, [stateErase]);
 
   useEffect(() => {
     setPenWidth(statePenWidth);

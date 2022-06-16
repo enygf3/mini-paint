@@ -1,60 +1,21 @@
 import * as React from "react";
-import { Routes, Route, Navigate, Outlet } from "react-router-dom";
-
+import { Routes, Route } from "react-router-dom";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-
 import SignPage from "./pages/SignPage/SignPage";
 import NewPage from "./pages/NewPage/NewPage";
 import HomePage from "./pages/HomePage/HomePage";
-
 import "./assets/sass/App.sass";
-
-import { useDispatch } from "react-redux";
-import { ReactElement, useEffect } from "react";
-
-import Loader from "./core/components/Loader/Loader";
-
-import { SET_STATE_SIGNED_IN } from "./core/actions/actions";
-
-import { useAuthState } from "react-firebase-hooks/auth";
-import { getAuth } from "firebase/auth";
-
-const PrivateWrapper = ({
-  isLoggedIn,
-}: {
-  isLoggedIn: boolean;
-}): ReactElement => {
-  return isLoggedIn ? <Outlet /> : <Navigate to="/login" />;
-};
+import PrivateWrapper from "./core/components/PrivateWrapper/PrivateWrapper";
 
 const App = () => {
-  const dispatch = useDispatch();
-  const [user, loading] = useAuthState(getAuth());
-
-  useEffect(() => {
-    if (user && !loading) {
-      dispatch({
-        type: SET_STATE_SIGNED_IN,
-        payload: {
-          isLoggedIn: true,
-          user: user,
-        },
-      });
-    }
-  }, [loading]);
-
-  if (loading) {
-    return <Loader />;
-  }
-
   return (
     <div className="app">
       <Routes>
-        <Route element={<PrivateWrapper isLoggedIn={!!user} />}>
+        <Route element={<PrivateWrapper />}>
           <Route path="/new" element={<NewPage />} />
         </Route>
         <Route path="/login" element={<SignPage />} />
-        <Route element={<PrivateWrapper isLoggedIn={!!user} />}>
+        <Route element={<PrivateWrapper />}>
           <Route path="/" element={<HomePage />} />
         </Route>
       </Routes>
