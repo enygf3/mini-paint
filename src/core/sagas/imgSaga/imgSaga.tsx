@@ -3,11 +3,13 @@ import {
   GET_DB_IMAGES,
   GET_IMAGE_DATA,
   GET_RECENT_IMAGES,
+  GET_USER_IMGS,
 } from "../../actions/actions";
 import {
   save,
   getRecentImgs,
   getImages,
+  getUserImgs,
 } from "../../service/firebaseImg/firebaseImg";
 import {
   saveImgSucceed,
@@ -16,6 +18,8 @@ import {
   getDBImagesSucceed,
   getRecentImgsSucceed,
   getRecentImgsFailed,
+  getUserImgsSucceed,
+  getUserImgsFailed,
 } from "../../actions/actionsImg/actionsImg";
 
 export function* imgWorker(payload: any): Generator {
@@ -57,6 +61,21 @@ export function* getRecentImgsWorker(): Generator {
   }
 }
 
+export function* getUserImgsWorker(payload: any): Generator {
+  const Images = {
+    images: [] as any[],
+  };
+  try {
+    yield getUserImgs(payload.payload.user).then(
+      (res) => (Images.images = res)
+    );
+    yield put(getUserImgsSucceed(Images.images));
+  } catch (error) {
+    console.log(error);
+    yield put(getUserImgsFailed());
+  }
+}
+
 export function* recentWatcher(): Generator {
   yield takeEvery(GET_RECENT_IMAGES, getRecentImgsWorker);
 }
@@ -69,6 +88,15 @@ export function* DBWatcher(): Generator {
   yield takeEvery(GET_DB_IMAGES, getAllImgWorker);
 }
 
+export function* userImgsWatcher(): Generator {
+  yield takeEvery(GET_USER_IMGS, getUserImgsWorker);
+}
+
 export default function* imgSaga(): Generator {
-  yield all([call(imgWatcher), call(DBWatcher), call(recentWatcher)]);
+  yield all([
+    call(imgWatcher),
+    call(DBWatcher),
+    call(recentWatcher),
+    call(userImgsWatcher),
+  ]);
 }

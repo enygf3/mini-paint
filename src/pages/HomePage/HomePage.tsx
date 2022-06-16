@@ -3,8 +3,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
-import { GET_DB_IMAGES, GET_RECENT_IMAGES } from "../../core/actions/actions";
+import React, {
+  ChangeEvent,
+  RefObject,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import {
+  GET_DB_IMAGES,
+  GET_RECENT_IMAGES,
+  GET_USER_IMGS,
+} from "../../core/actions/actions";
 
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -16,6 +26,9 @@ const HomePage = () => {
   const dispatch = useDispatch();
   const imagesDB = useSelector((state: any) => state.images.images);
   const recentImages = useSelector((state: any) => state.images.recentImages);
+  const userImages = useSelector((state: any) => state.images.userImages);
+  const galleryRef: RefObject<HTMLDivElement> = useRef(null);
+  const userRef: RefObject<HTMLDivElement> = useRef(null);
 
   const [fetch, setFetch] = useState(true);
   const [images, setImages] = useState<any>(imagesDB);
@@ -50,6 +63,10 @@ const HomePage = () => {
     }
   }, [fetch]);
 
+  useEffect(() => {
+    console.log(userImages);
+  }, [userImages]);
+
   function handleScroll(e: any) {
     if (
       window.innerHeight + e.target.documentElement.scrollTop >=
@@ -58,6 +75,20 @@ const HomePage = () => {
       setFetch(true);
     } else {
       setFetch(false);
+    }
+  }
+
+  function getUserInput(e: ChangeEvent) {
+    const input = e.target as HTMLInputElement;
+    const gallery = galleryRef.current as HTMLDivElement;
+    const userImages = userRef.current as HTMLDivElement;
+    if (input.value.length >= 3) {
+      gallery.classList.add("disabled");
+      userImages.classList.remove("disabled");
+      dispatch({ type: GET_USER_IMGS, payload: { user: input.value } });
+    } else {
+      gallery.classList.remove("disabled");
+      userImages.classList.add("disabled");
     }
   }
 
@@ -93,10 +124,10 @@ const HomePage = () => {
         <input
           type="text"
           placeholder="Type to search..."
-          // onChange={getUserInput}
+          onChange={getUserInput}
         />
       </div>
-      <div className="gallery-items items">
+      <div className="gallery-items items" ref={galleryRef}>
         {images
           ? images.map((image: any) => {
               return (
@@ -108,6 +139,17 @@ const HomePage = () => {
               );
             })
           : 0}
+      </div>
+      <div className="user-items items disabled" ref={userRef}>
+        {userImages?.map((image: any) => {
+          return (
+            <img
+              className={"item"}
+              src={image.data}
+              key={userImages.indexOf(image)}
+            />
+          );
+        })}
       </div>
       <Link to="/new">
         <button className="main-btn">

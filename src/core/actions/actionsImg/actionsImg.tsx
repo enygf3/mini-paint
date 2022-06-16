@@ -5,6 +5,9 @@ import {
   SAVE_IMG_FAILED,
   GET_RECENT_IMAGES_SUCCEED,
   GET_RECENT_IMAGES_FAILED,
+  GET_USER_IMGS,
+  GET_USER_IMGS_SUCCEED,
+  GET_USER_IMGS_FAILED,
 } from "../actions";
 
 export const saveImgSucceed = (img: string) => {
@@ -43,5 +46,18 @@ export const getRecentImgsSucceed = (images: Array<object>) => {
 export const getRecentImgsFailed = () => {
   return {
     type: GET_RECENT_IMAGES_FAILED,
+  };
+};
+
+export const getUserImgsSucceed = (images: Array<object>) => {
+  return {
+    type: GET_USER_IMGS_SUCCEED,
+    payload: images,
+  };
+};
+
+export const getUserImgsFailed = () => {
+  return {
+    type: GET_USER_IMGS_FAILED,
   };
 };

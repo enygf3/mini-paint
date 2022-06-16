@@ -2,6 +2,8 @@ import {
   GET_DB_IMAGES,
   GET_DB_IMAGES_SUCCEED,
   GET_RECENT_IMAGES_SUCCEED,
+  GET_USER_IMGS_FAILED,
+  GET_USER_IMGS_SUCCEED,
 } from "../../actions/actions";
 
 const initialState = {
@@ -10,6 +12,7 @@ const initialState = {
   start: 0,
   loading: true,
   recentLoading: true,
+  userImages: [],
 };
 
 const imgReducer = (state = initialState, action: any) => {
@@ -31,6 +34,17 @@ const imgReducer = (state = initialState, action: any) => {
         ...state,
         start: state.start + 5,
         loading: true,
+      };
+    case GET_USER_IMGS_SUCCEED:
+      return {
+        ...state,
+        userImages: action.payload,
+        loading: false,
+      };
+    case GET_USER_IMGS_FAILED:
+      return {
+        ...state,
+        loading: false,
       };
     default:
       return state;
