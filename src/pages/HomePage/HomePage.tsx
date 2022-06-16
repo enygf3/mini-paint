@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import { GET_DB_IMAGES } from "../../core/actions/actions";
+import React, { useEffect, useState } from "react";
+import { GET_DB_IMAGES, GET_RECENT_IMAGES } from "../../core/actions/actions";
 
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -14,20 +14,22 @@ import { FreeMode } from "swiper";
 
 const HomePage = () => {
   const dispatch = useDispatch();
-
-  const loading = useSelector((state: any) => state.images.loading);
   const imagesDB = useSelector((state: any) => state.images.images);
   const recentImages = useSelector((state: any) => state.images.recentImages);
-  const [start, setStart] = useState(0);
 
   const [fetch, setFetch] = useState(true);
   const [images, setImages] = useState<any>(imagesDB);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
+    dispatch({ type: GET_RECENT_IMAGES });
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    console.log(recentImages);
+  }, [recentImages]);
 
   useEffect(() => {
     if (imagesDB) {
@@ -37,9 +39,6 @@ const HomePage = () => {
 
   useEffect(() => {
     if (fetch) {
-      // images[images.length - 1]?.createdAt
-      //   ? setStart(images[images.length - 1]?.createdAt)
-      //   : 0;
       dispatch({
         type: GET_DB_IMAGES,
         payload: {
@@ -75,17 +74,17 @@ const HomePage = () => {
             spaceBetween={10}
             centeredSlides={true}
           >
-            {/*{recentImages?.map((item: any) => {*/}
-            {/*  return (*/}
-            {/*    <SwiperSlide key={recentImages.indexOf(item)}>*/}
-            {/*      <img*/}
-            {/*        className="recent-item item"*/}
-            {/*        src={item.data}*/}
-            {/*        key={recentImages.indexOf(item)}*/}
-            {/*      />*/}
-            {/*    </SwiperSlide>*/}
-            {/*  );*/}
-            {/*})}*/}
+            {recentImages?.map((item: any) => {
+              return (
+                <SwiperSlide key={recentImages.indexOf(item)}>
+                  <img
+                    className="recent-item item"
+                    src={item.data}
+                    key={recentImages.indexOf(item)}
+                  />
+                </SwiperSlide>
+              );
+            })}
           </Swiper>
         </div>
       </div>
