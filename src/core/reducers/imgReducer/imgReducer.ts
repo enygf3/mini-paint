@@ -4,6 +4,7 @@ import {
   GET_RECENT_IMAGES_SUCCEED,
   GET_USER_IMGS_FAILED,
   GET_USER_IMGS_SUCCEED,
+  CLEAR_STATE,
 } from "../../actions/actions";
 
 const initialState = {
@@ -45,6 +46,15 @@ const imgReducer = (state = initialState, action: any) => {
       return {
         ...state,
         loading: false,
+      };
+    case CLEAR_STATE:
+      return {
+        images: [],
+        recentImages: [],
+        start: 0,
+        loading: true,
+        recentLoading: true,
+        userImages: [],
       };
     default:
       return state;

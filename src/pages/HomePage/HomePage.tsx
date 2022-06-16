@@ -12,6 +12,7 @@ import React, {
   useState,
 } from "react";
 import {
+  CLEAR_STATE,
   GET_DB_IMAGES,
   GET_RECENT_IMAGES,
   GET_USER_IMGS,
@@ -38,7 +39,10 @@ const HomePage = () => {
     window.addEventListener("scroll", handleScroll);
     dispatch({ type: GET_RECENT_IMAGES });
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      dispatch({ type: CLEAR_STATE });
+    };
   }, []);
 
   useEffect(() => {
