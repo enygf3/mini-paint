@@ -45,7 +45,7 @@ const NewPage = () => {
 
   const isDesktop: boolean = window.innerWidth > 768;
 
-  const canvas = {
+  const CanvasProps = {
     width: isDesktop ? 500 : 300,
     height: isDesktop ? 700 : 500,
     func: setImg,
@@ -199,7 +199,7 @@ const NewPage = () => {
         <FontAwesomeIcon icon={faGripLines} />
         <FontAwesomeIcon icon={faCircle} />
       </div>
-      <Canvas {...canvas} />
+      <Canvas {...CanvasProps} />
       <nav>
         <button className="nav-btn" onClick={openPenSettings}>
           <FontAwesomeIcon icon={faPen} />
