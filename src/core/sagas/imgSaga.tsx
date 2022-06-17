@@ -14,7 +14,7 @@ import {
 import {
   saveImgSucceed,
   saveImgFailed,
-  getDBImagesFailed,
+  getDBImagesFail,
   getDBImagesSucceed,
   getRecentImgsSucceed,
   getRecentImgsFailed,
@@ -45,7 +45,7 @@ export function* getAllImgWorker(payload: any): Generator {
     yield put(getDBImagesSucceed(Images.images));
   } catch (error) {
     console.log(error);
-    yield put(getDBImagesFailed());
+    yield put(getDBImagesFail());
   }
 }
 

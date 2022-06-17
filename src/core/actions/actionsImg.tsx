@@ -1,62 +1,42 @@
 import {
-  GET_DB_IMAGES_SUCCEED,
-  GET_DB_IMAGES_FAILED,
-  SAVE_IMG,
-  SAVE_IMG_FAILED,
-  GET_RECENT_IMAGES_SUCCEED,
-  GET_RECENT_IMAGES_FAILED,
-  GET_USER_IMGS_SUCCEED,
-  GET_USER_IMGS_FAILED,
-} from "./actions";
+  saveImageSuccess,
+  saveImageFailed,
+  getDBImagesSuccess,
+  getDBImagesFailed,
+  getUserImagesSuccess,
+  getUserImagesFailed,
+  getRecentImagesFailed,
+  getRecentImagesSuccess,
+} from "./actionCreators";
 
 export const saveImgSucceed = (img: string) => {
-  return {
-    type: SAVE_IMG,
-    payload: img,
-  };
+  return saveImageSuccess(img);
 };
 
 export const saveImgFailed = () => {
-  return {
-    type: SAVE_IMG_FAILED,
-  };
+  return saveImageFailed();
 };
 
 export const getDBImagesSucceed = (images: Array<object>) => {
-  return {
-    type: GET_DB_IMAGES_SUCCEED,
-    payload: images,
-  };
+  return getDBImagesSuccess(images);
 };
 
-export const getDBImagesFailed = () => {
-  return {
-    type: GET_DB_IMAGES_FAILED,
-  };
+export const getDBImagesFail = () => {
+  return getDBImagesFailed();
 };
 
 export const getRecentImgsSucceed = (images: Array<object>) => {
-  return {
-    type: GET_RECENT_IMAGES_SUCCEED,
-    payload: images,
-  };
+  return getRecentImagesSuccess(images);
 };
 
 export const getRecentImgsFailed = () => {
-  return {
-    type: GET_RECENT_IMAGES_FAILED,
-  };
+  return getRecentImagesFailed();
 };
 
 export const getUserImgsSucceed = (images: Array<object>) => {
-  return {
-    type: GET_USER_IMGS_SUCCEED,
-    payload: images,
-  };
+  return getUserImagesSuccess(images);
 };
 
 export const getUserImgsFailed = () => {
-  return {
-    type: GET_USER_IMGS_FAILED,
-  };
+  return getUserImagesFailed();
 };
