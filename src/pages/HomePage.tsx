@@ -1,29 +1,29 @@
-import { faPenRuler } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
-import { faFaceSadCry } from "@fortawesome/free-solid-svg-icons";
+import { faPenRuler } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
+import { faFaceSadCry } from '@fortawesome/free-solid-svg-icons';
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
 import React, {
   ChangeEvent,
   RefObject,
   useEffect,
   useRef,
   useState,
-} from "react";
+} from 'react';
 import {
   CLEAR_STATE,
   GET_DB_IMAGES,
   GET_RECENT_IMAGES,
   GET_USER_IMGS,
-} from "../core/actions/actions";
+} from '../core/actions/actions';
 
-import "swiper/css";
-import "swiper/css/free-mode";
+import 'swiper/css';
+import 'swiper/css/free-mode';
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode } from "swiper";
-import { State, Images } from "./types";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode } from 'swiper';
+import { State, Images } from './types';
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -37,11 +37,11 @@ const HomePage = () => {
   const [images, setImages] = useState(imagesDB);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
     dispatch({ type: GET_RECENT_IMAGES });
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
       dispatch({ type: CLEAR_STATE });
     };
   }, []);
@@ -69,7 +69,7 @@ const HomePage = () => {
     const target = event.target as Document;
     if (
       window.innerHeight + target.documentElement.scrollTop >=
-      target.documentElement.scrollHeight - 150
+      target.documentElement.scrollHeight - 250
     ) {
       setFetch(true);
     } else {
@@ -82,12 +82,12 @@ const HomePage = () => {
     const gallery = galleryRef.current as HTMLDivElement;
     const userImages = userRef.current as HTMLDivElement;
     if (input.value.length >= 3) {
-      gallery.classList.add("disabled");
-      userImages.classList.remove("disabled");
+      gallery.classList.add('disabled');
+      userImages.classList.remove('disabled');
       dispatch({ type: GET_USER_IMGS, payload: { user: input.value } });
     } else {
-      gallery.classList.remove("disabled");
-      userImages.classList.add("disabled");
+      gallery.classList.remove('disabled');
+      userImages.classList.add('disabled');
     }
   }
 
@@ -101,7 +101,7 @@ const HomePage = () => {
               freeMode={true}
               className="recent-slider"
               modules={[FreeMode]}
-              slidesPerView={"auto"}
+              slidesPerView={'auto'}
               spaceBetween={10}
               centeredSlides={true}
             >
@@ -157,7 +157,7 @@ const HomePage = () => {
         {userImages?.map((image: Images) => {
           return (
             <img
-              className={"item"}
+              className={'item'}
               src={image.data}
               key={userImages.indexOf(image)}
               alt=""

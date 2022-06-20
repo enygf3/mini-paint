@@ -1,14 +1,14 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux';
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
-import { SIGN_IN } from "../core/actions/actions";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { getAuth } from "firebase/auth";
-import { useEffect, memo } from "react";
+import { SIGN_IN } from '../core/actions/actions';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { getAuth } from 'firebase/auth';
+import { useEffect, memo } from 'react';
 
 const SignPage = () => {
   const dispatch = useDispatch();
@@ -20,12 +20,12 @@ const SignPage = () => {
     dispatch({
       type: SIGN_IN,
     });
-    navigate("/");
+    navigate('/');
   };
 
   useEffect(() => {
     if (user && !loading) {
-      navigate("/");
+      navigate('/');
     }
   }, [loading, user]);
 
