@@ -7,11 +7,11 @@ import {
   FC,
   MouseEvent,
   TouchEvent,
-} from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { ERASE } from "../../../../core/actions/actions";
+} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { ERASE } from '../../../../core/actions/actions';
 
-import { Position, Props, Shapes, State } from "../../../types";
+import { Position, Props, Shapes, State } from '../../../types';
 
 const Canvas: FC<Props> = ({ width, height, func }: Props) => {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
   const [penWidth, setPenWidth] = useState<number>(statePenWidth);
   const [penColor, setPenColor] = useState<string>(statePenColor);
   const [pos, setPos] = useState<Position>({ x1: 0, y1: 0, x2: 0, y2: 0 });
-  const [shape, setShape] = useState<string>("");
+  const [shape, setShape] = useState<string>('');
   const [existingShapes, setExistingShapes] = useState<Array<Shapes>>([]);
   const [backUp, setBackUp] = useState<ImageData | null>(null);
 
@@ -36,7 +36,7 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
     canvas ? (canvas.strokeStyle = penColor) : 0;
     canvas ? (canvas.lineWidth = penWidth) : 0;
     const data = canvasRef.current ? canvasRef.current.toDataURL() : 0;
-    if (typeof data === "string") {
+    if (typeof data === 'string') {
       func(data);
     }
 
@@ -92,7 +92,7 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
   const HandleMouseDown = (event: MouseEvent<HTMLCanvasElement>): void => {
     const target = event.target as HTMLCanvasElement;
     setDrawing(true);
-    setCanvas(target.getContext("2d"));
+    setCanvas(target.getContext('2d'));
     setRect(target.getBoundingClientRect());
     if (shape.length > 0) {
       setPos({
@@ -113,14 +113,13 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
   const HandleTouchStart = (event: TouchEvent<HTMLCanvasElement>): void => {
     const target = event.target as HTMLCanvasElement;
     setDrawing(true);
-    setCanvas(target.getContext("2d"));
+    setCanvas(target.getContext('2d'));
     setRect(target.getBoundingClientRect());
     if (shape.length > 0) {
       setPos({
+        ...pos,
         x1: event.touches[0].clientX - target.getBoundingClientRect().x,
         y1: event.touches[0].clientY - target.getBoundingClientRect().y,
-        x2: pos.x2,
-        y2: pos.y2,
       });
     }
     if (canvas) {
@@ -135,7 +134,7 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
     if (canvas) {
       canvas.beginPath();
       switch (type) {
-        case "fa-square":
+        case 'fa-square':
           canvas.strokeRect(
             item.pos.x1,
             item.pos.y1,
@@ -143,11 +142,11 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
             item.pos.y2 - item.pos.y1
           );
           break;
-        case "fa-grip-lines":
+        case 'fa-grip-lines':
           canvas.moveTo(item.pos.x1, item.pos.y1);
           canvas.lineTo(item.pos.x2, item.pos.y2);
           break;
-        case "fa-circle":
+        case 'fa-circle':
           canvas.arc(
             item.pos.x1,
             item.pos.y1,
@@ -229,13 +228,13 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
 
   if (shape.length > 0 && drawing) {
     switch (shape) {
-      case "fa-square":
+      case 'fa-square':
         drawRect();
         break;
-      case "fa-grip-lines":
+      case 'fa-grip-lines':
         drawLine();
         break;
-      case "fa-circle":
+      case 'fa-circle':
         drawCircle();
         break;
       default:

@@ -11,8 +11,9 @@ import {
   getRecentImages,
   getUserImages,
 } from '../actions/actionCreators';
+import { AnyAction } from 'redux';
 
-export function* imgWorker(payload: any): Generator {
+export function* imgWorker(payload: AnyAction): Generator {
   try {
     yield save(payload.payload.canvas);
     yield put(getImage.success(payload.payload.canvas, null));
@@ -22,9 +23,9 @@ export function* imgWorker(payload: any): Generator {
   }
 }
 
-export function* getAllImgWorker(payload: any): Generator {
+export function* getAllImgWorker(payload: AnyAction): Generator {
   const Images = {
-    images: [] as Array<any>,
+    images: [] as Array<object>,
   };
   try {
     yield getImages(payload.payload.start).then((images) => {
@@ -41,7 +42,7 @@ export function* getAllImgWorker(payload: any): Generator {
 
 export function* getRecentImgsWorker(): Generator {
   const Images = {
-    images: [] as Array<any>,
+    images: [] as Array<object>,
   };
   try {
     yield getRecentImgs().then((res) => (Images.images = res));
@@ -51,9 +52,9 @@ export function* getRecentImgsWorker(): Generator {
   }
 }
 
-export function* getUserImgsWorker(payload: any): Generator {
+export function* getUserImgsWorker(payload: AnyAction): Generator {
   const Images = {
-    images: [] as Array<any>,
+    images: [] as Array<object>,
   };
   try {
     yield getUserImgs(payload.payload.user).then(
