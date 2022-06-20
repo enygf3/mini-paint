@@ -1,6 +1,6 @@
-import { takeEvery, put, call, all } from "@redux-saga/core/effects";
-import { signInUser, signOutUser } from "../service/firebaseAuth";
-import { doAuth, doSignOut } from "../actions/actionCreators";
+import { takeEvery, put, call, all } from '@redux-saga/core/effects';
+import { signInUser, signOutUser } from '../service/firebaseAuth';
+import { doAuth, doSignOut } from '../actions/actionCreators';
 
 export function* signInWorker(): Generator {
   const User: { user: object } = {
@@ -13,7 +13,7 @@ export function* signInWorker(): Generator {
     });
     yield put(doAuth.success({ payload: User.user }, null));
   } catch (error) {
-    console.log("authsaga", error);
+    console.log('authsaga', error);
     yield put(doAuth.failure(null, null));
   }
 }

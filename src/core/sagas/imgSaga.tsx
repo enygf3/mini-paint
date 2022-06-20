@@ -1,23 +1,23 @@
-import { takeEvery, put, call, all } from "@redux-saga/core/effects";
+import { takeEvery, put, call, all } from '@redux-saga/core/effects';
 import {
   save,
   getRecentImgs,
   getImages,
   getUserImgs,
-} from "../service/firebaseImg";
+} from '../service/firebaseImg';
 import {
   getDBImages,
   getImage,
   getRecentImages,
   getUserImages,
-} from "../actions/actionCreators";
+} from '../actions/actionCreators';
 
 export function* imgWorker(payload: any): Generator {
   try {
     yield save(payload.payload.canvas);
     yield put(getImage.success(payload.payload.canvas, null));
   } catch (error) {
-    console.log("imgSaga", error);
+    console.log('imgSaga', error);
     yield put(getImage.failure(null, null));
   }
 }

@@ -1,9 +1,4 @@
-import {
-  createAsyncAction,
-  createAction,
-  action,
-  ActionType,
-} from "typesafe-actions";
+import { createAsyncAction, createAction, ActionType } from 'typesafe-actions';
 import {
   GET_DB_IMAGES,
   GET_DB_IMAGES_FAILED,
@@ -29,7 +24,7 @@ import {
   SET_PEN_COLOR,
   SET_SHAPE,
   ERASE,
-} from "./actions";
+} from './actions';
 
 export const getImage = createAsyncAction(
   GET_IMAGE_DATA,

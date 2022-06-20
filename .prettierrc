@@ -1,5 +1,6 @@
 {
   "quoteProps": "preserve",
   "endOfLine": "auto",
-  "useTabs": false
+  "useTabs": false,
+  "singleQuote": true
 }

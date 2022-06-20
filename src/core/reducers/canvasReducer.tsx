@@ -1,5 +1,5 @@
-import { AnyAction } from "redux";
-import { createReducer } from "typesafe-actions";
+import { AnyAction } from 'redux';
+import { createReducer } from 'typesafe-actions';
 import {
   CreatorsType,
   deleteImg,
@@ -10,7 +10,7 @@ import {
   setPenColor,
   setPenWidth,
   setShape,
-} from "../actions/actionCreators";
+} from '../actions/actionCreators';
 
 export interface EditorState {
   color: string;
@@ -22,11 +22,11 @@ export interface EditorState {
 }
 
 const initialState: EditorState = {
-  color: "#000000",
+  color: '#000000',
   width: 1,
-  background: "#ffffff",
+  background: '#ffffff',
   canvas: null,
-  shape: "",
+  shape: '',
   erase: false,
 };
 

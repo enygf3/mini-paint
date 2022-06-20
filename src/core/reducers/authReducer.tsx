@@ -1,6 +1,6 @@
-import { ActionCreator, createReducer } from "typesafe-actions";
-import { doAuth } from "../actions/actionCreators";
-import { AnyAction } from "redux";
+import { ActionCreator, createReducer } from 'typesafe-actions';
+import { doAuth } from '../actions/actionCreators';
+import { AnyAction } from 'redux';
 
 interface State {
   isLoggedIn: boolean;

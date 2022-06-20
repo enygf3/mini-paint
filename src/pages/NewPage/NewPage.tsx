@@ -1,5 +1,5 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Slider, Button } from "@mui/material";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Slider, Button } from '@mui/material';
 import {
   faRightFromBracket,
   faFloppyDisk,
@@ -11,12 +11,12 @@ import {
   faGripLines,
   faSquare,
   faCircle,
-} from "@fortawesome/free-solid-svg-icons";
+} from '@fortawesome/free-solid-svg-icons';
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom';
 
-import Canvas from "./components/Canvas/Canvas";
-import { useDispatch } from "react-redux";
+import Canvas from './components/Canvas/Canvas';
+import { useDispatch } from 'react-redux';
 import {
   GET_IMAGE_DATA,
   SET_PEN_WIDTH,
@@ -24,19 +24,19 @@ import {
   SET_SHAPE,
   ERASE,
   SIGN_OUT,
-} from "../../core/actions/actions";
+} from '../../core/actions/actions';
 
-import { useState, useRef, RefObject, useEffect } from "react";
+import { useState, useRef, RefObject, useEffect, memo } from 'react';
 
-import { CirclePicker } from "react-color";
+import { CirclePicker } from 'react-color';
 
 const NewPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [img, setImg] = useState<string>("");
-  const [color, setColor] = useState<string>("#000");
+  const [img, setImg] = useState<string>('');
+  const [color, setColor] = useState<string>('#000');
   const [penWidth, setPenWidth] = useState<number>(1);
-  const [newShape, setShape] = useState<string>("");
+  const [newShape, setShape] = useState<string>('');
   const [saved, setSaved] = useState<boolean>(false);
 
   const penSettings: RefObject<HTMLDivElement> = useRef(null);
@@ -64,19 +64,19 @@ const NewPage = () => {
 
   const SignOut = (): void => {
     dispatch({ type: SIGN_OUT });
-    navigate("/login");
+    navigate('/login');
   };
 
   const openPenSettings = (): void => {
-    penSettings.current ? penSettings.current.classList.toggle("active") : null;
+    penSettings.current ? penSettings.current.classList.toggle('active') : null;
     if (newShape.length > 0) {
-      setShape("");
+      setShape('');
     }
   };
 
   const openColorSettings = (): void => {
     colorSettings.current
-      ? colorSettings.current.classList.toggle("active")
+      ? colorSettings.current.classList.toggle('active')
       : 0;
   };
 
@@ -89,7 +89,7 @@ const NewPage = () => {
             (el.onclick = () => {
               setShape(el.classList[1]);
               shapesSettings.current
-                ? shapesSettings.current.classList.toggle("active")
+                ? shapesSettings.current.classList.toggle('active')
                 : 0;
             })
         )
@@ -98,7 +98,7 @@ const NewPage = () => {
 
   const openShapesSettings = (): void => {
     shapesSettings.current
-      ? shapesSettings.current.classList.toggle("active")
+      ? shapesSettings.current.classList.toggle('active')
       : 0;
     handleShape();
   };
@@ -111,7 +111,7 @@ const NewPage = () => {
       },
     });
 
-    penSettings.current ? penSettings.current.classList.toggle("active") : null;
+    penSettings.current ? penSettings.current.classList.toggle('active') : null;
   };
 
   const dispatchColor = (): void => {
@@ -123,7 +123,7 @@ const NewPage = () => {
     });
 
     colorSettings.current
-      ? colorSettings.current.classList.toggle("active")
+      ? colorSettings.current.classList.toggle('active')
       : 0;
   };
 
@@ -169,7 +169,7 @@ const NewPage = () => {
           max={20}
           defaultValue={1}
           valueLabelDisplay="auto"
-          sx={{ width: 200, color: "white" }}
+          sx={{ width: 200, color: 'white' }}
           onChange={(e, value) => {
             setPenWidth(value as number);
           }}
@@ -234,4 +234,4 @@ const NewPage = () => {
   );
 };
 
-export default NewPage;
+export default memo(NewPage);

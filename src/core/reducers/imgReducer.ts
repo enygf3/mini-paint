@@ -1,12 +1,12 @@
-import { AnyAction } from "redux";
-import { ActionCreator, createReducer } from "typesafe-actions";
+import { AnyAction } from 'redux';
+import { createReducer } from 'typesafe-actions';
 import {
   clearState,
   CreatorsType,
   getDBImages,
   getRecentImages,
   getUserImages,
-} from "../actions/actionCreators";
+} from '../actions/actionCreators';
 
 interface State {
   images: Array<string>;
