@@ -1,16 +1,18 @@
-import {
-  GET_IMAGE_DATA,
-  DELETE_IMAGE_DATA,
-  SET_PEN_WIDTH,
-  SET_PEN_COLOR,
-  SET_SHAPE,
-  ERASE,
-  SAVE_IMG,
-  SAVE_IMG_FAILED,
-} from "../actions/actions";
 import { AnyAction } from "redux";
+import { createReducer } from "typesafe-actions";
+import {
+  CreatorsType,
+  deleteImg,
+  erase,
+  getImage,
+  saveImg,
+  saveImgFailed,
+  setPenColor,
+  setPenWidth,
+  setShape,
+} from "../actions/actionCreators";
 
-export interface editorState {
+export interface EditorState {
   color: string;
   width: number;
   background: string;
@@ -19,7 +21,7 @@ export interface editorState {
   erase: boolean;
 }
 
-const initialState: editorState = {
+const initialState: EditorState = {
   color: "#000000",
   width: 1,
   background: "#ffffff",
@@ -28,51 +30,38 @@ const initialState: editorState = {
   erase: false,
 };
 
-const authReducer = (state = initialState, action: AnyAction) => {
-  switch (action.type) {
-    case GET_IMAGE_DATA:
-      return {
-        ...state,
-        canvas: action.payload.canvas,
-      };
-    case DELETE_IMAGE_DATA:
-      return {
-        ...state,
-        canvas: null,
-      };
-    case SET_PEN_WIDTH:
-      return {
-        ...state,
-        width: action.payload.width,
-      };
-    case SET_PEN_COLOR:
-      return {
-        ...state,
-        color: action.payload.color,
-      };
-    case SET_SHAPE:
-      return {
-        ...state,
-        shape: action.payload.shape,
-      };
-    case ERASE:
-      return {
-        ...state,
-        erase: action.payload.erase,
-      };
-    case SAVE_IMG:
-      return {
-        ...state,
-        canvas: action.payload.canvas,
-      };
-    case SAVE_IMG_FAILED:
-      return {
-        ...state,
-        canvas: null,
-      };
-    default:
-      return state;
-  }
-};
+const canvasReducer = createReducer<EditorState, CreatorsType>(initialState)
+  .handleAction(getImage.request, (state: EditorState, action: AnyAction) => ({
+    ...state,
+    canvas: action.payload.canvas,
+  }))
+  .handleAction(deleteImg, (state: EditorState) => ({
+    ...state,
+    canvas: null,
+  }))
+  .handleAction(setPenWidth, (state: EditorState, action: AnyAction) => ({
+    ...state,
+    width: action.payload.width,
+  }))
+  .handleAction(setPenColor, (state: EditorState, action: AnyAction) => ({
+    ...state,
+    color: action.payload.color,
+  }))
+  .handleAction(setShape, (state: EditorState, action: AnyAction) => ({
+    ...state,
+    shape: action.payload.shape,
+  }))
+  .handleAction(erase, (state: EditorState, action: AnyAction) => ({
+    ...state,
+    erase: action.payload.erase,
+  }))
+  .handleAction(saveImg, (state: EditorState, action: AnyAction) => ({
+    ...state,
+    canvas: action.payload.canvas,
+  }))
+  .handleAction(saveImgFailed, (state: EditorState) => ({
+    ...state,
+    canvas: null,
+  }));
 
-export default authReducer;
+export default canvasReducer;

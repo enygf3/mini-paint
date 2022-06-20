@@ -1,12 +1,21 @@
-import {
-  GET_DB_IMAGES,
-  GET_DB_IMAGES_SUCCEED,
-  GET_RECENT_IMAGES_SUCCEED,
-  GET_USER_IMGS_FAILED,
-  GET_USER_IMGS_SUCCEED,
-  CLEAR_STATE,
-} from "../actions/actions";
 import { AnyAction } from "redux";
+import { ActionCreator, createReducer } from "typesafe-actions";
+import {
+  clearState,
+  CreatorsType,
+  getDBImages,
+  getRecentImages,
+  getUserImages,
+} from "../actions/actionCreators";
+
+interface State {
+  images: Array<string>;
+  userImages: Array<string>;
+  recentImages: Array<string>;
+  loading: boolean;
+  recentLoading: boolean;
+  start: number;
+}
 
 const initialState = {
   images: [],
@@ -17,49 +26,38 @@ const initialState = {
   userImages: [],
 };
 
-const imgReducer = (state = initialState, action: AnyAction) => {
-  switch (action.type) {
-    case GET_DB_IMAGES_SUCCEED:
-      return {
-        ...state,
-        images: action.payload,
-        loading: false,
-      };
-    case GET_RECENT_IMAGES_SUCCEED:
-      return {
-        ...state,
-        recentImages: action.payload,
-        recentLoading: false,
-      };
-    case GET_DB_IMAGES:
-      return {
-        ...state,
-        start: state.start + 5,
-        loading: true,
-      };
-    case GET_USER_IMGS_SUCCEED:
-      return {
-        ...state,
-        userImages: action.payload,
-        loading: false,
-      };
-    case GET_USER_IMGS_FAILED:
-      return {
-        ...state,
-        loading: false,
-      };
-    case CLEAR_STATE:
-      return {
-        images: [],
-        recentImages: [],
-        start: 0,
-        loading: true,
-        recentLoading: true,
-        userImages: [],
-      };
-    default:
-      return state;
-  }
-};
+const imgReducer = createReducer<State, CreatorsType>(initialState)
+  .handleAction(getDBImages.request, (state: State) => ({
+    ...state,
+    loading: true,
+    start: state.start + 5,
+  }))
+  .handleAction(getDBImages.success, (state: State, action: AnyAction) => ({
+    ...state,
+    loading: false,
+    images: action.payload,
+  }))
+  .handleAction(getRecentImages.success, (state: State, action: AnyAction) => ({
+    ...state,
+    recentLoading: false,
+    recentImages: action.payload,
+  }))
+  .handleAction(getUserImages.success, (state: State, action: AnyAction) => ({
+    ...state,
+    loading: false,
+    userImages: action.payload,
+  }))
+  .handleAction(getUserImages.failure, (state: State) => ({
+    ...state,
+    loading: false,
+  }))
+  .handleAction(clearState, () => ({
+    images: [],
+    recentImages: [],
+    start: 0,
+    loading: true,
+    recentLoading: true,
+    userImages: [],
+  }));
 
 export default imgReducer;

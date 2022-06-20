@@ -1,12 +1,6 @@
 import { takeEvery, put, call, all } from "@redux-saga/core/effects";
-import { SIGN_IN, SIGN_OUT } from "../actions/actions";
 import { signInUser, signOutUser } from "../service/firebaseAuth";
-import {
-  signInUserSucceed,
-  signInUserFailed,
-  signOutUserSucceed,
-  signOutUserFailed,
-} from "../actions/actionsAuth";
+import { doAuth, doSignOut } from "../actions/actionCreators";
 
 export function* signInWorker(): Generator {
   const User: { user: object } = {
@@ -17,29 +11,29 @@ export function* signInWorker(): Generator {
     yield signInUser().then((user) => {
       User.user = user;
     });
-    yield put(signInUserSucceed(User.user));
+    yield put(doAuth.success({ payload: User.user }, null));
   } catch (error) {
     console.log("authsaga", error);
-    yield put(signInUserFailed());
+    yield put(doAuth.failure(null, null));
   }
 }
 
 export function* signOutWorker(): Generator {
   try {
     yield signOutUser();
-    yield put(signOutUserSucceed());
+    yield put(doSignOut.success(null, null));
   } catch (error) {
     console.log(error);
-    yield put(signOutUserFailed());
+    yield put(doSignOut.failure(null, null));
   }
 }
 
 export function* signOutWatcher(): Generator {
-  yield takeEvery(SIGN_OUT, signOutWorker);
+  yield takeEvery(doSignOut.request, signOutWorker);
 }
 
 export function* signInWatcher(): Generator {
-  yield takeEvery(SIGN_IN, signInWorker);
+  yield takeEvery(doAuth.request, signInWorker);
 }
 
 export default function* authSaga(): Generator {

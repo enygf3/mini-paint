@@ -1,11 +1,11 @@
 import { useDispatch } from "react-redux";
 import { getAuth } from "firebase/auth";
 import { ReactElement, useEffect } from "react";
-import { SET_STATE_SIGNED_IN } from "../actions/actions";
 import Loader from "./Loader";
 import * as React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Navigate, Outlet } from "react-router-dom";
+import { doAuth } from "../actions/actionCreators";
 
 const PrivateWrapper = (): ReactElement => {
   const dispatch = useDispatch();
@@ -13,13 +13,7 @@ const PrivateWrapper = (): ReactElement => {
 
   useEffect(() => {
     if (user && !loading) {
-      dispatch({
-        type: SET_STATE_SIGNED_IN,
-        payload: {
-          isLoggedIn: true,
-          user: user,
-        },
-      });
+      dispatch(doAuth.success({ payload: user }, null));
     }
   }, [loading]);
 

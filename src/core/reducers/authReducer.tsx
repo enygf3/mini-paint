@@ -1,31 +1,29 @@
-import {
-  SET_STATE_SIGNED_IN,
-  SIGN_IN,
-  SIGN_IN_FAILED,
-} from "../actions/actions";
+import { ActionCreator, createReducer } from "typesafe-actions";
+import { doAuth } from "../actions/actionCreators";
 import { AnyAction } from "redux";
 
-const initialState = {
+interface State {
+  isLoggedIn: boolean;
+  user: object | null;
+}
+
+const initialState: State = {
   isLoggedIn: false,
   user: null,
 };
 
-const authReducer = (state = initialState, action: AnyAction) => {
-  switch (action.type) {
-    case SIGN_IN:
-      return { ...state };
-    case SIGN_IN_FAILED:
-      console.log("failed to login");
-      return 0;
-    case SET_STATE_SIGNED_IN:
-      return {
-        ...state,
-        isLoggedIn: action.payload.isLoggedIn,
-        user: action.payload.user,
-      };
-    default:
-      return state;
-  }
-};
+const authReducer: ActionCreator = createReducer<State>(initialState)
+  .handleAction(doAuth.request, () => ({
+    ...initialState,
+  }))
+  .handleAction(doAuth.success, (state: State, action: AnyAction) => ({
+    ...state,
+    isLoggedIn: true,
+    user: action.payload.payload,
+  }))
+  .handleAction(doAuth.failure, () => ({
+    ...initialState,
+    isLoggedIn: false,
+  }));
 
 export default authReducer;

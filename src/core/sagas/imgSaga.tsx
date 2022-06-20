@@ -1,34 +1,24 @@
 import { takeEvery, put, call, all } from "@redux-saga/core/effects";
 import {
-  GET_DB_IMAGES,
-  GET_IMAGE_DATA,
-  GET_RECENT_IMAGES,
-  GET_USER_IMGS,
-} from "../actions/actions";
-import {
   save,
   getRecentImgs,
   getImages,
   getUserImgs,
 } from "../service/firebaseImg";
 import {
-  saveImgSucceed,
-  saveImgFailed,
-  getDBImagesFail,
-  getDBImagesSucceed,
-  getRecentImgsSucceed,
-  getRecentImgsFailed,
-  getUserImgsSucceed,
-  getUserImgsFailed,
-} from "../actions/actionsImg";
+  getDBImages,
+  getImage,
+  getRecentImages,
+  getUserImages,
+} from "../actions/actionCreators";
 
 export function* imgWorker(payload: any): Generator {
   try {
     yield save(payload.payload.canvas);
-    yield put(saveImgSucceed(payload.payload.canvas));
+    yield put(getImage.success(payload.payload.canvas, null));
   } catch (error) {
     console.log("imgSaga", error);
-    yield put(saveImgFailed());
+    yield put(getImage.failure(null, null));
   }
 }
 
@@ -42,54 +32,54 @@ export function* getAllImgWorker(payload: any): Generator {
         Images.images.push(image);
       });
     });
-    yield put(getDBImagesSucceed(Images.images));
+    yield put(getDBImages.success(Images.images, null));
   } catch (error) {
     console.log(error);
-    yield put(getDBImagesFail());
+    yield put(getDBImages.failure(null, null));
   }
 }
 
 export function* getRecentImgsWorker(): Generator {
   const Images = {
-    images: [] as any[],
+    images: [] as Array<any>,
   };
   try {
     yield getRecentImgs().then((res) => (Images.images = res));
-    yield put(getRecentImgsSucceed(Images.images));
+    yield put(getRecentImages.success(Images.images, null));
   } catch (error) {
-    yield put(getRecentImgsFailed());
+    yield put(getRecentImages.failure(null, null));
   }
 }
 
 export function* getUserImgsWorker(payload: any): Generator {
   const Images = {
-    images: [] as any[],
+    images: [] as Array<any>,
   };
   try {
     yield getUserImgs(payload.payload.user).then(
       (res) => (Images.images = res)
     );
-    yield put(getUserImgsSucceed(Images.images));
+    yield put(getUserImages.success(Images.images, null));
   } catch (error) {
     console.log(error);
-    yield put(getUserImgsFailed());
+    yield put(getUserImages.failure(null, null));
   }
 }
 
 export function* recentWatcher(): Generator {
-  yield takeEvery(GET_RECENT_IMAGES, getRecentImgsWorker);
+  yield takeEvery(getRecentImages.request, getRecentImgsWorker);
 }
 
 export function* imgWatcher(): Generator {
-  yield takeEvery(GET_IMAGE_DATA, imgWorker);
+  yield takeEvery(getImage.request, imgWorker);
 }
 
 export function* DBWatcher(): Generator {
-  yield takeEvery(GET_DB_IMAGES, getAllImgWorker);
+  yield takeEvery(getDBImages.request, getAllImgWorker);
 }
 
 export function* userImgsWatcher(): Generator {
-  yield takeEvery(GET_USER_IMGS, getUserImgsWorker);
+  yield takeEvery(getUserImages.request, getUserImgsWorker);
 }
 
 export default function* imgSaga(): Generator {
