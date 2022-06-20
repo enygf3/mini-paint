@@ -13,6 +13,12 @@ import { ERASE } from '../../../../core/actions/actions';
 
 import { Position, Props, Shapes, State } from '../../../types';
 
+enum ShapesEnum {
+  CIRCLE = 'fa-circle',
+  RECTANGLE = 'fa-square',
+  LINE = 'fa-grip-lines',
+}
+
 const Canvas: FC<Props> = ({ width, height, func }: Props) => {
   const dispatch = useDispatch();
   const canvasRef: RefObject<HTMLCanvasElement> = useRef(null);
@@ -31,7 +37,21 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
   const [existingShapes, setExistingShapes] = useState<Array<Shapes>>([]);
   const [backUp, setBackUp] = useState<ImageData | null>(null);
 
-  const HandleMouseUp = (): void => {
+  useEffect(() => {
+    if (stateErase) {
+      clearCanvas();
+      setExistingShapes([]);
+      dispatch({ type: ERASE, payload: { erase: false } });
+    }
+  }, [stateErase]);
+
+  useEffect(() => {
+    setPenWidth(statePenWidth);
+    setPenColor(statePenColor);
+    setShape(stateShape);
+  }, [statePenWidth, statePenColor, stateShape]);
+
+  function handleMouseUp(): void {
     setDrawing(false);
     canvas ? (canvas.strokeStyle = penColor) : 0;
     canvas ? (canvas.lineWidth = penWidth) : 0;
@@ -44,9 +64,9 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
       console.log(existingShapes);
       setExistingShapes([...existingShapes, { shape, pos }]);
     }
-  };
+  }
 
-  const HandleMouseMove = (event: MouseEvent<HTMLCanvasElement>): void => {
+  function handleMouseMove(event: MouseEvent<HTMLCanvasElement>): void {
     const target = event.target as HTMLCanvasElement;
     if (drawing && shape.length === 0 && canvas) {
       canvas.lineWidth = penWidth;
@@ -65,10 +85,11 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
         x2: event.clientX - target.getBoundingClientRect().x,
         y2: event.clientY - target.getBoundingClientRect().y,
       });
+      shapesExecuter(shape);
     }
-  };
+  }
 
-  const HandleTouchMove = (event: TouchEvent<HTMLCanvasElement>): void => {
+  function handleTouchMove(event: TouchEvent<HTMLCanvasElement>): void {
     const target = event.target as HTMLCanvasElement;
     if (drawing && canvas) {
       canvas.lineWidth = penWidth;
@@ -86,10 +107,11 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
         x2: event.touches[0].clientX - target.getBoundingClientRect().x,
         y2: event.touches[0].clientY - target.getBoundingClientRect().y,
       });
+      shapesExecuter(shape);
     }
-  };
+  }
 
-  const HandleMouseDown = (event: MouseEvent<HTMLCanvasElement>): void => {
+  function handleMouseDown(event: MouseEvent<HTMLCanvasElement>): void {
     const target = event.target as HTMLCanvasElement;
     setDrawing(true);
     setCanvas(target.getContext('2d'));
@@ -108,9 +130,9 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
       canvas.strokeStyle = penColor;
       canvas.beginPath();
     }
-  };
+  }
 
-  const HandleTouchStart = (event: TouchEvent<HTMLCanvasElement>): void => {
+  function handleTouchStart(event: TouchEvent<HTMLCanvasElement>): void {
     const target = event.target as HTMLCanvasElement;
     setDrawing(true);
     setCanvas(target.getContext('2d'));
@@ -128,13 +150,13 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
       canvas.strokeStyle = penColor;
       canvas.beginPath();
     }
-  };
+  }
 
-  const restoreDraw = (item: Shapes, type: string): void => {
+  function restoreDraw(item: Shapes, type: string): void {
     if (canvas) {
       canvas.beginPath();
       switch (type) {
-        case 'fa-square':
+        case ShapesEnum.RECTANGLE:
           canvas.strokeRect(
             item.pos.x1,
             item.pos.y1,
@@ -142,11 +164,11 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
             item.pos.y2 - item.pos.y1
           );
           break;
-        case 'fa-grip-lines':
+        case ShapesEnum.LINE:
           canvas.moveTo(item.pos.x1, item.pos.y1);
           canvas.lineTo(item.pos.x2, item.pos.y2);
           break;
-        case 'fa-circle':
+        case ShapesEnum.CIRCLE:
           canvas.arc(
             item.pos.x1,
             item.pos.y1,
@@ -162,9 +184,9 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
           break;
       }
     }
-  };
+  }
 
-  const clearCanvas = (): void => {
+  function clearCanvas(): void {
     canvas
       ? canvas.clearRect(
           0,
@@ -173,9 +195,9 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
           canvasRef.current ? canvasRef.current.height : 0
         )
       : 0;
-  };
+  }
 
-  const drawRect = (): void => {
+  function drawRect(): void {
     clearCanvas();
     existingShapes.forEach((el: Shapes) => {
       restoreDraw(el, el.shape);
@@ -187,9 +209,9 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
       canvas.beginPath();
       canvas.strokeRect(pos.x1, pos.y1, pos.x2 - pos.x1, pos.y2 - pos.y1);
     }
-  };
+  }
 
-  const drawLine = (): void => {
+  function drawLine(): void {
     clearCanvas();
     existingShapes.forEach((el: Shapes) => {
       restoreDraw(el, el.shape);
@@ -203,9 +225,9 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
       canvas.lineTo(pos.x2, pos.y2);
       canvas.stroke();
     }
-  };
+  }
 
-  const drawCircle = (): void => {
+  function drawCircle(): void {
     clearCanvas();
     existingShapes.forEach((el: Shapes) => {
       restoreDraw(el, el.shape);
@@ -224,17 +246,20 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
       );
       canvas.stroke();
     }
-  };
+  }
 
-  if (shape.length > 0 && drawing) {
+  function shapesExecuter(shape: string): void {
+    if (!drawing) {
+      return;
+    }
     switch (shape) {
-      case 'fa-square':
+      case ShapesEnum.RECTANGLE:
         drawRect();
         break;
-      case 'fa-grip-lines':
+      case ShapesEnum.LINE:
         drawLine();
         break;
-      case 'fa-circle':
+      case ShapesEnum.CIRCLE:
         drawCircle();
         break;
       default:
@@ -242,30 +267,17 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
     }
   }
 
-  useEffect(() => {
-    if (stateErase) {
-      clearCanvas();
-      setExistingShapes([]);
-      dispatch({ type: ERASE, payload: { erase: false } });
-    }
-  }, [stateErase]);
-
-  useEffect(() => {
-    setPenWidth(statePenWidth);
-    setPenColor(statePenColor);
-    setShape(stateShape);
-  }, [statePenWidth, statePenColor, stateShape]);
   return (
     <canvas
       ref={canvasRef}
       width={width}
       height={height}
-      onMouseDown={HandleMouseDown}
-      onMouseUp={HandleMouseUp}
-      onMouseMove={HandleMouseMove}
-      onTouchStart={HandleTouchStart}
-      onTouchEnd={HandleMouseUp}
-      onTouchMove={HandleTouchMove}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseMove={handleMouseMove}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleMouseUp}
+      onTouchMove={handleTouchMove}
     ></canvas>
   );
 };

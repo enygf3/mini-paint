@@ -6,6 +6,7 @@ import { faFaceSadCry } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import React, {
   ChangeEvent,
+  FC,
   RefObject,
   useEffect,
   useRef,
@@ -25,7 +26,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper';
 import { State, Images } from './types';
 
-const HomePage = () => {
+const HomePage: FC = () => {
   const dispatch = useDispatch();
   const imagesDB = useSelector((state: State) => state.images.images);
   const recentImages = useSelector((state: State) => state.images.recentImages);
