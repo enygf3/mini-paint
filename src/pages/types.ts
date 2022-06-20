@@ -44,3 +44,9 @@ export interface Images {
   createdAt: number;
   data: string;
 }
+
+export enum ShapesEnum {
+  CIRCLE = 'fa-circle',
+  RECTANGLE = 'fa-square',
+  LINE = 'fa-grip-lines',
+}

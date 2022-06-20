@@ -1,13 +1,10 @@
 import * as React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-import SignPage from './pages/SignPage';
+import SignPage from './pages/SignPage/SignPage';
 import NewPage from './pages/NewPage/NewPage';
-import HomePage from './pages/HomePage';
+import HomePage from './pages/HomePage/HomePage';
 import './assets/sass/App.sass';
-import './assets/sass/Sign.sass';
-import './assets/sass/Home.sass';
-import './assets/sass/New.sass';
 import PrivateWrapper from './core/components/PrivateWrapper';
 
 const App = () => {

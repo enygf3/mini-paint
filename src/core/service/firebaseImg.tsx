@@ -1,5 +1,4 @@
-import { firestore as db } from "../configs/firebase";
-import { getAuth } from "firebase/auth";
+import { firestore as db } from '../configs/firebase';
 import {
   Timestamp,
   query,
@@ -9,57 +8,72 @@ import {
   orderBy,
   startAfter,
   limit,
-} from "firebase/firestore";
+} from 'firebase/firestore';
+import { auth } from '../configs/firebase';
+import { Images } from '../../pages/types';
 
 export const save = async (data: string) => {
-  const auth: any = getAuth();
-  const time = Timestamp.now();
-  await db.collection("images").add({
-    user: auth.currentUser.displayName,
+  await db.collection('images').add({
+    user: auth.currentUser ? auth.currentUser.displayName : null,
     data: data,
-    createdAt: time.seconds,
+    createdAt: Timestamp.now().seconds,
   });
 };
 
 export const getImages = async (start: number) => {
-  const result: Array<object> = [];
+  const images: Array<Images> = [];
   const imgQuery =
     start !== 0
       ? query(
-          collection(db, "images"),
-          orderBy("createdAt", "desc"),
+          collection(db, 'images'),
+          orderBy('createdAt', 'desc'),
           startAfter(start),
           limit(5)
         )
-      : query(collection(db, "images"), orderBy("createdAt", "desc"), limit(5));
-  const images: any = await getDocs(imgQuery);
-  images.forEach((doc: any) => {
-    result.push(doc.data());
-  });
-  return result;
+      : query(collection(db, 'images'), orderBy('createdAt', 'desc'), limit(5));
+  await getDocs(imgQuery).then((docs) =>
+    docs.forEach((doc) => {
+      images.push({
+        createdAt: doc.data().createdAt,
+        user: doc.data().user,
+        data: doc.data().data,
+      });
+    })
+  );
+  return images;
 };
 
 export const getUserImgs = async (user: string) => {
-  const result: Array<object> = [];
-  const inputQuery = query(collection(db, "images"), where("user", "==", user));
-  const images: any = await getDocs<any>(inputQuery);
-  images.forEach((doc: any) => {
-    result.push(doc.data());
-  });
-  return result;
+  const images: Array<Images> = [];
+  const inputQuery = query(collection(db, 'images'), where('user', '==', user));
+  await getDocs(inputQuery).then((docs) =>
+    docs.forEach((doc) => {
+      images.push({
+        createdAt: doc.data().createdAt,
+        user: doc.data().user,
+        data: doc.data().data,
+      });
+    })
+  );
+  return images;
 };
 
 export const getRecentImgs = async () => {
   const time = Math.floor(new Date().getTime() / 1000) - 600;
-  const result: Array<object> = [];
+  const images: Array<Images> = [];
   const recentQuery = query(
-    collection(db, "images"),
-    where("createdAt", ">", time),
+    collection(db, 'images'),
+    where('createdAt', '>', time),
     limit(5)
   );
-  const images: any = await getDocs<any>(recentQuery);
-  images.forEach((doc: any) => {
-    result.push(doc.data());
-  });
-  return result;
+  await getDocs(recentQuery).then((docs) =>
+    docs.forEach((doc) => {
+      images.push({
+        createdAt: doc.data().createdAt,
+        user: doc.data().user,
+        data: doc.data().data,
+      });
+    })
+  );
+  return images;
 };

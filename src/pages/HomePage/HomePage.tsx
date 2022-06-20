@@ -2,7 +2,6 @@ import { faPenRuler } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { faFaceSadCry } from '@fortawesome/free-solid-svg-icons';
-
 import { useDispatch, useSelector } from 'react-redux';
 import React, {
   ChangeEvent,
@@ -17,14 +16,13 @@ import {
   GET_DB_IMAGES,
   GET_RECENT_IMAGES,
   GET_USER_IMGS,
-} from '../core/actions/actions';
-
+} from '../../core/actions/actions';
 import 'swiper/css';
 import 'swiper/css/free-mode';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper';
-import { State, Images } from './types';
+import { State, Images } from '../types';
+import './style/Home.sass';
 
 const HomePage: FC = () => {
   const dispatch = useDispatch();

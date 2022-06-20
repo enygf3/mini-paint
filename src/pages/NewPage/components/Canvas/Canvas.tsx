@@ -11,13 +11,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { ERASE } from '../../../../core/actions/actions';
 
-import { Position, Props, Shapes, State } from '../../../types';
-
-enum ShapesEnum {
-  CIRCLE = 'fa-circle',
-  RECTANGLE = 'fa-square',
-  LINE = 'fa-grip-lines',
-}
+import { Position, Props, Shapes, State, ShapesEnum } from '../../../types';
 
 const Canvas: FC<Props> = ({ width, height, func }: Props) => {
   const dispatch = useDispatch();

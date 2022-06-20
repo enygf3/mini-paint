@@ -12,9 +12,7 @@ import {
   faSquare,
   faCircle,
 } from '@fortawesome/free-solid-svg-icons';
-
 import { Link, useNavigate } from 'react-router-dom';
-
 import Canvas from './components/Canvas/Canvas';
 import { useDispatch } from 'react-redux';
 import {
@@ -25,10 +23,9 @@ import {
   ERASE,
   SIGN_OUT,
 } from '../../core/actions/actions';
-
 import { useState, useRef, RefObject, useEffect, memo } from 'react';
-
 import { CirclePicker } from 'react-color';
+import './style/New.sass';
 
 const NewPage = () => {
   const dispatch = useDispatch();

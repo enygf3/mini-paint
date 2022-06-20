@@ -1,6 +1,6 @@
-import { TailSpin } from "react-loader-spinner";
-import { ReactElement } from "react";
-import React from "react";
+import { TailSpin } from 'react-loader-spinner';
+import { ReactElement } from 'react';
+import React from 'react';
 
 const Loader = (): ReactElement => {
   return (

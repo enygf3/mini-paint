@@ -1,11 +1,11 @@
-import { useDispatch } from "react-redux";
-import { getAuth } from "firebase/auth";
-import { ReactElement, useEffect } from "react";
-import Loader from "./Loader";
-import * as React from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { Navigate, Outlet } from "react-router-dom";
-import { doAuth } from "../actions/actionCreators";
+import { useDispatch } from 'react-redux';
+import { getAuth } from 'firebase/auth';
+import { ReactElement, useEffect } from 'react';
+import Loader from './Loader';
+import * as React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { Navigate, Outlet } from 'react-router-dom';
+import { doAuth } from '../actions/actionCreators';
 
 const PrivateWrapper = (): ReactElement => {
   const dispatch = useDispatch();
