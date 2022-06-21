@@ -1,5 +1,5 @@
-import { ActionCreator, createReducer } from 'typesafe-actions';
-import { doAuth } from '../actions/auth';
+import { createReducer } from 'typesafe-actions';
+import { AuthType, doAuth } from '../actions/auth';
 import { AnyAction } from 'redux';
 import { AuthState } from './types';
 
@@ -8,7 +8,7 @@ const initialState: AuthState = {
   user: null,
 };
 
-const auth: ActionCreator = createReducer<AuthState>(initialState)
+const auth = createReducer<AuthState, AuthType>(initialState)
   .handleAction(doAuth.request, () => ({
     ...initialState,
   }))
