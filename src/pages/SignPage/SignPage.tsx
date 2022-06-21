@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuth } from 'firebase/auth';
 import { useEffect, memo, FC } from 'react';
-import './style/Sign.sass';
+import './styles.sass';
 import { AuthTemplates } from '../../core/actions/auth';
 
 const SignPage: FC = () => {

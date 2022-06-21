@@ -17,7 +17,7 @@ import 'swiper/css/free-mode';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper';
 import { State, Images } from '../NewPage/components/Canvas/types';
-import './style/Home.sass';
+import './styles.sass';
 
 const HomePage: FC = () => {
   const dispatch = useDispatch();
@@ -128,6 +128,7 @@ const HomePage: FC = () => {
         <input
           type="text"
           placeholder="Type to search..."
+          className="gallery-input"
           onChange={getUserInput}
         />
       </div>

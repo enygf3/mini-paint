@@ -17,7 +17,7 @@ import Canvas from './components/Canvas/Canvas';
 import { useDispatch } from 'react-redux';
 import { useState, useRef, RefObject, useEffect, memo } from 'react';
 import { CirclePicker } from 'react-color';
-import './style/New.sass';
+import './styles.sass';
 import { colorType } from './types';
 import { CanvasTemplates } from '../../core/actions/canvas';
 import { AuthTemplates } from '../../core/actions/auth';
