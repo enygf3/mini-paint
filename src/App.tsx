@@ -4,7 +4,7 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import SignPage from './pages/SignPage/SignPage';
 import NewPage from './pages/NewPage/NewPage';
 import HomePage from './pages/HomePage/HomePage';
-import './assets/sass/App.sass';
+import './assets/sass/styles.sass';
 import PrivateWrapper from './core/components/PrivateWrapper';
 
 const App = () => {
