@@ -1,6 +1,6 @@
-import { takeEvery, put, call, all } from '@redux-saga/core/effects';
+import { takeEvery, put } from '@redux-saga/core/effects';
 import { signInUser, signOutUser } from '../service/auth';
-import { doAuth, doSignOut } from '../actions/actionCreators';
+import { doAuth, doSignOut } from '../actions/auth';
 
 export function* signInWorker(): Generator {
   const User: { user: object } = {

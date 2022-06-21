@@ -1,17 +1,15 @@
 import { AnyAction } from 'redux';
 import { createReducer } from 'typesafe-actions';
 import {
-  CreatorsType,
   deleteImg,
   erase,
   getImage,
-  saveImg,
-  saveImgFailed,
   setPenColor,
   setPenWidth,
   setShape,
-} from '../actions/actionCreators';
+} from '../actions/canvas';
 import { EditorState } from './types';
+import { CanvasType } from '../actions/canvas';
 
 const initialState: EditorState = {
   color: '#000000',
@@ -22,7 +20,7 @@ const initialState: EditorState = {
   erase: false,
 };
 
-const canvas = createReducer<EditorState, CreatorsType>(initialState)
+const canvas = createReducer<EditorState, CanvasType>(initialState)
   .handleAction(getImage.request, (state: EditorState, action: AnyAction) => ({
     ...state,
     canvas: action.payload.canvas,
@@ -47,11 +45,11 @@ const canvas = createReducer<EditorState, CreatorsType>(initialState)
     ...state,
     erase: action.payload.erase,
   }))
-  .handleAction(saveImg, (state: EditorState, action: AnyAction) => ({
+  .handleAction(getImage.success, (state: EditorState, action: AnyAction) => ({
     ...state,
     canvas: action.payload.canvas,
   }))
-  .handleAction(saveImgFailed, (state: EditorState) => ({
+  .handleAction(getImage.failure, (state: EditorState) => ({
     ...state,
     canvas: null,
   }));

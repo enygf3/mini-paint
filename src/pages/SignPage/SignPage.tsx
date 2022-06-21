@@ -2,11 +2,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { SIGN_IN } from '../../core/actions/actions';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuth } from 'firebase/auth';
 import { useEffect, memo, FC } from 'react';
 import './style/Sign.sass';
+import { AuthTemplates } from '../../core/actions/auth';
 
 const SignPage: FC = () => {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const SignPage: FC = () => {
 
   async function signUpGoogle(): Promise<void> {
     dispatch({
-      type: SIGN_IN,
+      type: AuthTemplates.SIGN_IN,
     });
     navigate('/');
   }

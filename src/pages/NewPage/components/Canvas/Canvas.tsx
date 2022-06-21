@@ -9,9 +9,8 @@ import {
   TouchEvent,
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ERASE } from '../../../../core/actions/actions';
-
 import { Position, Props, Shapes, State, ShapesEnum } from './types';
+import { erase } from '../../../../core/actions/canvas';
 
 const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
   const dispatch = useDispatch();
@@ -35,7 +34,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
     if (stateErase) {
       clearCanvas();
       setExistingShapes([]);
-      dispatch({ type: ERASE, payload: { erase: false } });
+      dispatch({ type: erase, payload: { erase: false } });
     }
   }, [stateErase]);
 

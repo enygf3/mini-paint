@@ -1,11 +1,7 @@
-import { takeEvery, put, call, all } from '@redux-saga/core/effects';
+import { takeEvery, put } from '@redux-saga/core/effects';
 import { save, getRecentImgs, getImages, getUserImgs } from '../service/image';
-import {
-  getDBImages,
-  getImage,
-  getRecentImages,
-  getUserImages,
-} from '../actions/actionCreators';
+import { getDBImages, getRecentImages, getUserImages } from '../actions/images';
+import { getImage } from '../actions/canvas';
 import { AnyAction } from 'redux';
 
 export function* imgWorker(payload: AnyAction): Generator {

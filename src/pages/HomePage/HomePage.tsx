@@ -11,12 +11,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {
-  CLEAR_STATE,
-  GET_DB_IMAGES,
-  GET_RECENT_IMAGES,
-  GET_USER_IMGS,
-} from '../../core/actions/actions';
+import { ImagesTemplates } from '../../core/actions/images';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -37,11 +32,11 @@ const HomePage: FC = () => {
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
-    dispatch({ type: GET_RECENT_IMAGES });
+    dispatch({ type: ImagesTemplates.GET_RECENT_IMAGES });
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      dispatch({ type: CLEAR_STATE });
+      dispatch({ type: ImagesTemplates.CLEAR_STATE });
     };
   }, []);
 
@@ -54,7 +49,7 @@ const HomePage: FC = () => {
   useEffect(() => {
     if (fetch) {
       dispatch({
-        type: GET_DB_IMAGES,
+        type: ImagesTemplates.GET_DB_IMAGES,
         payload: {
           start: images[images.length - 1]?.createdAt
             ? images[images.length - 1]?.createdAt
@@ -64,7 +59,7 @@ const HomePage: FC = () => {
     }
   }, [fetch]);
 
-  function handleScroll(event: any) {
+  function handleScroll(event: UIEvent | Event): void {
     const target = event.target as Document;
     if (
       window.innerHeight + target.documentElement.scrollTop >=
@@ -76,14 +71,17 @@ const HomePage: FC = () => {
     }
   }
 
-  function getUserInput(e: ChangeEvent) {
-    const input = e.target as HTMLInputElement;
+  function getUserInput(event: ChangeEvent) {
+    const input = event.target as HTMLInputElement;
     const gallery = galleryRef.current as HTMLDivElement;
     const userImages = userRef.current as HTMLDivElement;
     if (input.value.length >= 3) {
       gallery.classList.add('disabled');
       userImages.classList.remove('disabled');
-      dispatch({ type: GET_USER_IMGS, payload: { user: input.value } });
+      dispatch({
+        type: ImagesTemplates.GET_USER_IMGS,
+        payload: { user: input.value },
+      });
     } else {
       gallery.classList.remove('disabled');
       userImages.classList.add('disabled');

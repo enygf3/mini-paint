@@ -1,5 +1,5 @@
 import { ActionCreator, createReducer } from 'typesafe-actions';
-import { doAuth } from '../actions/actionCreators';
+import { doAuth } from '../actions/auth';
 import { AnyAction } from 'redux';
 import { AuthState } from './types';
 

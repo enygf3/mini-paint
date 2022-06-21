@@ -15,18 +15,12 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import Canvas from './components/Canvas/Canvas';
 import { useDispatch } from 'react-redux';
-import {
-  GET_IMAGE_DATA,
-  SET_PEN_WIDTH,
-  SET_PEN_COLOR,
-  SET_SHAPE,
-  ERASE,
-  SIGN_OUT,
-} from '../../core/actions/actions';
 import { useState, useRef, RefObject, useEffect, memo } from 'react';
 import { CirclePicker } from 'react-color';
 import './style/New.sass';
 import { colorType } from './types';
+import { CanvasTemplates } from '../../core/actions/canvas';
+import { AuthTemplates } from '../../core/actions/auth';
 
 const NewPage = () => {
   const dispatch = useDispatch();
@@ -51,7 +45,7 @@ const NewPage = () => {
 
   useEffect(() => {
     dispatch({
-      type: SET_SHAPE,
+      type: CanvasTemplates.SET_SHAPE,
       payload: {
         shape: newShape,
       },
@@ -66,7 +60,7 @@ const NewPage = () => {
     setSaved(true);
     setTimeout(setSaved, 1500, false);
     dispatch({
-      type: GET_IMAGE_DATA,
+      type: CanvasTemplates.GET_IMAGE_DATA,
       payload: {
         canvas: img,
       },
@@ -74,7 +68,7 @@ const NewPage = () => {
   }
 
   function SignOut(): void {
-    dispatch({ type: SIGN_OUT });
+    dispatch({ type: AuthTemplates.SIGN_OUT });
     navigate('/login');
   }
 
@@ -116,7 +110,7 @@ const NewPage = () => {
 
   function dispatchPenWidth(): void {
     dispatch({
-      type: SET_PEN_WIDTH,
+      type: CanvasTemplates.SET_PEN_WIDTH,
       payload: {
         width: penWidth,
       },
@@ -127,7 +121,7 @@ const NewPage = () => {
 
   function dispatchColor(): void {
     dispatch({
-      type: SET_PEN_COLOR,
+      type: CanvasTemplates.SET_PEN_COLOR,
       payload: {
         color: color,
       },
@@ -144,7 +138,7 @@ const NewPage = () => {
 
   function dispatchErase(): void {
     dispatch({
-      type: ERASE,
+      type: CanvasTemplates.ERASE,
       payload: {
         erase: true,
       },

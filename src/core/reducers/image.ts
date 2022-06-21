@@ -1,13 +1,13 @@
 import { AnyAction } from 'redux';
 import { createReducer } from 'typesafe-actions';
+import { ImageState } from './types';
 import {
   clearState,
-  CreatorsType,
   getDBImages,
   getRecentImages,
   getUserImages,
-} from '../actions/actionCreators';
-import { ImageState } from './types';
+  ImagesType,
+} from '../actions/images';
 
 const initialState: ImageState = {
   images: [],
@@ -18,7 +18,7 @@ const initialState: ImageState = {
   userImages: [],
 };
 
-const image = createReducer<ImageState, CreatorsType>(initialState)
+const image = createReducer<ImageState, ImagesType>(initialState)
   .handleAction(getDBImages.request, (state: ImageState) => ({
     ...state,
     loading: true,
