@@ -1,16 +1,8 @@
 import { firestore as db } from '../configs/firebase';
-import {
-  Timestamp,
-  query,
-  collection,
-  where,
-  getDocs,
-  orderBy,
-  startAfter,
-  limit,
-} from 'firebase/firestore';
+import { Timestamp, getDocs } from 'firebase/firestore';
 import { auth } from '../configs/firebase';
-import { Images } from '../../pages/types';
+import { Images } from '../../pages/NewPage/components/Canvas/types';
+import { imgQuery, inputQuery, recentQuery } from './queries';
 
 export const save = async (data: string) => {
   await db.collection('images').add({
@@ -22,16 +14,7 @@ export const save = async (data: string) => {
 
 export const getImages = async (start: number) => {
   const images: Array<Images> = [];
-  const imgQuery =
-    start !== 0
-      ? query(
-          collection(db, 'images'),
-          orderBy('createdAt', 'desc'),
-          startAfter(start),
-          limit(5)
-        )
-      : query(collection(db, 'images'), orderBy('createdAt', 'desc'), limit(5));
-  await getDocs(imgQuery).then((docs) =>
+  await getDocs(imgQuery(start)).then((docs) =>
     docs.forEach((doc) => {
       images.push({
         createdAt: doc.data().createdAt,
@@ -45,8 +28,7 @@ export const getImages = async (start: number) => {
 
 export const getUserImgs = async (user: string) => {
   const images: Array<Images> = [];
-  const inputQuery = query(collection(db, 'images'), where('user', '==', user));
-  await getDocs(inputQuery).then((docs) =>
+  await getDocs(inputQuery(user)).then((docs) =>
     docs.forEach((doc) => {
       images.push({
         createdAt: doc.data().createdAt,
@@ -59,14 +41,8 @@ export const getUserImgs = async (user: string) => {
 };
 
 export const getRecentImgs = async () => {
-  const time = Math.floor(new Date().getTime() / 1000) - 600;
   const images: Array<Images> = [];
-  const recentQuery = query(
-    collection(db, 'images'),
-    where('createdAt', '>', time),
-    limit(5)
-  );
-  await getDocs(recentQuery).then((docs) =>
+  await getDocs(recentQuery()).then((docs) =>
     docs.forEach((doc) => {
       images.push({
         createdAt: doc.data().createdAt,

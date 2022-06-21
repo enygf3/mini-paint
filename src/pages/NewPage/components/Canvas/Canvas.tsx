@@ -11,9 +11,9 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { ERASE } from '../../../../core/actions/actions';
 
-import { Position, Props, Shapes, State, ShapesEnum } from '../../../types';
+import { Position, Props, Shapes, State, ShapesEnum } from './types';
 
-const Canvas: FC<Props> = ({ width, height, func }: Props) => {
+const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
   const dispatch = useDispatch();
   const canvasRef: RefObject<HTMLCanvasElement> = useRef(null);
   const statePenWidth = useSelector((state: State) => state.canvas.width);
@@ -51,7 +51,7 @@ const Canvas: FC<Props> = ({ width, height, func }: Props) => {
     canvas ? (canvas.lineWidth = penWidth) : 0;
     const data = canvasRef.current ? canvasRef.current.toDataURL() : 0;
     if (typeof data === 'string') {
-      func(data);
+      saveDataToState(data);
     }
 
     if (shape.length > 0) {

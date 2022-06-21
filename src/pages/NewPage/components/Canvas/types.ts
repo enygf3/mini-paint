@@ -3,7 +3,7 @@ import { Dispatch } from 'react';
 export interface Props {
   width: number;
   height: number;
-  func: Dispatch<string>;
+  saveDataToState: Dispatch<string>;
 }
 
 export interface State {

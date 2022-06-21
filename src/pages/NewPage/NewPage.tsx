@@ -26,6 +26,7 @@ import {
 import { useState, useRef, RefObject, useEffect, memo } from 'react';
 import { CirclePicker } from 'react-color';
 import './style/New.sass';
+import { colorType } from './types';
 
 const NewPage = () => {
   const dispatch = useDispatch();
@@ -45,100 +46,7 @@ const NewPage = () => {
   const CanvasProps = {
     width: isDesktop ? 500 : 300,
     height: isDesktop ? 700 : 500,
-    func: setImg,
-  };
-
-  const getImg = () => {
-    setSaved(true);
-    setTimeout(setSaved, 1500, false);
-    dispatch({
-      type: GET_IMAGE_DATA,
-      payload: {
-        canvas: img,
-      },
-    });
-  };
-
-  const SignOut = (): void => {
-    dispatch({ type: SIGN_OUT });
-    navigate('/login');
-  };
-
-  const openPenSettings = (): void => {
-    penSettings.current ? penSettings.current.classList.toggle('active') : null;
-    if (newShape.length > 0) {
-      setShape('');
-    }
-  };
-
-  const openColorSettings = (): void => {
-    colorSettings.current
-      ? colorSettings.current.classList.toggle('active')
-      : 0;
-  };
-
-  const handleShape = (): void => {
-    shapesSettings.current
-      ? Array.from<HTMLDivElement>(
-          shapesSettings.current.children as Iterable<HTMLDivElement>
-        ).forEach(
-          (el) =>
-            (el.onclick = () => {
-              setShape(el.classList[1]);
-              shapesSettings.current
-                ? shapesSettings.current.classList.toggle('active')
-                : 0;
-            })
-        )
-      : 0;
-  };
-
-  const openShapesSettings = (): void => {
-    shapesSettings.current
-      ? shapesSettings.current.classList.toggle('active')
-      : 0;
-    handleShape();
-  };
-
-  const dispatchPenWidth = (): void => {
-    dispatch({
-      type: SET_PEN_WIDTH,
-      payload: {
-        width: penWidth,
-      },
-    });
-
-    penSettings.current ? penSettings.current.classList.toggle('active') : null;
-  };
-
-  const dispatchColor = (): void => {
-    dispatch({
-      type: SET_PEN_COLOR,
-      payload: {
-        color: color,
-      },
-    });
-
-    colorSettings.current
-      ? colorSettings.current.classList.toggle('active')
-      : 0;
-  };
-
-  interface colorType {
-    hex: string;
-  }
-
-  const handle = (clr: colorType): void => {
-    setColor(clr.hex);
-  };
-
-  const dispatchErase = (): void => {
-    dispatch({
-      type: ERASE,
-      payload: {
-        erase: true,
-      },
-    });
+    saveDataToState: setImg,
   };
 
   useEffect(() => {
@@ -153,6 +61,95 @@ const NewPage = () => {
   useEffect(() => {
     return window.clearTimeout();
   }, []);
+
+  function getImg(): void {
+    setSaved(true);
+    setTimeout(setSaved, 1500, false);
+    dispatch({
+      type: GET_IMAGE_DATA,
+      payload: {
+        canvas: img,
+      },
+    });
+  }
+
+  function SignOut(): void {
+    dispatch({ type: SIGN_OUT });
+    navigate('/login');
+  }
+
+  function openPenSettings(): void {
+    penSettings.current ? penSettings.current.classList.toggle('active') : null;
+    if (newShape.length > 0) {
+      setShape('');
+    }
+  }
+
+  function openColorSettings(): void {
+    colorSettings.current
+      ? colorSettings.current.classList.toggle('active')
+      : 0;
+  }
+
+  function handleShape(): void {
+    shapesSettings.current
+      ? Array.from<HTMLDivElement>(
+          shapesSettings.current.children as Iterable<HTMLDivElement>
+        ).forEach(
+          (el) =>
+            (el.onclick = () => {
+              setShape(el.classList[1]);
+              shapesSettings.current
+                ? shapesSettings.current.classList.toggle('active')
+                : 0;
+            })
+        )
+      : 0;
+  }
+
+  function openShapesSettings(): void {
+    shapesSettings.current
+      ? shapesSettings.current.classList.toggle('active')
+      : 0;
+    handleShape();
+  }
+
+  function dispatchPenWidth(): void {
+    dispatch({
+      type: SET_PEN_WIDTH,
+      payload: {
+        width: penWidth,
+      },
+    });
+
+    penSettings.current ? penSettings.current.classList.toggle('active') : null;
+  }
+
+  function dispatchColor(): void {
+    dispatch({
+      type: SET_PEN_COLOR,
+      payload: {
+        color: color,
+      },
+    });
+
+    colorSettings.current
+      ? colorSettings.current.classList.toggle('active')
+      : 0;
+  }
+
+  function handle(clr: colorType): void {
+    setColor(clr.hex);
+  }
+
+  function dispatchErase(): void {
+    dispatch({
+      type: ERASE,
+      payload: {
+        erase: true,
+      },
+    });
+  }
 
   return (
     <main>

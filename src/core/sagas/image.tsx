@@ -1,10 +1,5 @@
 import { takeEvery, put, call, all } from '@redux-saga/core/effects';
-import {
-  save,
-  getRecentImgs,
-  getImages,
-  getUserImgs,
-} from '../service/firebaseImg';
+import { save, getRecentImgs, getImages, getUserImgs } from '../service/image';
 import {
   getDBImages,
   getImage,
@@ -18,7 +13,7 @@ export function* imgWorker(payload: AnyAction): Generator {
     yield save(payload.payload.canvas);
     yield put(getImage.success(payload.payload.canvas, null));
   } catch (error) {
-    console.log('imgSaga', error);
+    console.log('image', error);
     yield put(getImage.failure(null, null));
   }
 }
@@ -67,27 +62,9 @@ export function* getUserImgsWorker(payload: AnyAction): Generator {
   }
 }
 
-export function* recentWatcher(): Generator {
+export default function* image(): Generator {
   yield takeEvery(getRecentImages.request, getRecentImgsWorker);
-}
-
-export function* imgWatcher(): Generator {
   yield takeEvery(getImage.request, imgWorker);
-}
-
-export function* DBWatcher(): Generator {
   yield takeEvery(getDBImages.request, getAllImgWorker);
-}
-
-export function* userImgsWatcher(): Generator {
   yield takeEvery(getUserImages.request, getUserImgsWorker);
-}
-
-export default function* imgSaga(): Generator {
-  yield all([
-    call(imgWatcher),
-    call(DBWatcher),
-    call(recentWatcher),
-    call(userImgsWatcher),
-  ]);
 }

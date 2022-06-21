@@ -21,7 +21,7 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper';
-import { State, Images } from '../types';
+import { State, Images } from '../NewPage/components/Canvas/types';
 import './style/Home.sass';
 
 const HomePage: FC = () => {

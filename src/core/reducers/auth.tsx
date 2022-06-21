@@ -1,22 +1,18 @@
 import { ActionCreator, createReducer } from 'typesafe-actions';
 import { doAuth } from '../actions/actionCreators';
 import { AnyAction } from 'redux';
+import { AuthState } from './types';
 
-interface State {
-  isLoggedIn: boolean;
-  user: object | null;
-}
-
-const initialState: State = {
+const initialState: AuthState = {
   isLoggedIn: false,
   user: null,
 };
 
-const authReducer: ActionCreator = createReducer<State>(initialState)
+const auth: ActionCreator = createReducer<AuthState>(initialState)
   .handleAction(doAuth.request, () => ({
     ...initialState,
   }))
-  .handleAction(doAuth.success, (state: State, action: AnyAction) => ({
+  .handleAction(doAuth.success, (state: AuthState, action: AnyAction) => ({
     ...state,
     isLoggedIn: true,
     user: action.payload.payload,
@@ -26,4 +22,4 @@ const authReducer: ActionCreator = createReducer<State>(initialState)
     isLoggedIn: false,
   }));
 
-export default authReducer;
+export default auth;

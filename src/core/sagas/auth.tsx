@@ -1,5 +1,5 @@
 import { takeEvery, put, call, all } from '@redux-saga/core/effects';
-import { signInUser, signOutUser } from '../service/firebaseAuth';
+import { signInUser, signOutUser } from '../service/auth';
 import { doAuth, doSignOut } from '../actions/actionCreators';
 
 export function* signInWorker(): Generator {
@@ -28,14 +28,7 @@ export function* signOutWorker(): Generator {
   }
 }
 
-export function* signOutWatcher(): Generator {
-  yield takeEvery(doSignOut.request, signOutWorker);
-}
-
-export function* signInWatcher(): Generator {
+export default function* auth(): Generator {
   yield takeEvery(doAuth.request, signInWorker);
-}
-
-export default function* authSaga(): Generator {
-  yield all([call(signInWatcher), call(signOutWatcher)]);
+  yield takeEvery(doSignOut.request, signOutWorker);
 }

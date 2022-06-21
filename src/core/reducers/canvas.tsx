@@ -11,15 +11,7 @@ import {
   setPenWidth,
   setShape,
 } from '../actions/actionCreators';
-
-export interface EditorState {
-  color: string;
-  width: number;
-  background: string;
-  canvas: HTMLCanvasElement | null;
-  shape: string;
-  erase: boolean;
-}
+import { EditorState } from './types';
 
 const initialState: EditorState = {
   color: '#000000',
@@ -30,7 +22,7 @@ const initialState: EditorState = {
   erase: false,
 };
 
-const canvasReducer = createReducer<EditorState, CreatorsType>(initialState)
+const canvas = createReducer<EditorState, CreatorsType>(initialState)
   .handleAction(getImage.request, (state: EditorState, action: AnyAction) => ({
     ...state,
     canvas: action.payload.canvas,
@@ -64,4 +56,4 @@ const canvasReducer = createReducer<EditorState, CreatorsType>(initialState)
     canvas: null,
   }));
 
-export default canvasReducer;
+export default canvas;
