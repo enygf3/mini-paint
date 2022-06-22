@@ -6,10 +6,24 @@ import NewPage from './pages/NewPage/NewPage';
 import HomePage from './pages/HomePage/HomePage';
 import './assets/sass/styles.sass';
 import PrivateWrapper from './core/components/PrivateWrapper';
+import { Toaster } from 'react-hot-toast';
 
 const App = () => {
   return (
     <div className="app">
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          error: {
+            style: {
+              background: 'red',
+              color: '#fff',
+              top: '15px',
+              right: '15px',
+            },
+          },
+        }}
+      />
       <Routes>
         <Route element={<PrivateWrapper />}>
           <Route path="/new" element={<NewPage />} />

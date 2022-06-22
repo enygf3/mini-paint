@@ -1,6 +1,7 @@
 import { takeEvery, put } from '@redux-saga/core/effects';
 import { signInUser, signOutUser } from '../service/auth';
 import { doAuth, doSignOut } from '../actions/auth';
+import { toast } from 'react-hot-toast';
 
 export function* signInWorker(): Generator {
   const User: { user: object } = {
@@ -13,7 +14,7 @@ export function* signInWorker(): Generator {
     });
     yield put(doAuth.success({ payload: User.user }, null));
   } catch (error) {
-    console.log('authsaga', error);
+    yield toast.error('Something is went wrong. Please, try again');
     yield put(doAuth.failure(null, null));
   }
 }
@@ -23,7 +24,7 @@ export function* signOutWorker(): Generator {
     yield signOutUser();
     yield put(doSignOut.success(null, null));
   } catch (error) {
-    console.log(error);
+    yield toast.error('Something is went wrong. Please, try again');
     yield put(doSignOut.failure(null, null));
   }
 }

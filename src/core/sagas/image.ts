@@ -3,13 +3,14 @@ import { save, getRecentImgs, getImages, getUserImgs } from '../service/image';
 import { getDBImages, getRecentImages, getUserImages } from '../actions/images';
 import { getImage } from '../actions/canvas';
 import { AnyAction } from 'redux';
+import { toast } from 'react-hot-toast';
 
 export function* imgWorker(payload: AnyAction): Generator {
   try {
     yield save(payload.payload.canvas);
     yield put(getImage.success(payload.payload.canvas, null));
   } catch (error) {
-    console.log('image', error);
+    yield toast.error('Something is went wrong. Please, try again');
     yield put(getImage.failure(null, null));
   }
 }
@@ -26,7 +27,7 @@ export function* getAllImgWorker(payload: AnyAction): Generator {
     });
     yield put(getDBImages.success(Images.images, null));
   } catch (error) {
-    console.log(error);
+    yield toast.error('Something is went wrong. Please, try again');
     yield put(getDBImages.failure(null, null));
   }
 }
@@ -39,6 +40,7 @@ export function* getRecentImgsWorker(): Generator {
     yield getRecentImgs().then((res) => (Images.images = res));
     yield put(getRecentImages.success(Images.images, null));
   } catch (error) {
+    yield toast.error('Something is went wrong. Please, try again');
     yield put(getRecentImages.failure(null, null));
   }
 }
@@ -53,7 +55,7 @@ export function* getUserImgsWorker(payload: AnyAction): Generator {
     );
     yield put(getUserImages.success(Images.images, null));
   } catch (error) {
-    console.log(error);
+    yield toast.error('Something is went wrong. Please, try again');
     yield put(getUserImages.failure(null, null));
   }
 }
