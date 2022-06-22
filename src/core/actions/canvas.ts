@@ -27,7 +27,7 @@ export const setPenColor = createAction(CanvasTemplates.SET_PEN_COLOR)<{
 export const setShape = createAction(CanvasTemplates.SET_SHAPE)<{
   shape: string;
 }>();
-export const erase = createAction(CanvasTemplates.ERASE)<void>();
+export const erase = createAction(CanvasTemplates.ERASE as string)<void>();
 
 export type CanvasType = ActionType<
   | typeof deleteImg
