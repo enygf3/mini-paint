@@ -93,6 +93,10 @@ contains `Canvas.tsx` and `types.ts` for it
 3. Then execute this: `npm start`
 4. You're done!
 
+### Or
+
+### [Firebase Hosting](https://mini-paint-99227.web.app/)
+
 ## Database snapshot
 
 ### Collection -> Document -> Fields
