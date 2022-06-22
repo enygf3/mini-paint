@@ -10,6 +10,5 @@ firebase.json
 firestore.indexes.json
 .firebaserc
 storage.rules
-public
 build
 .firebase
