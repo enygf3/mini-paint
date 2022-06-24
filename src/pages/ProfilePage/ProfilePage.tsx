@@ -3,28 +3,59 @@ import { State } from '../NewPage/components/Canvas/types';
 import { AuthState } from './types';
 import Loader from '../../core/components/Loader';
 import './styles.sass';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ImagesTemplates } from '../../core/actions/images';
 
 const ProfilePage = () => {
   const user = useSelector((state: AuthState) => state.auth.user);
-  const images = useSelector((state: State) => state.images.userImages);
+  const imagesDB = useSelector((state: State) => state.images.userImages);
+  const [fetch, setFetch] = useState(true);
+  const [images, setImages] = useState(imagesDB);
   const dispatch = useDispatch();
+
   useEffect(() => {
-    user
-      ? dispatch({
-          type: ImagesTemplates.GET_USER_IMGS,
-          payload: { user: user.displayName },
-        })
-      : 0;
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
+      window.removeEventListener('scroll', handleScroll);
       dispatch({ type: ImagesTemplates.CLEAR_STATE });
     };
-  }, [user]);
+  }, []);
+
+  useEffect(() => {
+    if (imagesDB) {
+      setImages([...images, ...imagesDB]);
+    }
+  }, [imagesDB]);
+
+  useEffect(() => {
+    if (fetch && user) {
+      dispatch({
+        type: ImagesTemplates.GET_PROFILE_IMGS,
+        payload: {
+          user: user.displayName,
+          start: images[images.length - 1]?.createdAt
+            ? images[images.length - 1]?.createdAt
+            : 0,
+        },
+      });
+    }
+  }, [fetch, user]);
+
+  function handleScroll(event: UIEvent | Event): void {
+    const target = event.target as Document;
+    if (
+      window.innerHeight + target.documentElement.scrollTop >=
+      target.documentElement.scrollHeight - 250
+    ) {
+      setFetch(true);
+    } else {
+      setFetch(false);
+    }
+  }
 
   return (
-    <main>
+    <main className="profile-main">
       <h3 className="profile-title title">Profile</h3>
       {user ? (
         <>

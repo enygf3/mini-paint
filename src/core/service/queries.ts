@@ -31,3 +31,15 @@ export function recentQuery() {
     limit(5)
   );
 }
+
+export function profileQuery(user: string, start: number) {
+  return start !== 0
+    ? query(
+        collection(db, 'images'),
+        where('user', '==', user),
+        orderBy('createdAt', 'desc'),
+        startAfter(start),
+        limit(5)
+      )
+    : query(collection(db, 'images'), where('user', '==', user), limit(5));
+}

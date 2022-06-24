@@ -4,6 +4,7 @@ import { ImageState } from './types';
 import {
   clearState,
   getDBImages,
+  getProfileImages,
   getRecentImages,
   getUserImages,
   ImagesType,
@@ -20,6 +21,11 @@ const initialState: ImageState = {
 
 const image = createReducer<ImageState, ImagesType>(initialState)
   .handleAction(getDBImages.request, (state: ImageState) => ({
+    ...state,
+    loading: true,
+    start: state.start + 5,
+  }))
+  .handleAction(getProfileImages.request, (state: ImageState) => ({
     ...state,
     loading: true,
     start: state.start + 5,
@@ -48,7 +54,19 @@ const image = createReducer<ImageState, ImagesType>(initialState)
       userImages: action.payload,
     })
   )
+  .handleAction(
+    getProfileImages.success,
+    (state: ImageState, action: AnyAction) => ({
+      ...state,
+      loading: false,
+      userImages: action.payload,
+    })
+  )
   .handleAction(getUserImages.failure, (state: ImageState) => ({
+    ...state,
+    loading: false,
+  }))
+  .handleAction(getProfileImages.failure, (state: ImageState) => ({
     ...state,
     loading: false,
   }))

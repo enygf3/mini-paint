@@ -11,6 +11,9 @@ export enum ImagesTemplates {
   GET_USER_IMGS_FAILED = 'GET_USER_IMGS_FAILED',
   GET_USER_IMGS_SUCCEED = 'GET_USER_IMGS_SUCCEED',
   CLEAR_STATE = 'CLEAR_STATE',
+  GET_PROFILE_IMGS = 'GET_PROFILE_IMG',
+  GET_PROFILE_IMGS_SUCCEED = 'GET_PROFILE_IMGS_SUCCEED',
+  GET_PROFILE_IMGS_FAILED = 'GET_PROFILE_IMGS_FAILED',
 }
 
 export const getDBImages = createAsyncAction(
@@ -28,6 +31,11 @@ export const getRecentImages = createAsyncAction(
   ImagesTemplates.GET_RECENT_IMAGES_SUCCEED,
   ImagesTemplates.GET_RECENT_IMAGES_FAILED
 )();
+export const getProfileImages = createAsyncAction(
+  ImagesTemplates.GET_PROFILE_IMGS,
+  ImagesTemplates.GET_PROFILE_IMGS_SUCCEED,
+  ImagesTemplates.GET_PROFILE_IMGS_FAILED
+)();
 
 export const clearState = createAction(ImagesTemplates.CLEAR_STATE)<void>();
 
@@ -35,5 +43,6 @@ export type ImagesType = ActionType<
   | typeof getDBImages
   | typeof getUserImages
   | typeof getRecentImages
+  | typeof getProfileImages
   | typeof clearState
 >;
