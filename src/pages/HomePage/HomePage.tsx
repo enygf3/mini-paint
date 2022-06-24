@@ -15,7 +15,6 @@ import React, {
   useEffect,
   useRef,
   useState,
-  MouseEvent,
 } from 'react';
 import { ImagesTemplates } from '../../core/actions/images';
 import 'swiper/css';
@@ -96,8 +95,7 @@ const HomePage: FC = () => {
     }
   }
 
-  function openMenu(event: MouseEvent) {
-    const target = event.target as HTMLDivElement;
+  function openMenu() {
     const div = buttonsRef.current;
     setMenu(!menu);
     div

@@ -3,17 +3,26 @@ import { State } from '../NewPage/components/Canvas/types';
 import { AuthState } from './types';
 import Loader from '../../core/components/Loader';
 import './styles.sass';
-import React, { useEffect, useState } from 'react';
+import React, { RefObject, useEffect, useRef, useState } from 'react';
 import { ImagesTemplates } from '../../core/actions/images';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenRuler, faBars } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPenRuler,
+  faBars,
+  faHouse,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
 const ProfilePage = () => {
   const user = useSelector((state: AuthState) => state.auth.user);
   const imagesDB = useSelector((state: State) => state.images.userImages);
+
+  const buttonsRef: RefObject<HTMLDivElement> = useRef(null);
+
   const [fetch, setFetch] = useState(true);
   const [images, setImages] = useState(imagesDB);
+  const [menu, setMenu] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -57,6 +66,17 @@ const ProfilePage = () => {
     }
   }
 
+  function openMenu(): void {
+    const div = buttonsRef.current;
+    setMenu(!menu);
+    div
+      ? Array.from(div.children).forEach((item) => {
+          console.log(item);
+          item?.children[0].classList.toggle('disabled');
+        })
+      : 0;
+  }
+
   return (
     <main className="profile-main">
       <h3 className="profile-title title">Profile</h3>
@@ -80,14 +100,21 @@ const ProfilePage = () => {
           <Loader />
         )}
       </div>
-      {/*<Link to="/new">*/}
-      {/*  <button className="main-btn">*/}
-      {/*    <FontAwesomeIcon icon={faPenRuler} />*/}
-      {/*  </button>*/}
-      {/*</Link>*/}
-      <button className="main-btn">
-        <FontAwesomeIcon icon={faBars} />
-      </button>
+      <div className="profile-buttons" ref={buttonsRef}>
+        <Link to="/new">
+          <button className="main-btn disabled">
+            <FontAwesomeIcon icon={faPenRuler} />
+          </button>
+        </Link>
+        <Link to="/">
+          <button className="main-btn disabled">
+            <FontAwesomeIcon icon={faHouse} />
+          </button>
+        </Link>
+        <button className="main-btn menu-btn" onClick={openMenu}>
+          <FontAwesomeIcon icon={menu ? faXmark : faBars} />
+        </button>
+      </div>
     </main>
   );
 };
