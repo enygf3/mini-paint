@@ -3,8 +3,11 @@ import { State } from '../NewPage/components/Canvas/types';
 import { AuthState } from './types';
 import Loader from '../../core/components/Loader';
 import './styles.sass';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ImagesTemplates } from '../../core/actions/images';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenRuler, faBars } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const ProfilePage = () => {
   const user = useSelector((state: AuthState) => state.auth.user);
@@ -77,6 +80,14 @@ const ProfilePage = () => {
           <Loader />
         )}
       </div>
+      {/*<Link to="/new">*/}
+      {/*  <button className="main-btn">*/}
+      {/*    <FontAwesomeIcon icon={faPenRuler} />*/}
+      {/*  </button>*/}
+      {/*</Link>*/}
+      <button className="main-btn">
+        <FontAwesomeIcon icon={faBars} />
+      </button>
     </main>
   );
 };

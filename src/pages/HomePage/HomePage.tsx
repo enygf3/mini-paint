@@ -1,7 +1,12 @@
-import { faPenRuler } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBars,
+  faPenRuler,
+  faUser,
+  faFaceSadCry,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
-import { faFaceSadCry } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import React, {
   ChangeEvent,
@@ -10,6 +15,7 @@ import React, {
   useEffect,
   useRef,
   useState,
+  MouseEvent,
 } from 'react';
 import { ImagesTemplates } from '../../core/actions/images';
 import 'swiper/css';
@@ -26,9 +32,11 @@ const HomePage: FC = () => {
   const userImages = useSelector((state: State) => state.images.userImages);
   const galleryRef: RefObject<HTMLDivElement> = useRef(null);
   const userRef: RefObject<HTMLDivElement> = useRef(null);
+  const buttonsRef: RefObject<HTMLDivElement> = useRef(null);
 
   const [fetch, setFetch] = useState(true);
   const [images, setImages] = useState(imagesDB);
+  const [menu, setMenu] = useState(false);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -88,6 +96,18 @@ const HomePage: FC = () => {
     }
   }
 
+  function openMenu(event: MouseEvent) {
+    const target = event.target as HTMLDivElement;
+    const div = buttonsRef.current;
+    setMenu(!menu);
+    div
+      ? Array.from(div.children).forEach((item) => {
+          console.log(item);
+          item?.children[0].classList.toggle('disabled');
+        })
+      : 0;
+  }
+
   return (
     <main className="home">
       <div className="home-recent heading">
@@ -106,7 +126,7 @@ const HomePage: FC = () => {
                 return (
                   <SwiperSlide key={recentImages.indexOf(item)}>
                     <img
-                      className="recent-item item"
+                      className="item recent-item"
                       src={item.data}
                       key={recentImages.indexOf(item)}
                       alt=""
@@ -163,11 +183,21 @@ const HomePage: FC = () => {
           );
         })}
       </div>
-      <Link to="/new">
-        <button className="main-btn">
-          <FontAwesomeIcon icon={faPenRuler} />
+      <div className="home-buttons" ref={buttonsRef}>
+        <Link to="/new">
+          <button className="main-btn disabled">
+            <FontAwesomeIcon icon={faPenRuler} />
+          </button>
+        </Link>
+        <Link to="/profile">
+          <button className="main-btn disabled">
+            <FontAwesomeIcon icon={faUser} />
+          </button>
+        </Link>
+        <button className="main-btn menu-btn" onClick={openMenu}>
+          <FontAwesomeIcon icon={menu ? faXmark : faBars} />
         </button>
-      </Link>
+      </div>
     </main>
   );
 };
