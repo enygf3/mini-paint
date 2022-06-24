@@ -1,0 +1,39 @@
+@use "../../assets/sass/mixins"
+
+main
+  justify-content: flex-start
+
+.profile-content
+  @include mixins.flexColumn
+  height: 300px
+  justify-content: flex-start
+  align-self: flex-start
+  margin-top: 150px
+
+  img
+    border-radius: 50%
+
+.profile-title
+  position: absolute
+  top: 15px
+  left: 15px
+
+.profile-name
+  margin: 15px auto
+
+.content-heading
+  margin-top: 50px
+  margin-left: 0
+
+.items
+  @include mixins.flexColumn
+  width: 90%
+  height: auto
+  margin-top: 50px
+  top: 0
+
+.item
+  width: 324px
+  height: 400px
+  background: #fff
+  margin: 5px

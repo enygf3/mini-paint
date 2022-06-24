@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage/HomePage';
 import './assets/sass/styles.sass';
 import PrivateWrapper from './core/components/PrivateWrapper';
 import { Toaster } from 'react-hot-toast';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
 
 const App = () => {
   return (
@@ -31,6 +32,9 @@ const App = () => {
         <Route path="/login" element={<SignPage />} />
         <Route element={<PrivateWrapper />}>
           <Route path="/" element={<HomePage />} />
+        </Route>
+        <Route element={<PrivateWrapper />}>
+          <Route path="/profile" element={<ProfilePage />} />
         </Route>
       </Routes>
     </div>
