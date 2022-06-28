@@ -17,12 +17,12 @@ import React, {
   useState,
 } from 'react';
 import { ImagesTemplates } from '../../core/actions/images';
-import 'swiper/css';
-import 'swiper/css/free-mode';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper';
 import { State, Images } from '../NewPage/components/Canvas/types';
 import './styles.sass';
+import 'swiper/css';
+import 'swiper/css/free-mode';
 
 const HomePage: FC = () => {
   const dispatch = useDispatch();
@@ -39,11 +39,11 @@ const HomePage: FC = () => {
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
-    dispatch({ type: ImagesTemplates.GET_RECENT_IMAGES });
+    dispatch({ type: ImagesTemplates.GetRecentImages });
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      dispatch({ type: ImagesTemplates.CLEAR_STATE });
+      dispatch({ type: ImagesTemplates.ClearState });
     };
   }, []);
 
@@ -56,7 +56,7 @@ const HomePage: FC = () => {
   useEffect(() => {
     if (fetch) {
       dispatch({
-        type: ImagesTemplates.GET_DB_IMAGES,
+        type: ImagesTemplates.GetDBImages,
         payload: {
           start: images[images.length - 1]?.createdAt
             ? images[images.length - 1]?.createdAt
@@ -86,7 +86,7 @@ const HomePage: FC = () => {
       gallery.classList.add('disabled');
       userImages.classList.remove('disabled');
       dispatch({
-        type: ImagesTemplates.GET_USER_IMGS,
+        type: ImagesTemplates.GetUserImages,
         payload: { user: input.value },
       });
     } else {

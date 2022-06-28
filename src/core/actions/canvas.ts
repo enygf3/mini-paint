@@ -1,33 +1,33 @@
 import { ActionType, createAction, createAsyncAction } from 'typesafe-actions';
 
 export enum CanvasTemplates {
-  SAVE_IMG = 'SAVE_IMG',
-  SAVE_IMG_FAILED = 'SAVE_IMG_FAILED',
-  GET_IMAGE_DATA = 'GET_IMAGE_DATA',
-  DELETE_IMAGE_DATA = 'DELETE_IMAGE_DATA',
-  SET_PEN_WIDTH = 'SET_PEN_WIDTH',
-  SET_PEN_COLOR = 'SET_PEN_COLOR',
-  SET_SHAPE = 'SET_SHAPE',
-  ERASE = 'ERASE',
+  SaveImg = 'SAVE_IMG',
+  SaveImgFailed = 'SAVE_IMG_FAILED',
+  GetImageData = 'GET_IMAGE_DATA',
+  DeleteImageData = 'DELETE_IMAGE_DATA',
+  SetPenWidth = 'SET_PEN_WIDTH',
+  SetPenColor = 'SET_PEN_COLOR',
+  SetShape = 'SET_SHAPE',
+  Erase = 'ERASE',
 }
 
 export const getImage = createAsyncAction(
-  CanvasTemplates.GET_IMAGE_DATA,
-  CanvasTemplates.SAVE_IMG,
-  CanvasTemplates.SAVE_IMG_FAILED
+  CanvasTemplates.GetImageData,
+  CanvasTemplates.SaveImg,
+  CanvasTemplates.SaveImgFailed
 )<{ payload: string }>();
 
-export const deleteImg = createAction(CanvasTemplates.DELETE_IMAGE_DATA)();
-export const setPenWidth = createAction(CanvasTemplates.SET_PEN_WIDTH)<{
+export const deleteImg = createAction(CanvasTemplates.DeleteImageData)();
+export const setPenWidth = createAction(CanvasTemplates.SetPenWidth)<{
   width: number;
 }>();
-export const setPenColor = createAction(CanvasTemplates.SET_PEN_COLOR)<{
+export const setPenColor = createAction(CanvasTemplates.SetPenColor)<{
   color: string;
 }>();
-export const setShape = createAction(CanvasTemplates.SET_SHAPE)<{
+export const setShape = createAction(CanvasTemplates.SetShape)<{
   shape: string;
 }>();
-export const erase = createAction(CanvasTemplates.ERASE as string)<void>();
+export const erase = createAction(CanvasTemplates.Erase as string)<void>();
 
 export type CanvasType = ActionType<
   | typeof deleteImg

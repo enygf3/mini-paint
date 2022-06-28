@@ -35,7 +35,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
     if (eraseState) {
       eraseCanvas();
       setExistingShapes([]);
-      dispatch({ type: CanvasTemplates.ERASE, payload: { erase: false } });
+      dispatch({ type: CanvasTemplates.Erase, payload: { erase: false } });
     }
   }, [eraseState]);
 
@@ -56,9 +56,8 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
 
   function handleMouseUp(event: MouseEvent<HTMLCanvasElement>): void {
     setDrawing(false);
-    const data = canvasRef.current ? canvasRef.current.toDataURL() : 0;
-    if (typeof data === 'string') {
-      saveDataToState(data);
+    if (canvasRef.current) {
+      saveDataToState(canvasRef.current.toDataURL());
     }
 
     if (shape.length > 0) {
@@ -120,9 +119,8 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
 
   function handleTouchEnd(event: TouchEvent<HTMLCanvasElement>): void {
     setDrawing(false);
-    const data = canvasRef.current ? canvasRef.current.toDataURL() : 0;
-    if (typeof data === 'string') {
-      saveDataToState(data);
+    if (canvasRef.current) {
+      saveDataToState(canvasRef.current.toDataURL());
     }
 
     if (shape.length > 0) {

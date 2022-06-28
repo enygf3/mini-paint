@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import { Toaster } from 'react-hot-toast';
 import SignPage from './pages/SignPage/SignPage';
 import NewPage from './pages/NewPage/NewPage';
 import HomePage from './pages/HomePage/HomePage';
-import './assets/sass/styles.sass';
 import PrivateWrapper from './core/components/PrivateWrapper';
-import { Toaster } from 'react-hot-toast';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import './assets/sass/styles.sass';
 
 const App = () => {
   return (

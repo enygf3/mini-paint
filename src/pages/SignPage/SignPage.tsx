@@ -16,7 +16,7 @@ const SignPage: FC = () => {
 
   async function signUpGoogle(): Promise<void> {
     dispatch({
-      type: AuthTemplates.SIGN_IN,
+      type: AuthTemplates.SignIn,
     });
     navigate('/');
   }

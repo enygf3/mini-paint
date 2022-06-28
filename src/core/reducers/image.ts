@@ -1,6 +1,5 @@
 import { AnyAction } from 'redux';
 import { createReducer } from 'typesafe-actions';
-import { ImageState } from './types';
 import {
   clearState,
   getDBImages,
@@ -9,6 +8,7 @@ import {
   getUserImages,
   ImagesType,
 } from '../actions/images';
+import { ImageState } from './types';
 
 const initialState: ImageState = {
   images: [],

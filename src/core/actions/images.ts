@@ -1,43 +1,43 @@
 import { ActionType, createAction, createAsyncAction } from 'typesafe-actions';
 
 export enum ImagesTemplates {
-  GET_DB_IMAGES = 'GET_DB_IMAGES',
-  GET_DB_IMAGES_FAILED = 'GET_DB_IMAGES_SUCCEED',
-  GET_DB_IMAGES_SUCCEED = 'GET_DB_IMAGES_SUCCEED',
-  GET_RECENT_IMAGES = 'GET_RECENT_IMAGES',
-  GET_RECENT_IMAGES_FAILED = 'GET_RECENT_IMAGES_FAILED',
-  GET_RECENT_IMAGES_SUCCEED = 'GET_RECENT_IMAGES_SUCCEED',
-  GET_USER_IMGS = 'GET_USER_IMGS',
-  GET_USER_IMGS_FAILED = 'GET_USER_IMGS_FAILED',
-  GET_USER_IMGS_SUCCEED = 'GET_USER_IMGS_SUCCEED',
-  CLEAR_STATE = 'CLEAR_STATE',
-  GET_PROFILE_IMGS = 'GET_PROFILE_IMG',
-  GET_PROFILE_IMGS_SUCCEED = 'GET_PROFILE_IMGS_SUCCEED',
-  GET_PROFILE_IMGS_FAILED = 'GET_PROFILE_IMGS_FAILED',
+  GetDBImages = 'GET_DB_IMAGES',
+  GetDBImagesFailed = 'GET_DB_IMAGES_FAILED',
+  GetDBImagesSucceed = 'GET_DB_IMAGES_SUCCEED',
+  GetRecentImages = 'GET_RECENT_IMAGES',
+  GetRecentImagesFailed = 'GET_RECENT_IMAGES_FAILED',
+  GetRecentImagesSucceed = 'GET_RECENT_IMAGES_SUCCEED',
+  GetUserImages = 'GET_USER_IMAGES',
+  GetUserImagesFailed = 'GET_USER_IMAGES_FAILED',
+  GetUserImagesSucceed = 'GET_USER_IMAGES_SUCCEED',
+  ClearState = 'CLEAR_STATE',
+  GetProfileImages = 'GET_PROFILE_IMAGES',
+  GetProfileImagesSucceed = 'GET_PROFILE_IMAGES_SUCCEED',
+  GetProfileImagesFailed = 'GET_PROFILE_IMAGES_FAILED',
 }
 
 export const getDBImages = createAsyncAction(
-  ImagesTemplates.GET_DB_IMAGES,
-  ImagesTemplates.GET_DB_IMAGES_SUCCEED,
-  ImagesTemplates.GET_DB_IMAGES_FAILED
+  ImagesTemplates.GetDBImages,
+  ImagesTemplates.GetDBImagesSucceed,
+  ImagesTemplates.GetDBImagesFailed
 )();
 export const getUserImages = createAsyncAction(
-  ImagesTemplates.GET_USER_IMGS,
-  ImagesTemplates.GET_USER_IMGS_SUCCEED,
-  ImagesTemplates.GET_USER_IMGS_FAILED
+  ImagesTemplates.GetUserImages,
+  ImagesTemplates.GetUserImagesSucceed,
+  ImagesTemplates.GetUserImagesFailed
 )();
 export const getRecentImages = createAsyncAction(
-  ImagesTemplates.GET_RECENT_IMAGES,
-  ImagesTemplates.GET_RECENT_IMAGES_SUCCEED,
-  ImagesTemplates.GET_RECENT_IMAGES_FAILED
+  ImagesTemplates.GetRecentImages,
+  ImagesTemplates.GetRecentImagesSucceed,
+  ImagesTemplates.GetRecentImagesFailed
 )();
 export const getProfileImages = createAsyncAction(
-  ImagesTemplates.GET_PROFILE_IMGS,
-  ImagesTemplates.GET_PROFILE_IMGS_SUCCEED,
-  ImagesTemplates.GET_PROFILE_IMGS_FAILED
+  ImagesTemplates.GetProfileImages,
+  ImagesTemplates.GetProfileImagesSucceed,
+  ImagesTemplates.GetProfileImagesFailed
 )();
 
-export const clearState = createAction(ImagesTemplates.CLEAR_STATE)<void>();
+export const clearState = createAction(ImagesTemplates.ClearState)<void>();
 
 export type ImagesType = ActionType<
   | typeof getDBImages

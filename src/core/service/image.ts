@@ -1,8 +1,8 @@
-import { firestore as db } from '../configs/firebase';
 import { Timestamp, getDocs } from 'firebase/firestore';
 import { auth } from '../configs/firebase';
 import { Images } from '../../pages/NewPage/components/Canvas/types';
 import { imgQuery, inputQuery, profileQuery, recentQuery } from './queries';
+import { firestore as db } from '../configs/firebase';
 
 export const save = async (data: string) => {
   await db.collection('images').add({

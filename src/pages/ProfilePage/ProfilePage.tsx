@@ -30,7 +30,7 @@ const ProfilePage = () => {
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      dispatch({ type: ImagesTemplates.CLEAR_STATE });
+      dispatch({ type: ImagesTemplates.ClearState });
     };
   }, []);
 
@@ -43,7 +43,7 @@ const ProfilePage = () => {
   useEffect(() => {
     if (fetch && user) {
       dispatch({
-        type: ImagesTemplates.GET_PROFILE_IMGS,
+        type: ImagesTemplates.GetProfileImages,
         payload: {
           user: user.displayName,
           start: images[images.length - 1]?.createdAt

@@ -1,4 +1,6 @@
 import { takeEvery, put } from '@redux-saga/core/effects';
+import { AnyAction } from 'redux';
+import { toast } from 'react-hot-toast';
 import {
   save,
   getRecentImgs,
@@ -13,8 +15,6 @@ import {
   getUserImages,
 } from '../actions/images';
 import { getImage } from '../actions/canvas';
-import { AnyAction } from 'redux';
-import { toast } from 'react-hot-toast';
 
 export function* imgWorker(payload: AnyAction): Generator {
   try {
