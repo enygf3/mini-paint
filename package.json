@@ -69,6 +69,7 @@
     "react-firebase-hooks": "^5.0.3",
     "react-router-dom": "^6.3.0",
     "redux-devtools-extension": "^2.13.9",
+    "reselect": "^4.1.6",
     "typesafe-actions": "^5.1.0"
   },
   "react-dotenv": {

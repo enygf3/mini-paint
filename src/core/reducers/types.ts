@@ -1,13 +1,13 @@
 export interface AuthState {
   isLoggedIn: boolean;
-  user: object | null;
+  user: object;
 }
 
 export interface EditorState {
   color: string;
   width: number;
   background: string;
-  canvas: HTMLCanvasElement | null;
+  canvas: HTMLCanvasElement;
   shape: string;
   erase: boolean;
 }

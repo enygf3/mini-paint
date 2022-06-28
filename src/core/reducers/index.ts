@@ -1,10 +1,10 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
+import auth from './auth';
+import canvas from './canvas';
+import image from './image';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import canvas from '../reducers/canvas';
-import image from '../reducers/image';
 import root from '../sagas/root';
-import auth from '../reducers/auth';
 
 const sagaMiddleware = createSagaMiddleware();
 
