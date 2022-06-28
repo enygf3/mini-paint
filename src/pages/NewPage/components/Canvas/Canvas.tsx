@@ -18,7 +18,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
 
   const isMobile: boolean = window.innerWidth < 768;
 
-  const [drawing, setDrawing] = useState<boolean>(false);
+  const drawing = useRef<boolean>(false);
   const [position, setPosition] = useState<Position>({
     x: 0,
     y: 0,
@@ -47,7 +47,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
       x: event.clientX - rect.x,
       y: event.clientY - rect.y,
     });
-    setDrawing(true);
+    drawing.current = true;
     if (canvasRef.current) {
       setBackUp(context?.getImageData(0, 0, target.width, target.height));
     }
@@ -55,7 +55,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
   }
 
   function handleMouseUp(event: MouseEvent<HTMLCanvasElement>): void {
-    setDrawing(false);
+    drawing.current = false;
     if (canvasRef.current) {
       saveDataToState(canvasRef.current.toDataURL());
     }
@@ -89,7 +89,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
     }
     if (
       canvasRef.current &&
-      drawing &&
+      drawing.current &&
       (shape === ShapesEnum.LINE || shape.length === 0)
     ) {
       context ? (context.lineWidth = penWidth) : 0;
@@ -110,7 +110,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
       x: event.touches[0].clientX - rect.x,
       y: event.touches[0].clientY - rect.y,
     });
-    setDrawing(true);
+    drawing.current = true;
     if (canvasRef.current) {
       setBackUp(context?.getImageData(0, 0, target.width, target.height));
     }
@@ -118,7 +118,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
   }
 
   function handleTouchEnd(event: TouchEvent<HTMLCanvasElement>): void {
-    setDrawing(false);
+    drawing.current = false;
     if (canvasRef.current) {
       saveDataToState(canvasRef.current.toDataURL());
     }
@@ -152,7 +152,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
     }
     if (
       canvasRef.current &&
-      drawing &&
+      drawing.current &&
       (shape === ShapesEnum.LINE || shape.length === 0)
     ) {
       context ? (context.lineWidth = penWidth) : 0;
@@ -272,7 +272,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
   }
 
   function shapesExecuter(shape: string, x: number, y: number): void {
-    if (!drawing) {
+    if (!drawing.current) {
       return;
     }
     switch (shape) {
