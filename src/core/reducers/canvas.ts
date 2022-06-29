@@ -8,50 +8,45 @@ import {
   setPenWidth,
   setShape,
 } from '../actions/canvas';
-import { EditorState } from './types';
+import { CanvasState } from '../interfaces/canvas';
 import { CanvasType } from '../actions/canvas';
 
-const initialState: EditorState = {
+const initialState: CanvasState = {
   color: '#000000',
   width: 1,
   background: '#ffffff',
-  canvas: null,
   shape: '',
   erase: false,
 };
 
-const canvas = createReducer<EditorState, CanvasType>(initialState)
-  .handleAction(getImage.request, (state: EditorState, action: AnyAction) => ({
+const canvas = createReducer<CanvasState, CanvasType>(initialState)
+  .handleAction(getImage.request, (state: CanvasState) => ({
     ...state,
-    canvas: action.payload.canvas,
   }))
-  .handleAction(deleteImg, (state: EditorState) => ({
+  .handleAction(deleteImg, (state: CanvasState) => ({
     ...state,
-    canvas: null,
   }))
-  .handleAction(setPenWidth, (state: EditorState, action: AnyAction) => ({
+  .handleAction(setPenWidth, (state: CanvasState, action: AnyAction) => ({
     ...state,
     width: action.payload.width,
   }))
-  .handleAction(setPenColor, (state: EditorState, action: AnyAction) => ({
+  .handleAction(setPenColor, (state: CanvasState, action: AnyAction) => ({
     ...state,
     color: action.payload.color,
   }))
-  .handleAction(setShape, (state: EditorState, action: AnyAction) => ({
+  .handleAction(setShape, (state: CanvasState, action: AnyAction) => ({
     ...state,
     shape: action.payload.shape,
   }))
-  .handleAction(erase, (state: EditorState, action: AnyAction) => ({
+  .handleAction(erase, (state: CanvasState, action: AnyAction) => ({
     ...state,
     erase: action.payload.erase,
   }))
-  .handleAction(getImage.success, (state: EditorState, action: AnyAction) => ({
+  .handleAction(getImage.success, (state: CanvasState) => ({
     ...state,
-    canvas: action.payload.canvas,
   }))
-  .handleAction(getImage.failure, (state: EditorState) => ({
+  .handleAction(getImage.failure, (state: CanvasState) => ({
     ...state,
-    canvas: null,
   }));
 
 export default canvas;

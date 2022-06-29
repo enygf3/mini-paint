@@ -1,7 +1,7 @@
 import { createReducer } from 'typesafe-actions';
 import { AuthType, doAuth } from '../actions/auth';
 import { AnyAction } from 'redux';
-import { AuthState } from './types';
+import { AuthState } from '../interfaces/auth';
 
 const initialState: AuthState = {
   isLoggedIn: false,

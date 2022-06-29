@@ -14,17 +14,17 @@ import { CanvasTemplates } from '../../../../core/actions/canvas';
 
 const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
   const dispatch = useDispatch();
-  const canvasRef: RefObject<HTMLCanvasElement> = useRef(null);
+  const canvasRef: RefObject<HTMLCanvasElement> = useRef(null); //reference for canvas
 
-  const isMobile: boolean = window.innerWidth < 768;
+  const isMobile: boolean = window.innerWidth < 768; //variable for mobile devices
 
-  const drawing = useRef<boolean>(false);
+  const drawing = useRef<boolean>(false); //variable of current drawing state
   const [position, setPosition] = useState<Position>({
     x: 0,
     y: 0,
-  });
-  const [backUp, setBackUp] = useState<ImageData>();
-  const [existingShapes, setExistingShapes] = useState<Shapes[]>([]);
+  }); //variable for shape position
+  const [backUp, setBackUp] = useState<ImageData>(); //variable for backup image
+  const [existingShapes, setExistingShapes] = useState<Shapes[]>([]); //variable that contains all existing shapes
 
   const shape = useSelector((state: State) => state.canvas.shape);
   const penColor = useSelector((state: State) => state.canvas.color);
@@ -37,22 +37,22 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
       setExistingShapes([]);
       dispatch({ type: CanvasTemplates.Erase, payload: { erase: false } });
     }
-  }, [eraseState]);
+  }, [eraseState]); //effect for erase state(if erase state is true, erase canvas)
 
   function handleMouseDown(event: MouseEvent<HTMLCanvasElement>): void {
-    const target = event.target as HTMLCanvasElement;
-    const context = canvasRef.current?.getContext('2d');
-    const rect = target.getBoundingClientRect();
+    const target = event.target as HTMLCanvasElement; //get target element(canvas)
+    const context = canvasRef.current?.getContext('2d'); //get context of canvas
+    const rect = target.getBoundingClientRect(); //get bounding rectangle of canvas
     setPosition({
       x: event.clientX - rect.x,
       y: event.clientY - rect.y,
-    });
-    drawing.current = true;
+    }); //set position of shape
+    drawing.current = true; //set drawing state to true
     if (canvasRef.current) {
-      setBackUp(context?.getImageData(0, 0, target.width, target.height));
+      setBackUp(context?.getImageData(0, 0, target.width, target.height)); //set backup image
     }
-    context?.beginPath();
-  }
+    context?.beginPath(); //start drawing
+  } //function for mouse down event
 
   function handleMouseUp(event: MouseEvent<HTMLCanvasElement>): void {
     drawing.current = false;
@@ -75,7 +75,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
         },
       ]);
     }
-  }
+  } //function for mouse up event
 
   function handleMouseMove(event: MouseEvent<HTMLCanvasElement>): void {
     const context = canvasRef.current?.getContext('2d');
@@ -100,7 +100,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
       );
       context?.stroke();
     }
-  }
+  } //function for mouse move event
 
   function handleTouchStart(event: TouchEvent<HTMLCanvasElement>): void {
     const target = event.target as HTMLCanvasElement;
@@ -115,7 +115,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
       setBackUp(context?.getImageData(0, 0, target.width, target.height));
     }
     context?.beginPath();
-  }
+  } //function for touch start event
 
   function handleTouchEnd(event: TouchEvent<HTMLCanvasElement>): void {
     drawing.current = false;
@@ -138,7 +138,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
         },
       ]);
     }
-  }
+  } //function for touch end event
 
   function handleTouchMove(event: TouchEvent<HTMLCanvasElement>): void {
     const context = canvasRef.current?.getContext('2d');
@@ -163,7 +163,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
       );
       context?.stroke();
     }
-  }
+  } //function for touch move event
 
   function eraseCanvas(): void {
     if (canvasRef.current) {
@@ -175,7 +175,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
         canvasRef.current.height
       );
     }
-  }
+  } //function for erasing canvas
 
   function restoreDraw(item: Shapes, type: string): void {
     if (canvasRef.current) {
@@ -210,7 +210,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
           break;
       }
     }
-  }
+  } //function for restoring draw while drawing a new shape
 
   function drawRect(x: number, y: number): void {
     eraseCanvas();
@@ -230,7 +230,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
         y - position.y
       );
     }
-  }
+  } //function for drawing rectangle
 
   function drawLine(): void {
     eraseCanvas();
@@ -247,7 +247,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
       context?.lineTo(position.x, position.y);
       context?.stroke();
     }
-  }
+  } //function for drawing line
 
   function drawCircle(x: number, y: number): void {
     eraseCanvas();
@@ -269,7 +269,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
       );
       context?.stroke();
     }
-  }
+  } //function for drawing circle
 
   function shapesExecuter(shape: string, x: number, y: number): void {
     if (!drawing.current) {
@@ -288,7 +288,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
       default:
         break;
     }
-  }
+  } //function that selects shape to draw
 
   return (
     <>

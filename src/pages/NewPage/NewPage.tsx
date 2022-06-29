@@ -17,7 +17,7 @@ import { useDispatch } from 'react-redux';
 import { useState, useRef, RefObject, useEffect, memo } from 'react';
 import { CirclePicker } from 'react-color';
 import './styles.sass';
-import { colorType } from './types';
+import { ColorType } from './types';
 import { CanvasTemplates } from '../../core/actions/canvas';
 import { AuthTemplates } from '../../core/actions/auth';
 import Canvas from './components/Canvas/Canvas';
@@ -132,7 +132,7 @@ const NewPage = () => {
       : 0;
   }
 
-  function handle(clr: colorType): void {
+  function handle(clr: ColorType): void {
     setColor(clr.hex);
   }
 
