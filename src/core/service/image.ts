@@ -1,9 +1,7 @@
 import { Timestamp, getDocs } from 'firebase/firestore';
 import { auth } from '../configs/firebase';
 import { Images } from '../../pages/NewPage/components/Canvas/types';
-import { inputQuery } from '../queries/search';
-import { profileQuery } from '../queries/profile';
-import { imgQuery, recentQuery } from '../queries/images';
+import { imgQuery, inputQuery, profileQuery, recentQuery } from './queries';
 import { firestore as db } from '../configs/firebase';
 
 export const save = async (data: string) => {

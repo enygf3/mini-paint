@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { State } from '../NewPage/components/Canvas/types';
 import { AuthState } from './types';
-import Loader from '../../core/components/Loader/Loader';
+import Loader from '../../core/components/Loader';
 import './styles.sass';
 import React, { RefObject, useEffect, useRef, useState } from 'react';
 import { ImagesTemplates } from '../../core/actions/images';

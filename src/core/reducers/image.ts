@@ -8,7 +8,7 @@ import {
   getUserImages,
   ImagesType,
 } from '../actions/images';
-import { ImageState } from '../interfaces/image';
+import { ImageState } from './types';
 
 const initialState: ImageState = {
   images: [],

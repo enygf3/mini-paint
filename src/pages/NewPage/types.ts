@@ -1,3 +1,3 @@
-export interface ColorType {
+export interface colorType {
   hex: string;
 }
