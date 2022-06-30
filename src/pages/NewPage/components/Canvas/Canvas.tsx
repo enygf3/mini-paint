@@ -8,11 +8,16 @@ import {
   MouseEvent,
   TouchEvent,
 } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Position, Props, Shapes, State, ShapesEnum } from './types';
+import { useDispatch } from 'react-redux';
+import { Position, Props, Shapes, ShapesEnum } from './types';
 import { CanvasTemplates } from '../../../../core/actions/canvas';
 
-const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
+const Canvas: FC<Props> = ({
+  width,
+  height,
+  saveDataToState,
+  state,
+}: Props) => {
   const dispatch = useDispatch();
   const canvasRef: RefObject<HTMLCanvasElement> = useRef(null);
 
@@ -26,20 +31,17 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
   const [backUp, setBackUp] = useState<ImageData>();
   const [existingShapes, setExistingShapes] = useState<Shapes[]>([]);
 
-  const shape = useSelector((state: State) => state.canvas.shape);
-  const penColor = useSelector((state: State) => state.canvas.color);
-  const penWidth = useSelector((state: State) => state.canvas.width);
-  const eraseState = useSelector((state: State) => state.canvas.erase);
+  const { erase, penWidth, penColor, shape } = state;
 
   useEffect(() => {
-    if (eraseState) {
+    if (erase) {
       eraseCanvas();
       setExistingShapes([]);
       dispatch({ type: CanvasTemplates.Erase, payload: { erase: false } });
     }
-  }, [eraseState]);
+  }, [erase]);
 
-  function handleMouseDown(event: MouseEvent<HTMLCanvasElement>): void {
+  const handleMouseDown = (event: MouseEvent<HTMLCanvasElement>): void => {
     const target = event.target as HTMLCanvasElement;
     const context = canvasRef.current?.getContext('2d');
     const rect = target.getBoundingClientRect();
@@ -52,9 +54,9 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
       setBackUp(context?.getImageData(0, 0, target.width, target.height));
     }
     context?.beginPath();
-  }
+  };
 
-  function handleMouseUp(event: MouseEvent<HTMLCanvasElement>): void {
+  const handleMouseUp = (event: MouseEvent<HTMLCanvasElement>): void => {
     drawing.current = false;
     if (canvasRef.current) {
       saveDataToState(canvasRef.current.toDataURL());
@@ -75,9 +77,9 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
         },
       ]);
     }
-  }
+  };
 
-  function handleMouseMove(event: MouseEvent<HTMLCanvasElement>): void {
+  const handleMouseMove = (event: MouseEvent<HTMLCanvasElement>): void => {
     const context = canvasRef.current?.getContext('2d');
     const rect = canvasRef.current?.getBoundingClientRect();
     if (shape.length > 0) {
@@ -87,6 +89,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
         rect ? event.clientY - rect.y : 0
       );
     }
+    // console.log(canvasRef.current, drawing.current);
     if (
       canvasRef.current &&
       drawing.current &&
@@ -100,9 +103,9 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
       );
       context?.stroke();
     }
-  }
+  };
 
-  function handleTouchStart(event: TouchEvent<HTMLCanvasElement>): void {
+  const handleTouchStart = (event: TouchEvent<HTMLCanvasElement>): void => {
     const target = event.target as HTMLCanvasElement;
     const context = canvasRef.current?.getContext('2d');
     const rect = target.getBoundingClientRect();
@@ -115,9 +118,9 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
       setBackUp(context?.getImageData(0, 0, target.width, target.height));
     }
     context?.beginPath();
-  }
+  };
 
-  function handleTouchEnd(event: TouchEvent<HTMLCanvasElement>): void {
+  const handleTouchEnd = (event: TouchEvent<HTMLCanvasElement>): void => {
     drawing.current = false;
     if (canvasRef.current) {
       saveDataToState(canvasRef.current.toDataURL());
@@ -138,9 +141,9 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
         },
       ]);
     }
-  }
+  };
 
-  function handleTouchMove(event: TouchEvent<HTMLCanvasElement>): void {
+  const handleTouchMove = (event: TouchEvent<HTMLCanvasElement>): void => {
     const context = canvasRef.current?.getContext('2d');
     const rect = canvasRef.current?.getBoundingClientRect();
     if (shape.length > 0) {
@@ -163,9 +166,9 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
       );
       context?.stroke();
     }
-  }
+  };
 
-  function eraseCanvas(): void {
+  const eraseCanvas = (): void => {
     if (canvasRef.current) {
       const canvas = canvasRef.current.getContext('2d');
       canvas?.clearRect(
@@ -175,9 +178,9 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
         canvasRef.current.height
       );
     }
-  }
+  };
 
-  function restoreDraw(item: Shapes, type: string): void {
+  const restoreDraw = (item: Shapes, type: string): void => {
     if (canvasRef.current) {
       const context = canvasRef.current.getContext('2d');
       context?.beginPath();
@@ -210,9 +213,9 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
           break;
       }
     }
-  }
+  };
 
-  function drawRect(x: number, y: number): void {
+  const drawRect = (x: number, y: number): void => {
     eraseCanvas();
     existingShapes.forEach((el: Shapes) => {
       restoreDraw(el, el.shape);
@@ -230,9 +233,9 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
         y - position.y
       );
     }
-  }
+  };
 
-  function drawLine(): void {
+  const drawLine = (): void => {
     eraseCanvas();
     existingShapes.forEach((el: Shapes) => {
       restoreDraw(el, el.shape);
@@ -247,9 +250,9 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
       context?.lineTo(position.x, position.y);
       context?.stroke();
     }
-  }
+  };
 
-  function drawCircle(x: number, y: number): void {
+  const drawCircle = (x: number, y: number): void => {
     eraseCanvas();
     existingShapes.forEach((el: Shapes) => {
       restoreDraw(el, el.shape);
@@ -269,9 +272,9 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
       );
       context?.stroke();
     }
-  }
+  };
 
-  function shapesExecuter(shape: string, x: number, y: number): void {
+  const shapesExecuter = (shape: string, x: number, y: number): void => {
     if (!drawing.current) {
       return;
     }
@@ -288,7 +291,7 @@ const Canvas: FC<Props> = ({ width, height, saveDataToState }: Props) => {
       default:
         break;
     }
-  }
+  };
 
   return (
     <>

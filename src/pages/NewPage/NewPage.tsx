@@ -17,7 +17,7 @@ import { useDispatch } from 'react-redux';
 import { useState, useRef, RefObject, useEffect, memo } from 'react';
 import { CirclePicker } from 'react-color';
 import './styles.sass';
-import { colorType } from './types';
+import { CanvasType, ColorType } from './types';
 import { CanvasTemplates } from '../../core/actions/canvas';
 import { AuthTemplates } from '../../core/actions/auth';
 import Canvas from './components/Canvas/Canvas';
@@ -26,10 +26,13 @@ const NewPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [img, setImg] = useState<string>('');
-  const [color, setColor] = useState<string>('#000');
-  const [penWidth, setPenWidth] = useState<number>(1);
-  const [newShape, setShape] = useState<string>('');
   const [saved, setSaved] = useState<boolean>(false);
+  const [canvasState, setCanvasState] = useState<CanvasType>({
+    penWidth: 1,
+    penColor: '#000000',
+    shape: '',
+    erase: false,
+  });
 
   const penSettings: RefObject<HTMLDivElement> = useRef(null);
   const colorSettings: RefObject<HTMLDivElement> = useRef(null);
@@ -41,109 +44,98 @@ const NewPage = () => {
     width: isDesktop ? 500 : 300,
     height: isDesktop ? 700 : 500,
     saveDataToState: setImg,
+    state: canvasState,
   };
-
-  useEffect(() => {
-    dispatch({
-      type: CanvasTemplates.SetShape,
-      payload: {
-        shape: newShape,
-      },
-    });
-  }, [newShape]);
 
   useEffect(() => {
     return window.clearTimeout();
   }, []);
 
-  function getImg(): void {
+  const getImg = (): void => {
     setSaved(true);
     setTimeout(setSaved, 1500, false);
     dispatch({
-      type: CanvasTemplates.GetImageData,
+      type: CanvasTemplates.SaveImg,
       payload: {
         canvas: img,
       },
     });
-  }
+  };
 
-  function SignOut(): void {
+  const SignOut = (): void => {
     dispatch({ type: AuthTemplates.SignOut });
     navigate('/login');
-  }
+  };
 
-  function openPenSettings(): void {
+  const openPenSettings = (): void => {
     penSettings.current ? penSettings.current.classList.toggle('active') : null;
-    if (newShape.length > 0) {
-      setShape('');
+    if (canvasState.shape.length > 0) {
+      canvasStateExecuter('shape', '');
     }
-  }
+  };
 
-  function openColorSettings(): void {
+  const openColorSettings = (): void => {
     colorSettings.current
       ? colorSettings.current.classList.toggle('active')
       : 0;
-  }
+  };
 
-  function handleShape(): void {
+  const handleShape = (): void => {
     shapesSettings.current
       ? Array.from<HTMLDivElement>(
           shapesSettings.current.children as Iterable<HTMLDivElement>
         ).forEach(
           (el) =>
             (el.onclick = () => {
-              setShape(el.classList[1]);
+              setCanvasState({ ...canvasState, shape: el.classList[1] });
               shapesSettings.current
                 ? shapesSettings.current.classList.toggle('active')
                 : 0;
             })
         )
       : 0;
-  }
+  };
 
-  function openShapesSettings(): void {
+  const openShapesSettings = (): void => {
     shapesSettings.current
       ? shapesSettings.current.classList.toggle('active')
       : 0;
     handleShape();
-  }
+  };
 
-  function dispatchPenWidth(): void {
-    dispatch({
-      type: CanvasTemplates.SetPenWidth,
-      payload: {
-        width: penWidth,
-      },
-    });
-
+  const closeWidthMenu = (): void => {
     penSettings.current ? penSettings.current.classList.toggle('active') : null;
-  }
+  };
 
-  function dispatchColor(): void {
-    dispatch({
-      type: CanvasTemplates.SetPenColor,
-      payload: {
-        color: color,
-      },
-    });
-
+  const closeColorMenu = (): void => {
     colorSettings.current
       ? colorSettings.current.classList.toggle('active')
       : 0;
-  }
+  };
 
-  function handle(clr: colorType): void {
-    setColor(clr.hex);
-  }
+  const handleColor = (clr: ColorType): void => {
+    canvasStateExecuter('color', clr.hex);
+  };
 
-  function dispatchErase(): void {
-    dispatch({
-      type: CanvasTemplates.Erase,
-      payload: {
-        erase: true,
-      },
-    });
-  }
+  const handleErase = (): void => {
+    canvasStateExecuter('erase');
+  };
+
+  const canvasStateExecuter = (type: string, payload = ''): void => {
+    switch (type) {
+      case 'erase':
+        setCanvasState({ ...canvasState, erase: true });
+        break;
+      case 'color':
+        setCanvasState({ ...canvasState, penColor: payload });
+        break;
+      case 'shape':
+        setCanvasState({ ...canvasState, shape: payload });
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <main>
@@ -159,25 +151,25 @@ const NewPage = () => {
           valueLabelDisplay="auto"
           sx={{ width: 200, color: 'white' }}
           onChange={(e, value) => {
-            setPenWidth(value as number);
+            setCanvasState({ ...canvasState, penWidth: Number(value) });
           }}
         />
         <Button
           variant="contained"
           color="primary"
           sx={{ width: 100, height: 40 }}
-          onClick={dispatchPenWidth}
+          onClick={closeWidthMenu}
         >
           Submit
         </Button>
       </div>
       <div className="settings color-settings" ref={colorSettings}>
-        <CirclePicker onChange={handle} />
+        <CirclePicker onChange={handleColor} />
         <Button
           variant="contained"
           color="primary"
           sx={{ width: 100, height: 40 }}
-          onClick={dispatchColor}
+          onClick={closeColorMenu}
         >
           Submit
         </Button>
@@ -198,7 +190,7 @@ const NewPage = () => {
         <button className="nav-btn" onClick={openShapesSettings}>
           <FontAwesomeIcon icon={faShapes} />
         </button>
-        <button className="nav-btn" onClick={dispatchErase}>
+        <button className="nav-btn" onClick={handleErase}>
           <FontAwesomeIcon icon={faEraser} />
         </button>
         <Link to="/">

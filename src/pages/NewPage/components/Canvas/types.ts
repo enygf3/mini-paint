@@ -1,19 +1,16 @@
 import { Dispatch } from 'react';
+import { CanvasType } from '../../types';
 
 export interface Props {
   width: number;
   height: number;
   saveDataToState: Dispatch<string>;
+  state: CanvasType;
 }
 
 export interface State {
   canvas: {
-    width: number;
-    height: number;
-    shape: string;
     canvas: string;
-    erase: boolean;
-    color: string;
   };
   images: {
     images: Array<Images>;

@@ -1,55 +1,27 @@
 import { AnyAction } from 'redux';
 import { createReducer } from 'typesafe-actions';
-import {
-  deleteImg,
-  erase,
-  getImage,
-  setPenColor,
-  setPenWidth,
-  setShape,
-} from '../actions/canvas';
-import { EditorState } from './types';
+import { deleteImg, getImage } from '../actions/canvas';
+import { CanvasState } from '../interfaces/canvas';
 import { CanvasType } from '../actions/canvas';
 
-const initialState: EditorState = {
-  color: '#000000',
-  width: 1,
-  background: '#ffffff',
+const initialState: CanvasState = {
   canvas: null,
-  shape: '',
-  erase: false,
 };
 
-const canvas = createReducer<EditorState, CanvasType>(initialState)
-  .handleAction(getImage.request, (state: EditorState, action: AnyAction) => ({
+const canvas = createReducer<CanvasState, CanvasType>(initialState)
+  .handleAction(getImage.request, (state: CanvasState, action: AnyAction) => ({
     ...state,
     canvas: action.payload.canvas,
   }))
-  .handleAction(deleteImg, (state: EditorState) => ({
+  .handleAction(deleteImg, (state: CanvasState) => ({
     ...state,
     canvas: null,
   }))
-  .handleAction(setPenWidth, (state: EditorState, action: AnyAction) => ({
-    ...state,
-    width: action.payload.width,
-  }))
-  .handleAction(setPenColor, (state: EditorState, action: AnyAction) => ({
-    ...state,
-    color: action.payload.color,
-  }))
-  .handleAction(setShape, (state: EditorState, action: AnyAction) => ({
-    ...state,
-    shape: action.payload.shape,
-  }))
-  .handleAction(erase, (state: EditorState, action: AnyAction) => ({
-    ...state,
-    erase: action.payload.erase,
-  }))
-  .handleAction(getImage.success, (state: EditorState, action: AnyAction) => ({
+  .handleAction(getImage.success, (state: CanvasState, action: AnyAction) => ({
     ...state,
     canvas: action.payload.canvas,
   }))
-  .handleAction(getImage.failure, (state: EditorState) => ({
+  .handleAction(getImage.failure, (state: CanvasState) => ({
     ...state,
     canvas: null,
   }));
