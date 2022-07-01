@@ -81,7 +81,6 @@ export function* getProfileImgsWorker(payload: AnyAction): Generator {
     );
     yield put(getProfileImagesAction.success(Images.images, null));
   } catch (error) {
-    console.log(error);
     yield toast.error('Something is went wrong. Please, try again');
     yield put(getProfileImagesAction.failure(null, null));
   }

@@ -86,7 +86,6 @@ const Canvas: FC<Props> = ({
         rect ? event.clientY - rect.y : 0
       );
     }
-    // console.log(canvasRef.current, drawing.current);
     if (
       canvasRef.current &&
       drawing.current &&

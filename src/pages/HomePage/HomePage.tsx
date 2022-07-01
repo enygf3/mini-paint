@@ -106,7 +106,6 @@ const HomePage: FC = () => {
     setMenu(!menu);
     div
       ? Array.from(div.children).forEach((item) => {
-          console.log(item);
           item?.children[0].classList.toggle('disabled');
         })
       : 0;
