@@ -1,6 +1,5 @@
 import { Timestamp, getDocs } from 'firebase/firestore';
 import { auth } from '../configs/firebase';
-import { Images } from '../../pages/NewPage/components/Canvas/types';
 import { imgQuery, inputQuery, profileQuery, recentQuery } from './queries';
 import { firestore as db } from '../configs/firebase';
 
@@ -13,57 +12,25 @@ export const save = async (data: string) => {
 };
 
 export const getImages = async (start: number) => {
-  const images: Array<Images> = [];
-  await getDocs(imgQuery(start)).then((docs) =>
-    docs.forEach((doc) => {
-      images.push({
-        createdAt: doc.data().createdAt,
-        user: doc.data().user,
-        data: doc.data().data,
-      });
-    })
-  );
-  return images;
+  return await getDocs(imgQuery(start)).then((docs) => {
+    return docs.docs.map((doc) => doc.data());
+  });
 };
 
 export const getUserImgs = async (user: string) => {
-  const images: Array<Images> = [];
-  await getDocs(inputQuery(user)).then((docs) =>
-    docs.forEach((doc) => {
-      images.push({
-        createdAt: doc.data().createdAt,
-        user: doc.data().user,
-        data: doc.data().data,
-      });
-    })
-  );
-  return images;
+  return await getDocs(inputQuery(user)).then((docs) => {
+    return docs.docs.map((doc) => doc.data());
+  });
 };
 
 export const getProfileImgs = async (user: string, start: number) => {
-  const images: Array<Images> = [];
-  await getDocs(profileQuery(user, start)).then((docs) =>
-    docs.forEach((doc) => {
-      images.push({
-        createdAt: doc.data().createdAt,
-        user: doc.data().user,
-        data: doc.data().data,
-      });
-    })
-  );
-  return images;
+  return await getDocs(profileQuery(user, start)).then((docs) => {
+    return docs.docs.map((doc) => doc.data());
+  });
 };
 
 export const getRecentImgs = async () => {
-  const images: Array<Images> = [];
-  await getDocs(recentQuery()).then((docs) =>
-    docs.forEach((doc) => {
-      images.push({
-        createdAt: doc.data().createdAt,
-        user: doc.data().user,
-        data: doc.data().data,
-      });
-    })
-  );
-  return images;
+  return await getDocs(recentQuery()).then((docs) => {
+    return docs.docs.map((doc) => doc.data());
+  });
 };

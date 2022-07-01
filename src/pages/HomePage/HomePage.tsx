@@ -39,19 +39,33 @@ const HomePage: FC = () => {
   const userRef: RefObject<HTMLDivElement> = useRef(null);
   const buttonsRef: RefObject<HTMLDivElement> = useRef(null);
 
-  const [fetch, setFetch] = useState(true);
   const [images, setImages] = useState(imagesDB);
   const [menu, setMenu] = useState(false);
 
   useEffect(() => {
+    const handleScroll = (event: UIEvent | Event): void => {
+      const target = event.target as Document;
+      if (
+        window.innerHeight + target.documentElement.scrollTop >=
+        target.documentElement.scrollHeight - 250
+      ) {
+        dispatch({
+          type: ImagesTemplates.GetDBImages,
+          payload: {
+            start: images[images.length - 1]?.createdAt
+              ? images[images.length - 1]?.createdAt
+              : 0,
+          },
+        });
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
-    dispatch({ type: ImagesTemplates.GetRecentImages });
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      dispatch({ type: ImagesTemplates.ClearState });
     };
-  }, []);
+  }, [images, dispatch]);
 
   useEffect(() => {
     if (imagesDB) {
@@ -60,29 +74,18 @@ const HomePage: FC = () => {
   }, [imagesDB]);
 
   useEffect(() => {
-    if (fetch) {
-      dispatch({
-        type: ImagesTemplates.GetDBImages,
-        payload: {
-          start: images[images.length - 1]?.createdAt
-            ? images[images.length - 1]?.createdAt
-            : 0,
-        },
-      });
-    }
-  }, [fetch]);
+    dispatch({ type: ImagesTemplates.GetRecentImages });
+    dispatch({
+      type: ImagesTemplates.GetDBImages,
+      payload: {
+        start: 0,
+      },
+    });
 
-  const handleScroll = (event: UIEvent | Event): void => {
-    const target = event.target as Document;
-    if (
-      window.innerHeight + target.documentElement.scrollTop >=
-      target.documentElement.scrollHeight - 250
-    ) {
-      setFetch(true);
-    } else {
-      setFetch(false);
-    }
-  };
+    return () => {
+      dispatch({ type: ImagesTemplates.ClearState });
+    };
+  }, []);
 
   const getUserInput = (event: ChangeEvent): void => {
     const input = event.target as HTMLInputElement;

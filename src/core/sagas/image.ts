@@ -38,6 +38,7 @@ export function* getAllImgWorker(payload: AnyAction): Generator {
     });
     yield put(getDBImagesAction.success(Images.images, null));
   } catch (error) {
+    console.log(error);
     yield toast.error('Something is went wrong. Please, try again');
     yield put(getDBImagesAction.failure(null, null));
   }
