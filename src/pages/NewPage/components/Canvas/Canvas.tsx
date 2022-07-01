@@ -20,9 +20,7 @@ const Canvas: FC<Props> = ({
 }: Props) => {
   const dispatch = useDispatch();
   const canvasRef: RefObject<HTMLCanvasElement> = useRef(null);
-
   const isMobile: boolean = window.innerWidth < 768;
-
   const drawing = useRef<boolean>(false);
   const [position, setPosition] = useState<Position>({
     x: 0,
@@ -30,7 +28,6 @@ const Canvas: FC<Props> = ({
   });
   const [backUp, setBackUp] = useState<ImageData>();
   const [existingShapes, setExistingShapes] = useState<Shapes[]>([]);
-
   const { erase, penWidth, penColor, shape } = state;
 
   useEffect(() => {

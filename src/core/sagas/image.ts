@@ -9,20 +9,20 @@ import {
   getProfileImgs,
 } from '../service/image';
 import {
-  getDBImages,
-  getProfileImages,
-  getRecentImages,
-  getUserImages,
+  getDBImagesAction,
+  getProfileImagesAction,
+  getRecentImagesAction,
+  getUserImagesAction,
 } from '../actions/images';
-import { getImage } from '../actions/canvas';
+import { getImageAction } from '../actions/canvas';
 
 export function* imgWorker(payload: AnyAction): Generator {
   try {
     yield save(payload.payload.canvas);
-    yield put(getImage.success(payload.payload.canvas, null));
+    yield put(getImageAction.success(payload.payload.canvas, null));
   } catch (error) {
     yield toast.error('Something is went wrong. Please, try again');
-    yield put(getImage.failure(null, null));
+    yield put(getImageAction.failure(null, null));
   }
 }
 
@@ -36,10 +36,10 @@ export function* getAllImgWorker(payload: AnyAction): Generator {
         Images.images.push(image);
       });
     });
-    yield put(getDBImages.success(Images.images, null));
+    yield put(getDBImagesAction.success(Images.images, null));
   } catch (error) {
     yield toast.error('Something is went wrong. Please, try again');
-    yield put(getDBImages.failure(null, null));
+    yield put(getDBImagesAction.failure(null, null));
   }
 }
 
@@ -49,10 +49,10 @@ export function* getRecentImgsWorker(): Generator {
   };
   try {
     yield getRecentImgs().then((res) => (Images.images = res));
-    yield put(getRecentImages.success(Images.images, null));
+    yield put(getRecentImagesAction.success(Images.images, null));
   } catch (error) {
     yield toast.error('Something is went wrong. Please, try again');
-    yield put(getRecentImages.failure(null, null));
+    yield put(getRecentImagesAction.failure(null, null));
   }
 }
 
@@ -64,10 +64,10 @@ export function* getUserImgsWorker(payload: AnyAction): Generator {
     yield getUserImgs(payload.payload.user).then(
       (res) => (Images.images = res)
     );
-    yield put(getUserImages.success(Images.images, null));
+    yield put(getUserImagesAction.success(Images.images, null));
   } catch (error) {
     yield toast.error('Something is went wrong. Please, try again');
-    yield put(getUserImages.failure(null, null));
+    yield put(getUserImagesAction.failure(null, null));
   }
 }
 
@@ -79,18 +79,18 @@ export function* getProfileImgsWorker(payload: AnyAction): Generator {
     yield getProfileImgs(payload.payload.user, payload.payload.start).then(
       (res) => (Images.images = res)
     );
-    yield put(getProfileImages.success(Images.images, null));
+    yield put(getProfileImagesAction.success(Images.images, null));
   } catch (error) {
     console.log(error);
     yield toast.error('Something is went wrong. Please, try again');
-    yield put(getProfileImages.failure(null, null));
+    yield put(getProfileImagesAction.failure(null, null));
   }
 }
 
 export default function* image(): Generator {
-  yield takeEvery(getRecentImages.request, getRecentImgsWorker);
-  yield takeEvery(getImage.request, imgWorker);
-  yield takeEvery(getDBImages.request, getAllImgWorker);
-  yield takeEvery(getUserImages.request, getUserImgsWorker);
-  yield takeEvery(getProfileImages.request, getProfileImgsWorker);
+  yield takeEvery(getRecentImagesAction.request, getRecentImgsWorker);
+  yield takeEvery(getImageAction.request, imgWorker);
+  yield takeEvery(getDBImagesAction.request, getAllImgWorker);
+  yield takeEvery(getUserImagesAction.request, getUserImgsWorker);
+  yield takeEvery(getProfileImagesAction.request, getProfileImgsWorker);
 }

@@ -1,11 +1,11 @@
 import { AnyAction } from 'redux';
 import { createReducer } from 'typesafe-actions';
 import {
-  clearState,
-  getDBImages,
-  getProfileImages,
-  getRecentImages,
-  getUserImages,
+  clearStateAction,
+  getDBImagesAction,
+  getProfileImagesAction,
+  getRecentImagesAction,
+  getUserImagesAction,
   ImagesType,
 } from '../actions/images';
 import { ImageState } from '../interfaces/image';
@@ -19,19 +19,19 @@ const initialState: ImageState = {
   userImages: [],
 };
 
-const image = createReducer<ImageState, ImagesType>(initialState)
-  .handleAction(getDBImages.request, (state: ImageState) => ({
+export const image = createReducer<ImageState, ImagesType>(initialState)
+  .handleAction(getDBImagesAction.request, (state: ImageState) => ({
     ...state,
     loading: true,
     start: state.start + 5,
   }))
-  .handleAction(getProfileImages.request, (state: ImageState) => ({
+  .handleAction(getProfileImagesAction.request, (state: ImageState) => ({
     ...state,
     loading: true,
     start: state.start + 5,
   }))
   .handleAction(
-    getDBImages.success,
+    getDBImagesAction.success,
     (state: ImageState, action: AnyAction) => ({
       ...state,
       loading: false,
@@ -39,7 +39,7 @@ const image = createReducer<ImageState, ImagesType>(initialState)
     })
   )
   .handleAction(
-    getRecentImages.success,
+    getRecentImagesAction.success,
     (state: ImageState, action: AnyAction) => ({
       ...state,
       recentLoading: false,
@@ -47,7 +47,7 @@ const image = createReducer<ImageState, ImagesType>(initialState)
     })
   )
   .handleAction(
-    getUserImages.success,
+    getUserImagesAction.success,
     (state: ImageState, action: AnyAction) => ({
       ...state,
       loading: false,
@@ -55,22 +55,22 @@ const image = createReducer<ImageState, ImagesType>(initialState)
     })
   )
   .handleAction(
-    getProfileImages.success,
+    getProfileImagesAction.success,
     (state: ImageState, action: AnyAction) => ({
       ...state,
       loading: false,
       userImages: action.payload,
     })
   )
-  .handleAction(getUserImages.failure, (state: ImageState) => ({
+  .handleAction(getUserImagesAction.failure, (state: ImageState) => ({
     ...state,
     loading: false,
   }))
-  .handleAction(getProfileImages.failure, (state: ImageState) => ({
+  .handleAction(getProfileImagesAction.failure, (state: ImageState) => ({
     ...state,
     loading: false,
   }))
-  .handleAction(clearState, () => ({
+  .handleAction(clearStateAction, () => ({
     images: [],
     recentImages: [],
     start: 0,

@@ -11,12 +11,14 @@ export enum CanvasTemplates {
   Erase = 'ERASE',
 }
 
-export const getImage = createAsyncAction(
+export const getImageAction = createAsyncAction(
   CanvasTemplates.SaveImg,
   CanvasTemplates.SaveImgSucceed,
   CanvasTemplates.SaveImgFailed
 )<{ payload: string }>();
 
-export const deleteImg = createAction(CanvasTemplates.DeleteImageData)();
+export const deleteImgAction = createAction(CanvasTemplates.DeleteImageData)();
 
-export type CanvasType = ActionType<typeof deleteImg | typeof getImage>;
+export type CanvasType = ActionType<
+  typeof deleteImgAction | typeof getImageAction
+>;

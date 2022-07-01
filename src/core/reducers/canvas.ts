@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux';
 import { createReducer } from 'typesafe-actions';
-import { deleteImg, getImage } from '../actions/canvas';
+import { deleteImgAction, getImageAction } from '../actions/canvas';
 import { CanvasState } from '../interfaces/canvas';
 import { CanvasType } from '../actions/canvas';
 
@@ -9,19 +9,25 @@ const initialState: CanvasState = {
 };
 
 const canvas = createReducer<CanvasState, CanvasType>(initialState)
-  .handleAction(getImage.request, (state: CanvasState, action: AnyAction) => ({
-    ...state,
-    canvas: action.payload.canvas,
-  }))
-  .handleAction(deleteImg, (state: CanvasState) => ({
+  .handleAction(
+    getImageAction.request,
+    (state: CanvasState, action: AnyAction) => ({
+      ...state,
+      canvas: action.payload.canvas,
+    })
+  )
+  .handleAction(deleteImgAction, (state: CanvasState) => ({
     ...state,
     canvas: null,
   }))
-  .handleAction(getImage.success, (state: CanvasState, action: AnyAction) => ({
-    ...state,
-    canvas: action.payload.canvas,
-  }))
-  .handleAction(getImage.failure, (state: CanvasState) => ({
+  .handleAction(
+    getImageAction.success,
+    (state: CanvasState, action: AnyAction) => ({
+      ...state,
+      canvas: action.payload.canvas,
+    })
+  )
+  .handleAction(getImageAction.failure, (state: CanvasState) => ({
     ...state,
     canvas: null,
   }));

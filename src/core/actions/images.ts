@@ -16,33 +16,35 @@ export enum ImagesTemplates {
   GetProfileImagesFailed = 'GET_PROFILE_IMAGES_FAILED',
 }
 
-export const getDBImages = createAsyncAction(
+export const getDBImagesAction = createAsyncAction(
   ImagesTemplates.GetDBImages,
   ImagesTemplates.GetDBImagesSucceed,
   ImagesTemplates.GetDBImagesFailed
 )();
-export const getUserImages = createAsyncAction(
+export const getUserImagesAction = createAsyncAction(
   ImagesTemplates.GetUserImages,
   ImagesTemplates.GetUserImagesSucceed,
   ImagesTemplates.GetUserImagesFailed
 )();
-export const getRecentImages = createAsyncAction(
+export const getRecentImagesAction = createAsyncAction(
   ImagesTemplates.GetRecentImages,
   ImagesTemplates.GetRecentImagesSucceed,
   ImagesTemplates.GetRecentImagesFailed
 )();
-export const getProfileImages = createAsyncAction(
+export const getProfileImagesAction = createAsyncAction(
   ImagesTemplates.GetProfileImages,
   ImagesTemplates.GetProfileImagesSucceed,
   ImagesTemplates.GetProfileImagesFailed
 )();
 
-export const clearState = createAction(ImagesTemplates.ClearState)<void>();
+export const clearStateAction = createAction(
+  ImagesTemplates.ClearState
+)<void>();
 
 export type ImagesType = ActionType<
-  | typeof getDBImages
-  | typeof getUserImages
-  | typeof getRecentImages
-  | typeof getProfileImages
-  | typeof clearState
+  | typeof getDBImagesAction
+  | typeof getUserImagesAction
+  | typeof getRecentImagesAction
+  | typeof getProfileImagesAction
+  | typeof clearStateAction
 >;

@@ -9,16 +9,16 @@ export enum AuthTemplates {
   SetStateSignedOut = 'SET_STATE_SIGNED_OUT',
 }
 
-export const doAuth = createAsyncAction(
+export const doAuthAction = createAsyncAction(
   AuthTemplates.SignIn,
   AuthTemplates.SetStateSignedIn,
   AuthTemplates.SignInFailed
 )();
 
-export const doSignOut = createAsyncAction(
+export const doSignOutAction = createAsyncAction(
   AuthTemplates.SignOut,
   AuthTemplates.SetStateSignedOut,
   AuthTemplates.SignOutFailed
 )();
 
-export type AuthType = ActionType<typeof doAuth | typeof doSignOut>;
+export type AuthType = ActionType<typeof doAuthAction | typeof doSignOutAction>;

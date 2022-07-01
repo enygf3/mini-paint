@@ -16,19 +16,25 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import {
+  imagesStateSelector,
+  imagesUserStateSelector,
+  imagesRecentStateSelector,
+} from '../../core/selectors/images';
 import { ImagesTemplates } from '../../core/actions/images';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper';
-import { State, Images } from '../NewPage/components/Canvas/types';
+import { Images } from '../NewPage/components/Canvas/types';
 import './styles.sass';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 
 const HomePage: FC = () => {
   const dispatch = useDispatch();
-  const imagesDB = useSelector((state: State) => state.images.images);
-  const recentImages = useSelector((state: State) => state.images.recentImages);
-  const userImages = useSelector((state: State) => state.images.userImages);
+
+  const imagesDB = useSelector(imagesStateSelector);
+  const recentImages = useSelector(imagesRecentStateSelector);
+  const userImages = useSelector(imagesUserStateSelector);
   const galleryRef: RefObject<HTMLDivElement> = useRef(null);
   const userRef: RefObject<HTMLDivElement> = useRef(null);
   const buttonsRef: RefObject<HTMLDivElement> = useRef(null);
@@ -66,7 +72,7 @@ const HomePage: FC = () => {
     }
   }, [fetch]);
 
-  function handleScroll(event: UIEvent | Event): void {
+  const handleScroll = (event: UIEvent | Event): void => {
     const target = event.target as Document;
     if (
       window.innerHeight + target.documentElement.scrollTop >=
@@ -76,9 +82,9 @@ const HomePage: FC = () => {
     } else {
       setFetch(false);
     }
-  }
+  };
 
-  function getUserInput(event: ChangeEvent) {
+  const getUserInput = (event: ChangeEvent): void => {
     const input = event.target as HTMLInputElement;
     const gallery = galleryRef.current as HTMLDivElement;
     const userImages = userRef.current as HTMLDivElement;
@@ -93,9 +99,9 @@ const HomePage: FC = () => {
       gallery.classList.remove('disabled');
       userImages.classList.add('disabled');
     }
-  }
+  };
 
-  function openMenu() {
+  const openMenu = (): void => {
     const div = buttonsRef.current;
     setMenu(!menu);
     div
@@ -104,7 +110,7 @@ const HomePage: FC = () => {
           item?.children[0].classList.toggle('disabled');
         })
       : 0;
-  }
+  };
 
   return (
     <main className="home">

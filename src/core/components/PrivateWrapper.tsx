@@ -4,7 +4,7 @@ import { ReactElement, useEffect } from 'react';
 import * as React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Navigate, Outlet } from 'react-router-dom';
-import { doAuth } from '../actions/auth';
+import { doAuthAction } from '../actions/auth';
 import Loader from './Loader';
 
 const PrivateWrapper = (): ReactElement => {
@@ -13,7 +13,7 @@ const PrivateWrapper = (): ReactElement => {
 
   useEffect(() => {
     if (user && !loading) {
-      dispatch(doAuth.success({ payload: user }, null));
+      dispatch(doAuthAction.success({ payload: user }, null));
     }
   }, [loading]);
 

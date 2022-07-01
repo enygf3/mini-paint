@@ -1,6 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { State } from '../NewPage/components/Canvas/types';
-import { AuthState } from './types';
 import Loader from '../../core/components/Loader';
 import './styles.sass';
 import React, { RefObject, useEffect, useRef, useState } from 'react';
@@ -13,10 +11,12 @@ import {
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import { userProfileStateSelector } from '../../core/selectors/user';
+import { imagesUserStateSelector } from '../../core/selectors/images';
 
 const ProfilePage = () => {
-  const user = useSelector((state: AuthState) => state.auth.user);
-  const imagesDB = useSelector((state: State) => state.images.userImages);
+  const user = useSelector(userProfileStateSelector);
+  const imagesDB = useSelector(imagesUserStateSelector);
 
   const buttonsRef: RefObject<HTMLDivElement> = useRef(null);
 
@@ -54,7 +54,7 @@ const ProfilePage = () => {
     }
   }, [fetch, user]);
 
-  function handleScroll(event: UIEvent | Event): void {
+  const handleScroll = (event: UIEvent | Event): void => {
     const target = event.target as Document;
     if (
       window.innerHeight + target.documentElement.scrollTop >=
@@ -64,9 +64,9 @@ const ProfilePage = () => {
     } else {
       setFetch(false);
     }
-  }
+  };
 
-  function openMenu(): void {
+  const openMenu = (): void => {
     const div = buttonsRef.current;
     setMenu(!menu);
     div
@@ -75,7 +75,7 @@ const ProfilePage = () => {
           item?.children[0].classList.toggle('disabled');
         })
       : 0;
-  }
+  };
 
   return (
     <main className="profile-main">
