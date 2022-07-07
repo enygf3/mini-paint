@@ -16,9 +16,6 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import './styles.sass';
-import 'swiper/css';
-import 'swiper/css/free-mode';
 import {
   imagesStateSelector,
   imagesUserStateSelector,
@@ -28,6 +25,9 @@ import { ImagesTemplates } from '../../core/actions/images';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper';
 import { Images } from '../NewPage/components/Canvas/types';
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import './styles.sass';
 
 const HomePage: FC = () => {
   const dispatch = useDispatch();

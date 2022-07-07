@@ -1,7 +1,10 @@
 import { Timestamp, getDocs } from 'firebase/firestore';
 import { auth } from '../configs/firebase';
-import { imgQuery, inputQuery, profileQuery, recentQuery } from './queries';
 import { firestore as db } from '../configs/firebase';
+import { imgQuery } from '../queries/images';
+import { inputQuery } from '../queries/input';
+import { profileQuery } from '../queries/profile';
+import { recentQuery } from '../queries/recent';
 
 export const save = async (data: string) => {
   await db.collection('images').add({
