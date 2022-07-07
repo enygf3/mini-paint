@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import Loader from '../../core/components/Loader';
+import Loader from '../../core/components/Loader/Loader';
 import './styles.sass';
 import React, { RefObject, useEffect, useRef, useState } from 'react';
 import { ImagesTemplates } from '../../core/actions/images';
@@ -20,19 +20,35 @@ const ProfilePage = () => {
 
   const buttonsRef: RefObject<HTMLDivElement> = useRef(null);
 
-  const [fetch, setFetch] = useState(true);
   const [images, setImages] = useState(imagesDB);
   const [menu, setMenu] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const handleScroll = (event: UIEvent | Event): void => {
+      const target = event.target as Document;
+      if (
+        window.innerHeight + target.documentElement.scrollTop >=
+        target.documentElement.scrollHeight - 250
+      ) {
+        dispatch({
+          type: ImagesTemplates.GetProfileImages,
+          payload: {
+            user: user.displayName,
+            start: images[images.length - 1]?.createdAt
+              ? images[images.length - 1]?.createdAt
+              : 0,
+          },
+        });
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      dispatch({ type: ImagesTemplates.ClearState });
     };
-  }, []);
+  }, [images, dispatch]);
 
   useEffect(() => {
     if (imagesDB) {
@@ -41,30 +57,20 @@ const ProfilePage = () => {
   }, [imagesDB]);
 
   useEffect(() => {
-    if (fetch && user) {
+    if (user) {
       dispatch({
         type: ImagesTemplates.GetProfileImages,
         payload: {
           user: user.displayName,
-          start: images[images.length - 1]?.createdAt
-            ? images[images.length - 1]?.createdAt
-            : 0,
+          start: 0,
         },
       });
     }
-  }, [fetch, user]);
 
-  const handleScroll = (event: UIEvent | Event): void => {
-    const target = event.target as Document;
-    if (
-      window.innerHeight + target.documentElement.scrollTop >=
-      target.documentElement.scrollHeight - 250
-    ) {
-      setFetch(true);
-    } else {
-      setFetch(false);
-    }
-  };
+    return () => {
+      dispatch({ type: ImagesTemplates.ClearState });
+    };
+  }, [user]);
 
   const openMenu = (): void => {
     const div = buttonsRef.current;

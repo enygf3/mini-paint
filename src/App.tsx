@@ -5,7 +5,7 @@ import { Toaster } from 'react-hot-toast';
 import SignPage from './pages/SignPage/SignPage';
 import NewPage from './pages/NewPage/NewPage';
 import HomePage from './pages/HomePage/HomePage';
-import PrivateWrapper from './core/components/PrivateWrapper';
+import PrivateWrapper from './core/components/PrivateWrapper/PrivateWrapper';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import './assets/sass/styles.sass';
 

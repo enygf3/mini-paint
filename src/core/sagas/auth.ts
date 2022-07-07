@@ -1,6 +1,6 @@
 import { takeEvery, put } from '@redux-saga/core/effects';
 import { toast } from 'react-hot-toast';
-import { signInUser, signOutUser } from '../service/auth';
+import { signInUser, signOutUser } from '../services/auth';
 import { doAuthAction, doSignOutAction } from '../actions/auth';
 
 export function* signInWorker(): Generator {
