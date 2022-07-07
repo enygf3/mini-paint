@@ -27,16 +27,9 @@ export function* imgWorker(payload: AnyAction): Generator {
 }
 
 export function* getAllImgWorker(payload: AnyAction): Generator {
-  const Images = {
-    images: [] as Array<object>,
-  };
   try {
-    yield getImages(payload.payload.start).then((images) => {
-      images.forEach((image) => {
-        Images.images.push(image);
-      });
-    });
-    yield put(getDBImagesAction.success(Images.images, null));
+    const images = yield getImages(payload.payload.start).then();
+    yield put(getDBImagesAction.success(images, null));
   } catch (error) {
     console.log(error);
     yield toast.error('Something is went wrong. Please, try again');
@@ -45,12 +38,9 @@ export function* getAllImgWorker(payload: AnyAction): Generator {
 }
 
 export function* getRecentImgsWorker(): Generator {
-  const Images = {
-    images: [] as Array<object>,
-  };
   try {
-    yield getRecentImgs().then((res) => (Images.images = res));
-    yield put(getRecentImagesAction.success(Images.images, null));
+    const images = yield getRecentImgs().then();
+    yield put(getRecentImagesAction.success(images, null));
   } catch (error) {
     yield toast.error('Something is went wrong. Please, try again');
     yield put(getRecentImagesAction.failure(null, null));
@@ -58,14 +48,9 @@ export function* getRecentImgsWorker(): Generator {
 }
 
 export function* getUserImgsWorker(payload: AnyAction): Generator {
-  const Images = {
-    images: [] as Array<object>,
-  };
   try {
-    yield getUserImgs(payload.payload.user).then(
-      (res) => (Images.images = res)
-    );
-    yield put(getUserImagesAction.success(Images.images, null));
+    const images = yield getUserImgs(payload.payload.user).then();
+    yield put(getUserImagesAction.success(images, null));
   } catch (error) {
     yield toast.error('Something is went wrong. Please, try again');
     yield put(getUserImagesAction.failure(null, null));
@@ -73,14 +58,12 @@ export function* getUserImgsWorker(payload: AnyAction): Generator {
 }
 
 export function* getProfileImgsWorker(payload: AnyAction): Generator {
-  const Images = {
-    images: [] as Array<object>,
-  };
   try {
-    yield getProfileImgs(payload.payload.user, payload.payload.start).then(
-      (res) => (Images.images = res)
-    );
-    yield put(getProfileImagesAction.success(Images.images, null));
+    const images = yield getProfileImgs(
+      payload.payload.user,
+      payload.payload.start
+    ).then();
+    yield put(getProfileImagesAction.success(images, null));
   } catch (error) {
     console.log(error);
     yield toast.error('Something is went wrong. Please, try again');

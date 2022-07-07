@@ -4,15 +4,9 @@ import { signInUser, signOutUser } from '../services/auth';
 import { doAuthAction, doSignOutAction } from '../actions/auth';
 
 export function* signInWorker(): Generator {
-  const User: { user: object } = {
-    user: {},
-  };
-
   try {
-    yield signInUser().then((user) => {
-      User.user = user;
-    });
-    yield put(doAuthAction.success({ payload: User.user }, null));
+    const user = yield signInUser().then();
+    yield put(doAuthAction.success({ payload: user }, null));
   } catch (error) {
     yield toast.error('Something is went wrong. Please, try again');
     yield put(doAuthAction.failure(null, null));
