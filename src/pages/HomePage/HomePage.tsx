@@ -107,11 +107,10 @@ const HomePage: FC = () => {
   const openMenu = (): void => {
     const div = buttonsRef.current;
     setMenu(!menu);
-    div
-      ? Array.from(div.children).forEach((item) => {
-          item?.children[0].classList.toggle('disabled');
-        })
-      : 0;
+    div &&
+      Array.from(div.children).forEach((item) => {
+        item?.children[0].classList.toggle('disabled');
+      });
   };
 
   return (
@@ -128,13 +127,13 @@ const HomePage: FC = () => {
               spaceBetween={10}
               centeredSlides={true}
             >
-              {recentImages?.map((item: Images) => {
+              {recentImages?.map((item: Images, index: number) => {
                 return (
-                  <SwiperSlide key={recentImages.indexOf(item)}>
+                  <SwiperSlide key={index}>
                     <img
                       className="item recent-item"
                       src={item.data}
-                      key={recentImages.indexOf(item)}
+                      key={index}
                       alt=""
                     />
                   </SwiperSlide>
@@ -160,14 +159,9 @@ const HomePage: FC = () => {
       </div>
       <div className="gallery-items items" ref={galleryRef}>
         {images
-          ? images.map((image: Images) => {
+          ? images.map((image: Images, index: number) => {
               return (
-                <img
-                  className="item"
-                  src={image.data}
-                  key={images.indexOf(image)}
-                  alt=""
-                />
+                <img className="item" src={image.data} key={index} alt="" />
               );
             })
           : 0}
@@ -178,15 +172,8 @@ const HomePage: FC = () => {
         ) : (
           <h3>Oops! There is no such user's images</h3>
         )}
-        {userImages?.map((image: Images) => {
-          return (
-            <img
-              className={'item'}
-              src={image.data}
-              key={userImages.indexOf(image)}
-              alt=""
-            />
-          );
+        {userImages?.map((image: Images, index: number) => {
+          return <img className={'item'} src={image.data} key={index} alt="" />;
         })}
       </div>
       <div className="home-buttons" ref={buttonsRef}>

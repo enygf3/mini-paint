@@ -75,11 +75,10 @@ const ProfilePage = () => {
   const openMenu = (): void => {
     const div = buttonsRef.current;
     setMenu(!menu);
-    div
-      ? Array.from(div.children).forEach((item) => {
-          item?.children[0].classList.toggle('disabled');
-        })
-      : 0;
+    div &&
+      Array.from(div.children).forEach((item) => {
+        item?.children[0].classList.toggle('disabled');
+      });
   };
 
   return (
