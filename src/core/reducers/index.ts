@@ -1,9 +1,9 @@
 import createSagaMiddleware from 'redux-saga';
-import { applyMiddleware, combineReducers, createStore } from 'redux';
+import { combineReducers } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 import auth from './auth';
 import canvas from './canvas';
 import image from './image';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import root from '../sagas/root';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -14,10 +14,11 @@ const rootReducer = combineReducers({
   images: image,
 });
 
-const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(sagaMiddleware))
-);
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: [sagaMiddleware],
+  devTools: true,
+});
 
 sagaMiddleware.run(root);
 
