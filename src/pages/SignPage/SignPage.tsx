@@ -14,12 +14,12 @@ const SignPage: FC = () => {
 
   const [user, loading] = useAuthState(getAuth());
 
-  async function signUpGoogle(): Promise<void> {
+  const signUpGoogle = async (): Promise<void> => {
     dispatch({
       type: AuthTemplates.SignIn,
     });
     navigate('/');
-  }
+  };
 
   useEffect(() => {
     if (user && !loading) {
